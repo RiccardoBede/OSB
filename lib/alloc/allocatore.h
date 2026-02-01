@@ -21,6 +21,18 @@ void TAD (unsigned long int KbSizeTab){ //dimensione in KB
 	}
 }
 
+/*	TODO:
+ *
+ *	Alloc data la grandezza da allocare, restituisce l'indirizzo del primo byte 
+ *	es. x -> sizeof (32bit) alloc(sizeof(x)) -> 0Xxx
+ *
+ *	Allocazione di variabili a lunghezza variabile, se la lunghezza viene superata, 
+ *	viene allocato altro spazio in memoria.
+ *
+ *	Puntatori esterni alla TAD.
+ *
+ *	Se la TAD si esaurisce, incrementarne la capienza.
+ */
+
 void alloc(unsigned long int sizeAlloc){
-	
 }
