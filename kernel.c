@@ -4,7 +4,7 @@
 
 void main (){
 	//startVGA();
-	TAD();
+	TAD(1);
 	print("CIAO\tciao\b\n\tciao", VGA_TEXT_BIANCO_NERO);
 	
 	char buffer[128];
