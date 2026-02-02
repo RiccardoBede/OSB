@@ -1,24 +1,26 @@
-#define KERNEL_START 0x1000
+#define KERNEL_START 0x5000
 
 static unsigned long int INIT_ALLOC = KERNEL_START;
 static unsigned long int FINE_ALLOC = KERNEL_START;
 
 //Tabella Allocazione Dinamica
 void TAD (unsigned long int KbSizeTab){ //dimensione in KB
+	print("TAD inizializzato", VGA_TEXT_GIALLO_NERO);
 	unsigned char *valoreZona = (char *)INIT_ALLOC;
 	while (((KbSizeTab * 1024) - (FINE_ALLOC - INIT_ALLOC)) > 0){
 		while (*valoreZona != 0x00){
-			*valoreZona &= INIT_ALLOC + 1;
+			*valoreZona &= (unsigned long int)INIT_ALLOC + 1;
 			INIT_ALLOC++;
 		}
-		while ((FINE_ALLOC - INIT_ALLOC) <= (KbSizeTab * 1024)){
+		while ((KbSizeTab * 1024) < (FINE_ALLOC - INIT_ALLOC)){
 			if (*valoreZona != 0x00){
-				INIT_ALLOC = &valoreZona;	
+				INIT_ALLOC = (unsigned long int)&valoreZona;	
 			}
-			*valoreZona &= (INIT_ALLOC + 1);
-			FINE_ALLOC = (INIT_ALLOC++);
+			*valoreZona &= (unsigned long int)(INIT_ALLOC + 1);
+			FINE_ALLOC += (INIT_ALLOC)+1;
 		}
 	}
+	print("\nTAD eseguito", VGA_TEXT_GIALLO_NERO);
 }
 
 /*	TODO:
