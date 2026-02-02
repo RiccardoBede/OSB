@@ -1,4 +1,4 @@
-#define KERNEL_START 0x5000
+#define KERNEL_START 0x1000
 
 static unsigned long int INIT_ALLOC = KERNEL_START;
 static unsigned long int FINE_ALLOC = KERNEL_START;
