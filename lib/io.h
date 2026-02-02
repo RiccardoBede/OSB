@@ -215,3 +215,36 @@ void printchar (char carattere, char colore){
 	}
 	cursore();
 }
+
+void printint (long int numero, char colore){
+	int copia_numero = numero;
+	if (numero == 0){
+		printchar('0', colore);
+		return;
+	}
+	if (numero < 0){
+		numero = -numero;
+		printchar('-', colore);
+	}
+	int specchio_numero = 0;
+	int contatore_cifre = 1;
+	while (copia_numero > 0){
+		copia_numero = copia_numero / 10;
+		contatore_cifre++;
+	}
+	while (numero > 0 && contatore_cifre > 0){
+		printchar((numero / potenza(10, contatore_cifre--)) + '0', colore);
+		numero = numero / 10;
+//		contatore_cifre--;
+	}
+	/*while (numero > 0 && contatore_cifre > 0){
+		specchio_numero += ((numero % 10) * (contatore_cifre * 10));
+		printchar((char)((specchio_numero % 10) + '0'), colore);
+		numero = numero / 10;
+		contatore_cifre--;	
+	}*/
+}
+
+void printhex (long int numero, char colore){
+	
+}
