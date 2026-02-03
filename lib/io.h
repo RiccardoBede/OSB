@@ -216,35 +216,46 @@ void printchar (char carattere, char colore){
 	cursore();
 }
 
-void printint (long int numero, char colore){
-	int copia_numero = numero;
-	if (numero == 0){
-		printchar('0', colore);
-		return;
-	}
-	if (numero < 0){
-		numero = -numero;
-		printchar('-', colore);
-	}
-	int specchio_numero = 0;
-	int contatore_cifre = 1;
-	while (copia_numero > 0){
-		copia_numero = copia_numero / 10;
-		contatore_cifre++;
-	}
-	while (numero > 0 && contatore_cifre > 0){
-		printchar((numero / potenza(10, contatore_cifre--)) + '0', colore);
-		numero = numero / 10;
-//		contatore_cifre--;
-	}
-	/*while (numero > 0 && contatore_cifre > 0){
-		specchio_numero += ((numero % 10) * (contatore_cifre * 10));
-		printchar((char)((specchio_numero % 10) + '0'), colore);
-		numero = numero / 10;
-		contatore_cifre--;	
-	}*/
+void printint(long int numero, char colore) {
+    if (numero == 0) {
+        printchar('0', colore);
+        return;
+    }
+    if (numero < 0) {
+        printchar('-', colore);
+        numero = -numero;
+    }
+    unsigned long n = (unsigned long)numero;
+    unsigned long divisore = 1;
+    while (n / divisore >= 10) {
+        divisore *= 10;
+    }
+    while (divisore > 0) {
+        int cifra = n / divisore;
+        printchar(cifra + '0', colore);
+        n %= divisore;
+        divisore /= 10;
+    }
 }
 
-void printhex (long int numero, char colore){
-	
+void printhex(long int numero, char colore) {
+    if (numero == 0) {
+        printchar('0', colore);
+        return;
+    }
+    unsigned long n = (unsigned long)numero;
+    unsigned long divisore = 1;
+    while (n / divisore >= 16) {
+        divisore *= 16;
+    }
+    while (divisore > 0) {
+        int cifra = n / divisore;
+        if (cifra < 10) {
+            printchar(cifra + '0', colore);
+        } else {
+            printchar(cifra - 10 + 'A', colore);
+        }
+        n %= divisore;
+        divisore /= 16;
+    }
 }
