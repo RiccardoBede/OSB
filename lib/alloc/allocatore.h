@@ -1,6 +1,7 @@
-#define KERNEL_START 0x1000
+#define ALLOC_START 0x00
+#define KERNEL_INIT 0x1000
 
-inline unsigned long int INIT_ALLOC = KERNEL_START;
+static unsigned long int INIT_ALLOC = ALLOC_START;
 //static unsigned long int FINE_ALLOC = KERNEL_START;
 
 //Tabella Allocazione Dinamica
@@ -33,25 +34,39 @@ inline unsigned long int INIT_ALLOC = KERNEL_START;
  *
  *	Se la TAD si esaurisce, incrementarne la capienza.
  */
-
-void alloc(unsigned long int sizeAlloc){
-	char *valoreZona = (char *)INIT_ALLOC;
-	unsigned long int byteLiberi = 0;
-	while (byteLiberi < sizeAlloc){
-		if (*valoreZona != 0x00){
-			byteLiberi = 0;
+unsigned long int alloc(unsigned long int sizeAlloc){
+	char *ptr = (char *)INIT_ALLOC;
+	int byte_liberi = 0;
+	while (byte_liberi < sizeAlloc + 1){
+		if (*ptr != 0x00){
+			byte_liberi = 0;
 			INIT_ALLOC++;
 		}
-		*valoreZona = 0xff;
-		*valoreZona &= (unsigned long int)(INIT_ALLOC) + 1;
-		byteLiberi++;
+		byte_liberi++;
+		INIT_ALLOC++;
+		ptr = (char *)INIT_ALLOC;
 	}
-	print("ALLOC(", VGA_TEXT_GIALLO_NERO);
-	printhex((unsigned long int)(&valoreZona)-sizeAlloc, VGA_TEXT_GIALLO_NERO);
-	printchar(',', VGA_TEXT_GIALLO_NERO);
-	printhex((unsigned long int)(&valoreZona), VGA_TEXT_GIALLO_NERO);
-	print(") -> ", VGA_TEXT_GIALLO_NERO);
-	printhex(*valoreZona, VGA_TEXT_GIALLO_NERO);
-	printchar('\n', VGA_TEXT_GIALLO_NERO);
+	ptr[0] = sizeAlloc;
 
+	print("ALLOC (init: 0x", VGA_TEXT_GIALLO_NERO);
+	printhex((int)ptr, VGA_TEXT_GIALLO_NERO);
+	print(", byte: ", VGA_TEXT_GIALLO_NERO);
+	printint(ptr[0], VGA_TEXT_GIALLO_NERO);
+	print(")\n", VGA_TEXT_GIALLO_NERO);
+
+	return (char)ptr;
+}
+
+void free (void *puntatore){
+	char *ptr = (char *)puntatore;
+	unsigned long int contatoreZone = 1;
+	while (contatoreZone < ptr[0]){
+		ptr[contatoreZone] = 0x00;
+		contatoreZone++;
+	}
+	ptr[0] = 0x00;
+
+	print("FREE (init: 0x", VGA_TEXT_GIALLO_NERO);
+	printhex((int)puntatore, VGA_TEXT_GIALLO_NERO);
+	print(")\n", VGA_TEXT_GIALLO_NERO);
 }
