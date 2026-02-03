@@ -1,6 +1,6 @@
 #define KERNEL_START 0x1000
 
-static unsigned long int INIT_ALLOC = KERNEL_START;
+inline unsigned long int INIT_ALLOC = KERNEL_START;
 //static unsigned long int FINE_ALLOC = KERNEL_START;
 
 //Tabella Allocazione Dinamica
@@ -37,19 +37,21 @@ static unsigned long int INIT_ALLOC = KERNEL_START;
 void alloc(unsigned long int sizeAlloc){
 	char *valoreZona = (char *)INIT_ALLOC;
 	unsigned long int byteLiberi = 0;
-	if (byteLiberi != sizeAlloc){
-		while (*valoreZona != 0x00){
+	while (byteLiberi < sizeAlloc){
+		if (*valoreZona != 0x00){
 			byteLiberi = 0;
-			*valoreZona &= (unsigned long int)(INIT_ALLOC)++;
+			INIT_ALLOC++;
 		}
-		byteLiberi++;
-		*valoreZona &= (unsigned long int)(INIT_ALLOC)++;
 		*valoreZona = 0xff;
+		*valoreZona &= (unsigned long int)(INIT_ALLOC) + 1;
+		byteLiberi++;
 	}
-	print("ALLOCATO(", VGA_TEXT_GIALLO_NERO);
-	printhex((int)((unsigned long int)&valoreZona - sizeAlloc), VGA_TEXT_GIALLO_NERO);
+	print("ALLOC(", VGA_TEXT_GIALLO_NERO);
+	printhex((unsigned long int)(&valoreZona)-sizeAlloc, VGA_TEXT_GIALLO_NERO);
 	printchar(',', VGA_TEXT_GIALLO_NERO);
-	printhex((int)&valoreZona, VGA_TEXT_GIALLO_NERO);
-	print(")\n", VGA_TEXT_GIALLO_NERO);
-	INIT_ALLOC = (unsigned long int)&valoreZona;
+	printhex((unsigned long int)(&valoreZona), VGA_TEXT_GIALLO_NERO);
+	print(") -> ", VGA_TEXT_GIALLO_NERO);
+	printhex(*valoreZona, VGA_TEXT_GIALLO_NERO);
+	printchar('\n', VGA_TEXT_GIALLO_NERO);
+
 }
