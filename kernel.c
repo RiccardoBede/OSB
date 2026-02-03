@@ -5,12 +5,10 @@
 
 void main (){
 	//startVGA();
-//	alloc(2*1024);
-//	alloc(3*2048);
-//	alloc(1);
-//	alloc(3);
-//	print("CIAO\tciao\b\n\tciao", VGA_TEXT_BIANCO_NERO);
-	printint(12, VGA_TEXT_BIANCO_NERO);
+	infoAlloc();
+
+	int *a = (int *)alloc(3);
+	free(a);
 
 	char buffer[128];
 	input(buffer, 0x1c, sizeof(buffer), VGA_TEXT_BIANCO_NERO);
