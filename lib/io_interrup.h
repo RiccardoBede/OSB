@@ -82,8 +82,8 @@ void input (char *buffer, char interrup, int sizeof_buffer, char colore){
 						break;
 					case '\b':
 						cancellachar();
-						cursore();
-						buffer[contatore_char--] = 0x00;
+						cursore();	
+						buffer[contatore_char-=2] == 0x00;	
 						break;
 					default:
 						buffer[contatore_char] = tastiera[contatore_tastiera].carattere_ascii;
