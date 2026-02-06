@@ -57,7 +57,7 @@ void cursore(){
 		CarattereColore *vga_text = (CarattereColore *)VGA_TEXT;
 		vga_text[carattere_corrente_vga_text] = (CarattereColore){219, VGA_TEXT_BIANCO_NERO};
 	}else{
-		char *vga = (char *)VGA;
+		/*char *vga = (char *)VGA;
 		for (int cerca_carattere_ascii = 0; cerca_carattere_ascii < 99; cerca_carattere_ascii++) {
 			if (mappaVGA[cerca_carattere_ascii].carattere_ascii == 219) {
 				unsigned int x_base = x;
@@ -66,7 +66,7 @@ void cursore(){
 					vga[((y_base + (carattere_pixel / VGA_LUNGHEZZA_CARATTERE)) * VGA_RIGHE_PIXEL) + (x_base + (carattere_pixel % VGA_LUNGHEZZA_CARATTERE))] = mappaVGA[cerca_carattere_ascii].carattere_pixel[carattere_pixel];
 				}
 			}
-		}
+		}*/
 	}
 }
 
@@ -75,10 +75,10 @@ void cancellaCursore (){
 		CarattereColore *vga_text = (CarattereColore *)VGA_TEXT;
 		vga_text[carattere_corrente_vga_text] = (CarattereColore){' ', VGA_TEXT_NERO_NERO};
 	}else{
-		char *vga = (char *)VGA;
+		/*char *vga = (char *)VGA;
 		for (int carattere_pixel = 0; carattere_pixel < (VGA_ALTEZZA_CARATTERE * VGA_LUNGHEZZA_CARATTERE); carattere_pixel++) {
 			vga[((y + (carattere_pixel / VGA_LUNGHEZZA_CARATTERE)) * VGA_RIGHE_PIXEL) + (x + (carattere_pixel % VGA_LUNGHEZZA_CARATTERE))] = 0x00;
-		}	
+		}*/	
 	}
 }
 
@@ -88,11 +88,11 @@ void stampaAcapo (){
 		CarattereColore carattere = {' ', VGA_TEXT_NERO_NERO};
 		vga_text[carattere_corrente_vga_text] = carattere;
 		carattere_corrente_vga_text++;
-		y += VGA_ALTEZZA_CARATTERE;
+		//y += VGA_ALTEZZA_CARATTERE;
 	}
 	if (carattere_corrente_vga_text % VGA_TEXT_RIGHE != 0){
 		carattere_corrente_vga_text += VGA_TEXT_RIGHE - (carattere_corrente_vga_text % VGA_TEXT_RIGHE);
-		y += ((VGA_TEXT_RIGHE) - (carattere_corrente_vga_text % VGA_TEXT_RIGHE)) * VGA_ALTEZZA_CARATTERE;
+		//y += ((VGA_TEXT_RIGHE) - (carattere_corrente_vga_text % VGA_TEXT_RIGHE)) * VGA_ALTEZZA_CARATTERE;
 	}	
 }
 
@@ -100,12 +100,12 @@ void cancellachar (){
 	CarattereColore *vga_text = (CarattereColore *)VGA_TEXT;
 	char *vga = (char *)VGA;
 	vga_text[carattere_corrente_vga_text--] = (CarattereColore){' ', VGA_TEXT_NERO_NERO};
-	x -= VGA_LUNGHEZZA_CARATTERE;
+	/*x -= VGA_LUNGHEZZA_CARATTERE;
 	unsigned int x_base = x;
 	unsigned int y_base = y;
 	for (int carattere_pixel = 0; carattere_pixel < (VGA_ALTEZZA_CARATTERE * VGA_LUNGHEZZA_CARATTERE); carattere_pixel++) {
 		vga[((y_base + (carattere_pixel / VGA_LUNGHEZZA_CARATTERE)) * VGA_RIGHE_PIXEL) + (x_base + (carattere_pixel % VGA_LUNGHEZZA_CARATTERE))] = 0x00;
-	}
+	}*/
 
 }
 
@@ -114,7 +114,7 @@ void stampaTab (){
 	for (int caratteri_tab = 0; caratteri_tab < 4; caratteri_tab++){
 		vga_text[carattere_corrente_vga_text] = (CarattereColore){' ', VGA_TEXT_NERO_NERO};
 		carattere_corrente_vga_text++;
-		x += VGA_LUNGHEZZA_CARATTERE;
+		//x += VGA_LUNGHEZZA_CARATTERE;
 	}
 
 }
@@ -138,12 +138,12 @@ void print (char *buffer, char colore){
 					CarattereColore carattere = {buffer[carattere_corrente], colore};
 					vga_text[carattere_corrente_vga_text] = carattere;
 					carattere_corrente_vga_text++;
-					x += VGA_LUNGHEZZA_CARATTERE;
+					//x += VGA_LUNGHEZZA_CARATTERE;
 					break;
 			}
 		}
 	}else{
-		char *vga = (char *)VGA;
+		/*char *vga = (char *)VGA;
 		for (int carattere_corrente = 0; buffer[carattere_corrente] != '\0'; carattere_corrente++) {
 			if (buffer[carattere_corrente] == '\n') {
 				x = 0;
@@ -171,7 +171,7 @@ void print (char *buffer, char colore){
 					}
 				}
 			}
-		}
+		}*/
 
 	}
 	cursore();
@@ -196,7 +196,7 @@ void printchar (char carattere, char colore){
 				break;
 		}
 	}else{
-		char *vga = (char *)VGA;
+		/*char *vga = (char *)VGA;
 		if (carattere == '\n') {
 			x = 0;
 			y += VGA_ALTEZZA_CARATTERE;
@@ -211,51 +211,51 @@ void printchar (char carattere, char colore){
 				x += VGA_LUNGHEZZA_CARATTERE;
 				carattere_corrente_vga_text++;
 			}
-		}
+		}*/
 	}
 	cursore();
 }
 
 void printint(long int numero, char colore) {
-    if (numero == 0) {
-        printchar('0', colore);
-        return;
-    }
-    if (numero < 0) {
-        printchar('-', colore);
-        numero = -numero;
-    }
-    unsigned long n = (unsigned long)numero;
-    unsigned long divisore = 1;
-    while (n / divisore >= 10) {
-        divisore *= 10;
-    }
-    while (divisore > 0) {
-        int cifra = n / divisore;
-        printchar(cifra + '0', colore);
-        n %= divisore;
-        divisore /= 10;
-    }
+	if (numero == 0) {
+		printchar('0', colore);
+		return;
+	}
+	if (numero < 0) {
+		printchar('-', colore);
+		numero = -numero;
+	}
+	unsigned long n = (unsigned long)numero;
+	unsigned long divisore = 1;
+	while (n / divisore >= 10) {
+		divisore *= 10;
+	}
+	while (divisore > 0) {
+		int cifra = n / divisore;
+		printchar(cifra + '0', colore);
+		n %= divisore;
+		divisore /= 10;
+	}
 }
 
 void printhex(long int numero, char colore) {
-    if (numero == 0) {
-        printchar('0', colore);
-        return;
-    }
-    unsigned long n = (unsigned long)numero;
-    unsigned long divisore = 1;
-    while (n / divisore >= 16) {
-        divisore *= 16;
-    }
-    while (divisore > 0) {
-        int cifra = n / divisore;
-        if (cifra < 10) {
-            printchar(cifra + '0', colore);
-        } else {
-            printchar(cifra - 10 + 'A', colore);
-        }
-        n %= divisore;
-        divisore /= 16;
-    }
+	if (numero == 0) {
+		printchar('0', colore);
+		return;
+	}
+	unsigned long n = (unsigned long)numero;
+	unsigned long divisore = 1;
+	while (n / divisore >= 16) {
+		divisore *= 16;
+	}
+	while (divisore > 0) {
+		int cifra = n / divisore;
+		if (cifra < 10) {
+			printchar(cifra + '0', colore);
+		} else {
+			printchar(cifra - 10 + 'A', colore);
+		}
+		n %= divisore;
+		divisore /= 16;
+	}
 }
