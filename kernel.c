@@ -1,12 +1,15 @@
 #include "lib/io_interrup.h"
+
+#include "lib/utils/conversioni.h"
 #include "lib/utils/math.h"
+
 #include "lib/io.h"
 #include "lib/alloc/allocatore.h"
 
 #include "lib/cli/shell.h"
 
 void main (){
-	//startVGA();
+//	startVGA();
 //	infoAlloc();
 
 //	int *a = (int *)alloc(3);
