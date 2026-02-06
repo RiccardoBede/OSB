@@ -1,6 +1,12 @@
 #include "struct.h"
 
-Comando comandi[] = {{"print", printS}};
+#include "comandi_integrati/ioCli.h"
+#include "comandi_integrati/videoCli.h"
+
+Comando comandi[] = {
+	{"inb", inbCli}, {"outb", outbCli}, /*I/O*/
+	{"video", videoCli} /*Video Mode*/
+};
 
 bool CLIparser(char *buffer){
 	unsigned int contatore_buffer = 0;	
