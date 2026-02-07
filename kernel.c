@@ -9,7 +9,9 @@
 #include "lib/cli/shell.h"
 
 void main (){
+	clear();
 //	startVGA();
+
 //	infoAlloc();
 
 //	int *a = (int *)alloc(3);
@@ -21,5 +23,6 @@ void main (){
 		input(buffer, 0x39, sizeof(buffer), VGA_TEXT_BIANCO_NERO);
 		CLIparser(buffer);
 	}
+
 	while(1){	__asm__("hlt");};
 }
