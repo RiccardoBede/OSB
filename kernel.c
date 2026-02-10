@@ -20,7 +20,7 @@ void main (){
 	while (1){
 		char buffer[128];
 		printchar('#', VGA_TEXT_BIANCO_NERO);
-		input(buffer, 0x39, sizeof(buffer), VGA_TEXT_BIANCO_NERO);
+		input(buffer, 0x1c, sizeof(buffer), VGA_TEXT_BIANCO_NERO);
 		CLIparser(buffer);
 	}
 
