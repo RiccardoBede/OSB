@@ -224,3 +224,12 @@ void printhex(long int numero, char colore) {
 		divisore /= 16;
 	}
 }
+
+void printcharat (char carattere, unsigned int pos, char colore){
+	if (!vga){
+		CarattereColore *vga_text = (CarattereColore *)VGA_TEXT;
+		vga_text[pos] = (CarattereColore){carattere, colore};	
+	}else{
+	
+	}
+}

@@ -64,6 +64,19 @@ void input (char *buffer, char interrup, int sizeof_buffer, char colore){
 			print("<Alt>", colore-1);
 		}
 
+		if (char_tastiera == 0x4b){
+			print("<Sin>", colore-1);
+		}
+		if (char_tastiera == 0x4d){
+			print("<Des>", colore-1);
+		}
+		if (char_tastiera == 0x48){
+			print("<Su>", colore-1);
+		}
+		if (char_tastiera == 0x50){
+			print("<Giu>", colore-1);
+		}
+
 		for (int contatore_tastiera = 0; contatore_tastiera < sizeof(tastiera) / sizeof(tastiera[0]); contatore_tastiera++){
 			if (char_tastiera == tastiera[contatore_tastiera].codice_tastiera){
 				/*if (contatore_char == 0 && tastiera[contatore_tastiera].carattere_ascii == '\b'){
@@ -118,5 +131,49 @@ bool monoInput (char *msg, char rispostaTrue, char rispostaFalse, char colore){
 				}
 			}
 		}
+	}
+}
+
+typedef struct{
+	char msg[77];
+	char colore;
+}SelezioneComando;
+
+unsigned int multiInput(SelezioneComando *buffer, unsigned int sizeof_buffer, char colore){
+	clear();
+	unsigned int voce = 0;
+	unsigned int selzione_voce = 0;
+	while(voce < sizeof_buffer){
+		print("[ ]", colore);
+		print(buffer[voce].msg, buffer[voce].colore);
+		printchar('\n', colore);
+		voce++;
+	}
+	printcharat('*', (80 * selzione_voce + 1), colore);
+	while (1){
+		while(!(inb(STATO_TASTIERA) & 0x01));
+		char char_tastiera = inb(BUFFER_TASTIERA);
+
+		if (char_tastiera == 0x48){ //freccia su
+			if (selzione_voce > 0){
+				printcharat(' ', (80 * selzione_voce + 1), 0x0);
+				selzione_voce--;
+				printcharat('*', (80 * selzione_voce + 1), colore);
+			}
+		}
+		if (char_tastiera == 0x50){ //freccia giu
+			if (selzione_voce < voce){
+				printcharat(' ', (80 * selzione_voce + 1), 0x0);
+				selzione_voce++;
+				printcharat('*', (80 * selzione_voce + 1), colore);
+			}else{
+				printcharat(' ', (80 * selzione_voce + 1), 0x0);
+				selzione_voce = 0;
+				printcharat('*', (80 * selzione_voce + 1), colore);
+			}
+		}
+		if (char_tastiera == 0x1c){
+			return selzione_voce;
+		}	
 	}
 }
