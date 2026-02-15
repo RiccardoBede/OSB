@@ -8,6 +8,8 @@
 
 #include "lib/cli/shell.h"
 
+//SelezioneComando selez[] = {{"ciao", VGA_TEXT_BIANCO_NERO}, {"ciao2", VGA_TEXT_ROSSO_NERO}};
+
 void main (){
 	clear();
 //	startVGA();
@@ -16,6 +18,8 @@ void main (){
 
 //	int *a = (int *)alloc(3);
 //	free(a);
+	
+	//printint(multiInput(selez, (sizeof(selez) / sizeof(selez[0])),VGA_TEXT_BIANCO_NERO), 0x7);
 
 	while (1){
 		char buffer[128];
