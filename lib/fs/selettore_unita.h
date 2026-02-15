@@ -27,7 +27,7 @@ typedef enum {
 	DISCO_ATAPI = 0x02
 }DISCO_MONTATO; //per poi vedere quali set di funzioni unsare per scrivere sui dischi
 
-struct ATA_IDENTIFICA {
+struct Identifica_ATA {
 	char numeroSerie[10];
 	char versioneFirmware[4];
 	char modello[20];
@@ -36,7 +36,7 @@ struct ATA_IDENTIFICA {
 	//settori totali LBA48 FARE ALLOC
 };
 
-struct ATAPI_IDENTIFICA {};
+struct Identifica_ATAPI {};
 
 //porta default del controller
 unsigned short porta_controller_default = 0x1f7;
