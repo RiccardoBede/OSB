@@ -11,7 +11,7 @@
 #define ATA_FLUSH_CACHE 0xe7
 
 //DEFINE COMANDI IDE_ATAPI (CD, DVD)
-#define ATAPI_IDENTIFICA 0x51
+#define ATAPI_IDENTIFICA 0xa1
 #define ATAPI_READY 0x00
 
 #define ATAPI_MONTA_SMONTA 0xa6
@@ -49,6 +49,9 @@ DISCO_MONTATO cambia_unita (){
 			if (!(inb(porta_controller_default) & ATA_BUSY)){
 				//ATA_IDE
 				outb(porta_controller_default, ATA_INDENTIFICA);
+
+				if (inb(0x1f2) == 0x01 && inb(0x1f3) == 0x01 && inb(0x1f4) == 0x14 && inb(0x1f5) == 0xeb){	return 0x02;}	
+
 				if (inb(porta_controller_default) & ATA_RICHIESTA_COMANDO_OK){	return 0x01;}
 				//ATAPI
 				outb(porta_controller_default, ATAPI_IDENTIFICA);
@@ -67,6 +70,7 @@ DISCO_MONTATO cambia_unita (){
 		printchar('\n', VGA_TEXT_BIANCO_NERO);
 		cambia_unita();
 	}else{
+		printchar('\n', VGA_TEXT_BIANCO_NERO);
 		return 0x00;
 	}
 }
