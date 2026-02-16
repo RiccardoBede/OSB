@@ -50,6 +50,7 @@ DISCO_MONTATO cambia_unita (){
 				//ATA_IDE
 				outb(porta_controller_default, ATA_INDENTIFICA);
 
+				//FIRMA ATAPI
 				if (inb(0x1f2) == 0x01 && inb(0x1f3) == 0x01 && inb(0x1f4) == 0x14 && inb(0x1f5) == 0xeb){	return 0x02;}	
 
 				if (inb(porta_controller_default) & ATA_RICHIESTA_COMANDO_OK){	return 0x01;}
