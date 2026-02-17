@@ -31,17 +31,19 @@ struct Identifica_ATA {
 	char numeroSerie[10];
 	char versioneFirmware[4];
 	char modello[20];
-	//settori totali LBA32 FARE ALLOC
+	//settori totali LBA28 ALLOC
+	unsigned char *settoriLba28; //32bit
 	bool falgLBA48;
-	//settori totali LBA48 FARE ALLOC
-};
+	//settori totali LBA48 ALLOC
+	unsigned char *settoriLba48; //64bit
+}identify_disco_ATA;
 
-struct Identifica_ATAPI {};
+struct Identifica_ATAPI {}identify_disco_ATAPI;
 
 //porta default del controller
 unsigned short porta_controller_default = 0x1f7;
 
-DISCO_MONTATO cambia_unita (){
+DISCO_MONTATO monta_unita (){
 	unsigned int tentativi_lettura = 0;
 	while (tentativi_lettura < 10){
 		unsigned int attesa_busy = 0;
@@ -50,7 +52,6 @@ DISCO_MONTATO cambia_unita (){
 				//ATA_IDE
 				outb(porta_controller_default, ATA_INDENTIFICA);
 
-				//FIRMA ATAPI
 				if (inb(0x1f2) == 0x01 && inb(0x1f3) == 0x01 && inb(0x1f4) == 0x14 && inb(0x1f5) == 0xeb){	return 0x02;}	
 
 				if (inb(porta_controller_default) & ATA_RICHIESTA_COMANDO_OK){	return 0x01;}
@@ -69,7 +70,7 @@ DISCO_MONTATO cambia_unita (){
 		input(porta, 0x1c, sizeof(porta), VGA_TEXT_BIANCO_NERO);
 		porta_controller_default = stringa_to_unsigned_short(porta);
 		printchar('\n', VGA_TEXT_BIANCO_NERO);
-		cambia_unita();
+		monta_unita();
 	}else{
 		printchar('\n', VGA_TEXT_BIANCO_NERO);
 		return 0x00;
@@ -77,7 +78,56 @@ DISCO_MONTATO cambia_unita (){
 }
 
 void identifica_unita (){
-	DISCO_MONTATO tipo_unita = cambia_unita();
+	unsigned char lista_identify[256];
+	unsigned int carattere = 0;
+	for (carattere; carattere < 256; carattere++){
+		lista_identify[carattere] = inw(porta_controller_default - 0x07);
+	}
+	carattere = 0;
+	while (carattere < sizeof(lista_identify)){
+		if (carattere >= 10 && carattere < 19){	
+			if (carattere == 10){	print("Numero disco: ", VGA_TEXT_BIANCO_NERO);}
+			printchar(lista_identify[carattere], VGA_TEXT_BIANCO_NERO);
+		}
+		if (carattere >= 23 && carattere < 26){	
+			if (carattere == 23){	print("\nVersione firmware: ", VGA_TEXT_BIANCO_NERO); carattere++;}
+			printint(lista_identify[carattere], VGA_TEXT_BIANCO_NERO);
+		}
+		if (carattere >= 26 && carattere < 46){
+			if (carattere == 26){	print("\nModello: ", VGA_TEXT_BIANCO_NERO); carattere++;}
+			printchar(lista_identify[carattere], VGA_TEXT_BIANCO_NERO);
+		}
+		if (carattere == 60){
+			print("\nSettori (LBA28): ", VGA_TEXT_BIANCO_NERO);
+			//funzione per alloc della grandezza dell'unita
+		}
+		if (carattere == 84){
+			print("\nSupporto (LBA48): ", VGA_TEXT_BIANCO_NERO);
+			if (lista_identify[carattere] == 0x00){
+				print("<FALSE>", VGA_TEXT_ROSSO_NERO);
+			}else{
+				print("<OK>", VGA_TEXT_VERDE_NERO);
+				//mettere bool per flag da allegare alla funzione per trovare la grandezza
+				//del disco (che fa sia lba28 che lba48)
+			}
+		}
+		if (carattere == 100){
+			print("\nSettori (LBA48): ", VGA_TEXT_BIANCO_NERO);
+			if (lista_identify[carattere] == 0x00){
+				print("<NO SUPP>", VGA_TEXT_ROSSO_NERO);
+			}else{
+				//funzione per alloc della granedzza dell'unita
+			}
+			printchar('\n', VGA_TEXT_BIANCO_NERO);
+			break;
+		}
+		carattere++;
+	}
+	
+}
+
+void tipo_unita_montata (){
+	DISCO_MONTATO tipo_unita = monta_unita();
 	print("UNITA' ARCHIVIAZIONE ", VGA_TEXT_BIANCO_NERO);
 	switch (tipo_unita){
 		case NESSUN_DISCO:
@@ -85,6 +135,7 @@ void identifica_unita (){
 			break;
 		case DISCO_ATA:
 			print("<ATA/IDE>\n", VGA_TEXT_VERDE_NERO);
+			identifica_unita();
 			break;
 		case DISCO_ATAPI:
 			print("<ATAPI>\n", VGA_TEXT_VERDE_NERO);
