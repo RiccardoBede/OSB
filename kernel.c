@@ -14,13 +14,12 @@ void main (){
 	clear();
 //	startVGA();
 
-//	infoAlloc();
+	infoAlloc();
 
 //	int *a = (int *)alloc(3);
 //	free(a);
 
-	identifica_unita();
-	
+	tipo_unita_montata();
 
 	while (1){
 		char buffer[128];
