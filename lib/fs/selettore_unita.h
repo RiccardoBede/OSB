@@ -104,9 +104,9 @@ void identifica_unita (){
 		if (carattere == 84){
 			print("\nSupporto (LBA48): ", VGA_TEXT_BIANCO_NERO);
 			if (lista_identify[carattere] == 0x00){
-				print("<FALSE>", VGA_TEXT_ROSSO_NERO);
+				print("<NO SUPP>", VGA_TEXT_ROSSO_NERO);
 			}else{
-				print("<OK>", VGA_TEXT_VERDE_NERO);
+				print("<SUPP>", VGA_TEXT_VERDE_NERO);
 				//mettere bool per flag da allegare alla funzione per trovare la grandezza
 				//del disco (che fa sia lba28 che lba48)
 			}
