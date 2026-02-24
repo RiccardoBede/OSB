@@ -54,7 +54,7 @@ char* num_to_char_bin (unsigned long int numero_decimale){
 		cifra++;
 	}
 	while (cifra < numero_cifre_bin){
-		buffer_char[cifra] = ((numero_decimale << cifra) & 1) ? 0x31 : 0x30;
+		buffer_char[cifra] = ((numero_decimale >> cifra) & 1) ? 0x31 : 0x30;
 		cifra++;
 	}
 	return buffer_char;
