@@ -40,7 +40,7 @@ unsigned long int stringa_to_hex (char *buffer){
 	return valore_finale;
 }
 
-void stampa_num_in_bin (unsigned long int numero_decimale){
+void stampa_num_in_bin (unsigned long int numero_decimale, char colore){
 	unsigned long int numero_cifre_decimale = numero_decimale;
 	unsigned int numero_cifre_bin = 0;
 	while (numero_cifre_decimale > 0){
@@ -50,9 +50,9 @@ void stampa_num_in_bin (unsigned long int numero_decimale){
 	while (numero_cifre_bin != 0){
 		numero_cifre_bin--;
 		if ((numero_decimale >> numero_cifre_bin) & 1){
-			printchar('1', 0x07);
+			printchar('1', colore);
 		}else{
-			printchar('0', 0x07);
+			printchar('0', colore);
 		}	
 	}
 }
