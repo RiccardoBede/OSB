@@ -27,18 +27,12 @@ typedef enum {
 	DISCO_ATAPI = 0x02
 }DISCO_MONTATO; //per poi vedere quali set di funzioni unsare per scrivere sui dischi
 
-struct Identifica_ATA {
-	char numeroSerie[10];
-	char versioneFirmware[4];
-	char modello[20];
-	//settori totali LBA28 ALLOC
-	unsigned char *settoriLba28; //32bit
-	bool falgLBA48;
-	//settori totali LBA48 ALLOC
-	unsigned char *settoriLba48; //64bit
-}identify_disco_ATA;
-
-struct Identifica_ATAPI {}identify_disco_ATAPI;
+bool lba48_attivo = false;
+unsigned long int settori_lba32 = 0;
+struct {
+	unsigned long int mrb_settori_lba48; //most relevant bit
+	unsigned long int lrb_settori_lba48; //less relevant bit
+}settori_lba48;
 
 //porta default del controller
 unsigned short porta_controller_default = 0x1f7;
@@ -78,8 +72,10 @@ DISCO_MONTATO monta_unita (){
 }
 
 void identifica_unita (){
+	//monta_unita();
 	unsigned char lista_identify[256];
 	unsigned int carattere = 0;
+
 	for (carattere; carattere < 256; carattere++){
 		lista_identify[carattere] = inw(porta_controller_default - 0x07);
 	}
@@ -99,7 +95,9 @@ void identifica_unita (){
 		}
 		if (carattere == 60){
 			print("\nSettori (LBA28): ", VGA_TEXT_BIANCO_NERO);
-			//funzione per alloc della grandezza dell'unita
+			settori_lba32 = (unsigned long int)(((unsigned long)lista_identify[61] << 16) | (unsigned long)lista_identify[60]);
+			printint(settori_lba32, VGA_TEXT_BIANCO_NERO);			
+			//funzione per alloc della grandezza dell'unita	
 		}
 		if (carattere == 84){
 			print("\nSupporto (LBA48): ", VGA_TEXT_BIANCO_NERO);
@@ -107,6 +105,7 @@ void identifica_unita (){
 				print("<NO SUPP>", VGA_TEXT_ROSSO_NERO);
 			}else{
 				print("<SUPP>", VGA_TEXT_VERDE_NERO);
+				lba48_attivo = true;
 				//mettere bool per flag da allegare alla funzione per trovare la grandezza
 				//del disco (che fa sia lba28 che lba48)
 			}
@@ -116,7 +115,15 @@ void identifica_unita (){
 			if (lista_identify[carattere] == 0x00){
 				print("<NO SUPP>", VGA_TEXT_ROSSO_NERO);
 			}else{
-				//funzione per alloc della granedzza dell'unita
+				//funzione per alloc della granedzza dell'unita (103-102 101-100)
+				settori_lba48.mrb_settori_lba48 = (unsigned long int)(((unsigned long)lista_identify[103] << 16) | (unsigned long)lista_identify[102]), VGA_TEXT_BIANCO_NERO;
+				settori_lba48.lrb_settori_lba48 = (unsigned long int)(((unsigned long)lista_identify[101] << 16) | (unsigned long)lista_identify[100]), VGA_TEXT_BIANCO_NERO;
+
+				printint(settori_lba48.mrb_settori_lba48, VGA_TEXT_BIANCO_NERO);
+				if (settori_lba48.mrb_settori_lba48 != settori_lba48.lrb_settori_lba48){
+					printint(settori_lba48.lrb_settori_lba48, VGA_TEXT_BIANCO_NERO);
+				}
+
 			}
 			printchar('\n', VGA_TEXT_BIANCO_NERO);
 			break;
