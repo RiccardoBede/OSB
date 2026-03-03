@@ -1,0 +1,23 @@
+Per tutti i file, prendere con extern le strutture e le variabili importanti
+come la grandezza del disco.
+
+Creare un file contentente le funzioni CRUD per il disco
+quindi scrivi settore, cancella settore, modifica settore eccetera.
+	
+	All'interno del file per CRUD le funzioni devono essere strutturate
+	nel seguente modo
+	
+	es:
+		void scrivi_settore (unsigned long int numero_settori, unsigned long int partenza, char (ci va una struttura apposta perche il singolo carattere del settore è  byte)buffer){
+			if (!lba48){
+
+			}else{
+			
+			}
+		}
+
+Creare un file per fare la deframentazione del disco, quindi rendere 
+contigui i settori di un file.
+
+Creare un file (generale) che sia il core del filesystem, quindi dove vengono
+getite tutte le richieste per il disco.
