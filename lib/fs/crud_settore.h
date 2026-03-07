@@ -1,0 +1,70 @@
+//#include "selettore_unita.h"
+
+#define SIZE_SETTORE 512
+
+extern bool lba48_attivo;
+extern unsigned long int settori_lba32;
+extern struct settori_lba48;
+extern unsigned short porta_controller_default;
+
+typedef struct{
+	char primo_byte;
+	char secondo_byte;
+}ByteSettore __attribute__((packed));
+
+typedef enum{
+	SETTORE_NORMALE = 0x00,
+	SETTORE_AVVIABILE = 0x01
+}TIPO_SETTORE;
+
+bool scrivi_settore (DISCO_MONTATO tipo_disco, unsigned long int numero_settore, unsigned char *buffer, TIPO_SETTORE tipo_settore){
+	//magari fare un extern da selettore_unita e fare verifca se 
+	//il tipo_disco è uguale, altrimenti scrivi su tipo_disco
+	if (tipo_disco > 0x00){	
+		tipo_disco -= 0x01;
+	}else{
+		return false;
+	}
+
+	unsigned long int caratteri_buffer = 0;
+	ByteSettore carattere_buffer_per_settore;
+	unsigned short int conta_carattere_settore = 0;
+
+	while (buffer[caratteri_buffer] != '\0'){	caratteri_buffer++;}
+
+	if (!lba48_attivo){
+		while(inb(porta_controller_default) & ATA_BUSY);
+
+		while(!(inb(porta_controller_default) & ATA_DEVICE_READY));
+
+		outb((porta_controller_default - 0x05), numero_settore);
+
+		outb((porta_controller_default - 0x04), (numero_settore << 0) & 0xff);
+		outb((porta_controller_default - 0x03), (numero_settore << 8) & 0xff);
+		outb((porta_controller_default - 0x02), (numero_settore << 16) & 0xff);
+
+		outb((porta_controller_default - 0x01), ATA_ACCESSO_DISCO | ((tipo_disco & 1) << 4) | ((numero_settore >> 24) & 0x0f));
+	
+		outb(porta_controller_default, ATA_SCRIVI_SETTORE);
+
+		while(!(inb(porta_controller_default)) & ATA_BUSY);
+		
+		while (conta_carattere_settore < SIZE_SETTORE){
+			if (conta_carattere_settore < (caratteri_buffer)){
+				carattere_buffer_per_settore.primo_byte = buffer[conta_carattere_settore];
+			//	carattere_buffer_per_settore.secondo_byte = buffer[conta_carattere_settore + 1];
+
+				outw((porta_controller_default - 0x07), (char)carattere_buffer_per_settore.primo_byte);
+			}else{
+				carattere_buffer_per_settore.primo_byte = 0x00;
+				carattere_buffer_per_settore.secondo_byte = 0x00;
+
+				outw((porta_controller_default - 0x07), (char)carattere_buffer_per_settore.primo_byte);
+			}
+			conta_carattere_settore += 1;//2;
+		}
+		outb(porta_controller_default, ATA_FLUSH_CACHE);
+	}else{
+	
+	}
+}
