@@ -19,8 +19,8 @@ ByteSettore inw_d (unsigned short porta){
 	unsigned short valore;
 	__asm__ ("inw %%dx, %%ax" : "=a" (valore) : "dN" (porta));
 
-	buffer.primo_byte = valore & 0xFF;
-    	buffer.secondo_byte = (valore >> 8) & 0xFF;
+	buffer.primo_byte = valore & 0xff;
+ buffer.secondo_byte = (valore >> 8) & 0xff;
 
 	return buffer;
 }
