@@ -2,9 +2,11 @@
 
 #include "comandi_integrati/ioCli.h"
 #include "comandi_integrati/videoCli.h"
+#include "comandi_integrati/allocCli.h"
 
 Comando comandi[] = {
 	{"inb", inbCli}, {"outb", outbCli}, /*I/O*/
+	{"alloc", allocCli}, {"free", freeCli}, /*Alloc*/
 	{"video", videoCli} /*Video Mode*/
 };
 
