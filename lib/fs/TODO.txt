@@ -21,3 +21,13 @@ contigui i settori di un file.
 
 Creare un file (generale) che sia il core del filesystem, quindi dove vengono
 getite tutte le richieste per il disco.
+
+Fare due filesystem 
+uno che si struttura con la scrittura di settori in modo sequenziale:
+1° settore un file 
+2° settore un secondo file 
+3° settore continuazione del primo file che ha dopo la firma iniziale il numero del settore a cui fa riferimento (oppure il nome del file) e nel primo settore il numero del terzo settore 
+
+Secondo filesystem che si struttura come il primo, ma permette l'indicizzazione in RAM dei file presenti attraverso un typedef struct __attribute__((packed)) con: nomeFile, indirizzo, tipoFile
+
+In entrambi i filesystem si può fare la deframmentazione 
