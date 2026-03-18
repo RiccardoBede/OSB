@@ -4,6 +4,9 @@
 #include "lib/utils/math.h"
 
 #include "lib/io.h"
+
+#include "lib/kernel/panic.h"
+
 #include "lib/alloc/allocatore.h"
 
 #include "lib/cli/shell.h"
