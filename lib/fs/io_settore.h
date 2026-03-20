@@ -71,7 +71,6 @@ bool scrivi_settore (DISCO_MONTATO tipo_disco, unsigned long int numero_settore,
 				carattere_buffer_per_settore.secondo_byte = 0xff;
 
 				outw_d((porta_controller_default - 0x07), carattere_buffer_per_settore);
-				conta_carattere_settore++;
 				firma = true;
 			}
 
