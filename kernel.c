@@ -13,6 +13,7 @@
 
 #include "lib/fs/selettore_unita.h"
 #include "lib/fs/io_settore.h"
+#include "lib/fs/settore_info.h"
 
 void main (){
 	clear();
@@ -24,13 +25,14 @@ void main (){
 //	free(a);
 
 	tipo_unita_montata();
-/*	char buffer[512];
-	input(buffer, 0x1c, sizeof(buffer), VGA_TEXT_BIANCO_NERO);
-	scrivi_settore(0x01, 1, buffer, 0x00);
+	char buffer[512];
+	scrivi_settore(0x01, 1, buffer, 0x02);
+	input(buffer, 0x1c, sizeof(buffer), VGA_TEXT_BIANCO_NERO);	
 
 	printchar('\n' ,VGA_TEXT_BIANCO_NERO);
 
-	char settore[512];
+	cerca_settore_info(0x01);
+/*	char settore[512];
 	leggi_settore(0x01, 1, buffer, sizeof(buffer));
 	print(buffer, VGA_TEXT_BIANCO_NERO);
 */
