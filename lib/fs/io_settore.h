@@ -27,12 +27,14 @@ ByteSettore inw_d (unsigned short porta){
 
 typedef enum{
 	SETTORE_NORMALE = 0x00,
-	SETTORE_AVVIABILE = 0x01
+	SETTORE_AVVIABILE = 0x01,
+	SETTORE_INFO = 0x02
 }TIPO_SETTORE;
 
 bool scrivi_settore (DISCO_MONTATO tipo_disco, unsigned long int numero_settore, unsigned char *buffer, TIPO_SETTORE tipo_settore){
 	//magari fare un extern da selettore_unita e fare verifca se 
 	//il tipo_disco è uguale, altrimenti scrivi su tipo_disco
+	bool firma = false;
 	if (tipo_disco > 0x00){	
 		tipo_disco -= 0x01;
 	}else{
@@ -63,6 +65,16 @@ bool scrivi_settore (DISCO_MONTATO tipo_disco, unsigned long int numero_settore,
 		while(!(inb(porta_controller_default)) & ATA_BUSY);
 		
 		while (conta_carattere_settore < SIZE_SETTORE){
+
+			if (tipo_settore == SETTORE_INFO && firma == false){
+				carattere_buffer_per_settore.primo_byte = 0xff;
+				carattere_buffer_per_settore.secondo_byte = 0xff;
+
+				outw_d((porta_controller_default - 0x07), carattere_buffer_per_settore);
+				conta_carattere_settore++;
+				firma = true;
+			}
+
 			if (conta_carattere_settore <  (caratteri_buffer - 1)){
 				carattere_buffer_per_settore.primo_byte = buffer[conta_carattere_settore];
 				carattere_buffer_per_settore.secondo_byte = buffer[conta_carattere_settore+=1];
