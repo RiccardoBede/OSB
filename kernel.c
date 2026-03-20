@@ -25,17 +25,17 @@ void main (){
 //	free(a);
 
 	tipo_unita_montata();
-	char buffer[512];
-	scrivi_settore(0x01, 1, buffer, 0x02);
+	/*char buffer[512];
 	input(buffer, 0x1c, sizeof(buffer), VGA_TEXT_BIANCO_NERO);	
+	scrivi_settore(0x01, 1, buffer, 0x02);*/
 
-	printchar('\n' ,VGA_TEXT_BIANCO_NERO);
+//	printchar('\n' ,VGA_TEXT_BIANCO_NERO);
 
 	cerca_settore_info(0x01);
-/*	char settore[512];
-	leggi_settore(0x01, 1, buffer, sizeof(buffer));
-	print(buffer, VGA_TEXT_BIANCO_NERO);
-*/
+/*	char settore[2];
+	leggi_settore(0x01, 1, settore, sizeof(settore));
+	print(settore, VGA_TEXT_BIANCO_NERO);*/
+
 	while (1){
 		char buffer[128];
 		printchar('#', VGA_TEXT_BIANCO_NERO);
