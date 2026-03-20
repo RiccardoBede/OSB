@@ -85,6 +85,7 @@ void input (char *buffer, char interrup, int sizeof_buffer, char colore){
 				if (shift){
 					buffer[contatore_char] = tastiera[contatore_tastiera].carattere_shift;
 					printchar(tastiera[contatore_tastiera].carattere_shift, colore);
+					contatore_tastiera++;
 					break;
 				}
 				switch (tastiera[contatore_tastiera].carattere_ascii){
