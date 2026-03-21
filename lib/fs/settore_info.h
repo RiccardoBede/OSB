@@ -21,18 +21,16 @@ bool cerca_settore_info (DISCO_MONTATO tipo_disco){
 
 	if (!lba48_attivo){
 		while (numero_settore < settori_lba32){
-			leggi_settore(tipo_disco, numero_settore, settore_info, sizeof(settore_info));
-
-			print(settore_info, VGA_TEXT_GIALLO_NERO);	
-			/*if (verifica_firma_settore[0] == 0xff){
-				//leggi_settore(tipo_disco, numero_settore, settore_info, sizeof(settore_info));
+			leggi_settore(0x01, numero_settore, verifica_firma_settore, sizeof(verifica_firma_settore));
+			if (verifica_firma_settore[0] == 0xff && verifica_firma_settore[1] == 0xff){
+				print(verifica_firma_settore, VGA_TEXT_GIALLO_NERO);	
 				print("SETTORE <INFO> TROVATO", VGA_TEXT_GIALLO_NERO);
 				return true;
 			}
-			*/numero_settore++;
-			return true;
+			numero_settore++;
 		}
 	}else{
 
 	}
+	return false;
 }
