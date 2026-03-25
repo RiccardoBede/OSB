@@ -64,7 +64,7 @@ bool scrivi_settore (DISCO_MONTATO tipo_disco, unsigned long int numero_settore,
 
 		while(!(inb(porta_controller_default)) & ATA_BUSY);
 		
-		while (conta_carattere_settore < SIZE_SETTORE){
+		while (conta_carattere_settore < SIZE_SETTORE * 2){
 
 			if (tipo_settore == SETTORE_INFO && firma == false){
 				carattere_buffer_per_settore.primo_byte = 0xff;
@@ -120,7 +120,7 @@ bool leggi_settore (DISCO_MONTATO tipo_disco, unsigned long int numero_settore, 
 
 		while(!(inb(porta_controller_default)) & ATA_BUSY);
 		
-		while (conta_carattere_settore < SIZE_SETTORE /*&& conta_carattere_settore < sizeof_buffer*/){
+		while (conta_carattere_settore < SIZE_SETTORE * 2){
 			ByteSettore carattere_settore = inw_d((porta_controller_default - 0x07));
 			
 			if (conta_carattere_settore < sizeof_buffer){
