@@ -83,9 +83,27 @@ void input (char *buffer, char interrup, int sizeof_buffer, char colore){
 					break;
 				}*/
 				if (shift){
-					buffer[contatore_char] = tastiera[contatore_tastiera].carattere_shift;
-					printchar(tastiera[contatore_tastiera].carattere_shift, colore);
-					contatore_tastiera++;
+					switch (tastiera[contatore_tastiera].carattere_shift){
+						case '\n':
+							stampaAcapo();
+							cursore();
+							break;
+						case '\t':
+							stampaTab();
+							cursore();
+							break;
+						case '\b':
+							if (contatore_char == 0){	break;}
+							cancellachar();
+							cursore();	
+							buffer[contatore_char-=2] == 0x00;	
+							break;
+						default:
+							buffer[contatore_char] = tastiera[contatore_tastiera].carattere_shift;
+							printchar(tastiera[contatore_tastiera].carattere_shift, colore);	
+							break;
+					}
+					contatore_char++;
 					break;
 				}
 				switch (tastiera[contatore_tastiera].carattere_ascii){
