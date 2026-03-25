@@ -121,13 +121,16 @@ bool leggi_settore (DISCO_MONTATO tipo_disco, unsigned long int numero_settore, 
 		while(!(inb(porta_controller_default)) & ATA_BUSY);
 		
 		while (conta_carattere_settore < SIZE_SETTORE /*&& conta_carattere_settore < sizeof_buffer*/){
-			if (conta_carattere_settore < (sizeof_buffer - 1)){
-				ByteSettore carattere_settore = inw_d((porta_controller_default - 0x07));
+			ByteSettore carattere_settore = inw_d((porta_controller_default - 0x07));
+			
+			if (conta_carattere_settore < sizeof_buffer){
+				buffer[conta_carattere_settore] = carattere_settore.primo_byte;
+			}
+			
+			conta_carattere_settore++;
 
-				buffer[conta_carattere_settore] = (char)carattere_settore.primo_byte;
-				buffer[conta_carattere_settore+=1] = (char)carattere_settore.secondo_byte;
-			}else{
-				buffer[conta_carattere_settore] = 0x00;
+			if (conta_carattere_settore < sizeof_buffer){
+				buffer[conta_carattere_settore] = carattere_settore.secondo_byte;
 			}
 			conta_carattere_settore++;
 		}
