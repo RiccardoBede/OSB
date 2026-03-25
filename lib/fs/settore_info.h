@@ -6,32 +6,44 @@ extern struct settori_lba48;
 //extern typedef struct ByteSettore; //io_settore
 extern unsigned short porta_controller_default;
 
-unsigned char info_flags[][10] = {"filesystem"}; 
+static unsigned char settore_info[1024];
+unsigned char array_flag[][10] = {"filesystem"/*, "allocator"*/}; 
 
-void applica_settore_info (unsigned char *info, unsigned int sizeof_info){
-	//unsigned char info[1024];
-	//leggi_settore(tipo_disco, numero_settore_info, info, sizeof(info));
+void applica_settore_info (unsigned char *buffer_settore, unsigned int sizeof_buffer_settore){
+	unsigned short int numero_flag = 0;
+	unsigned short int contatore_carattere_flag = 0;
+	unsigned short int sizeof_flag_corrente = 0;
 
-	unsigned short int carattere_flag = 0;
-	unsigned short int flag_corrente = 0;
-	for (unsigned short int flag = 0; flag < sizeof_info; flag++){
-		if (info[flag] == info_flags[flag_corrente][carattere_flag]){
-			if (carattere_flag == sizeof(info_flags[flag_corrente])){
-				printchar('*', VGA_TEXT_GIALLO_NERO);
-				print(info_flags[flag_corrente], VGA_TEXT_GIALLO_NERO);
+	for (unsigned short int contatore_carattere_buffer = 0; contatore_carattere_buffer < sizeof_buffer_settore; contatore_carattere_buffer++){
+		while (array_flag[numero_flag][sizeof_flag_corrente] != '\0'){	sizeof_flag_corrente++;}
+
+		if (buffer_settore[contatore_carattere_buffer] == array_flag[numero_flag][contatore_carattere_flag] && (numero_flag < (sizeof(array_flag) / sizeof(array_flag[numero_flag])))){
+			if (contatore_carattere_flag == sizeof_flag_corrente - 1){
+				print("\t*", VGA_TEXT_GIALLO_NERO);
+				print(array_flag[numero_flag], VGA_TEXT_GIALLO_NERO);
 				printchar(' ', VGA_TEXT_GIALLO_NERO);
-
-				while (info[flag] != ';'){
-					printchar(info[flag], VGA_TEXT_GIALLO_NERO);
-					flag++;
+				
+				contatore_carattere_buffer++;
+				while (buffer_settore[contatore_carattere_buffer] != ';'){
+					printchar(buffer_settore[contatore_carattere_buffer], VGA_TEXT_GIALLO_NERO);
+					contatore_carattere_buffer++;
 				}
+
 				printchar('\n', VGA_TEXT_GIALLO_NERO);
-				flag_corrente++;
+				numero_flag++;
+				contatore_carattere_flag = 0;
+				sizeof_flag_corrente = 0;
 			}
-			carattere_flag++;
+			contatore_carattere_flag++;
 		}else{
-			carattere_flag = 0;
+			/*if (numero_flag < (sizeof(array_flag) / sizeof(array_flag[0]))){
+				numero_flag++;
+			}else{
+				numero_flag = 0;
+			}*/
+			contatore_carattere_flag = 0;
 		}
+		sizeof_flag_corrente = 0;
 	}
 }
 
@@ -41,14 +53,14 @@ bool cerca_settore_info (DISCO_MONTATO tipo_disco){
 	}else{	return false;}
 
 	unsigned long int numero_settore = 1;
-	unsigned char settore_info[1024];
+	//static unsigned char settore_info[1024];
 
 	if (!lba48_attivo){
 		while (numero_settore < settori_lba32){
 			leggi_settore(0x01, numero_settore, settore_info, sizeof(settore_info));
 			if (settore_info[0] == 0xff && settore_info[1] == 0xff){
 				print("SETTORE <INFO> TROVATO\n", VGA_TEXT_GIALLO_NERO);
-				leggi_settore(0x01, 2, settore_info, sizeof(settore_info));
+				//leggi_settore(0x01, 2, settore_info, sizeof(settore_info));
 				applica_settore_info(settore_info, sizeof(settore_info));
 				return true;
 			}
