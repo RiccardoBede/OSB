@@ -1,0 +1,20 @@
+Creare una libreria per gestire le stringhe e
+implementare una funzione per trovare la posizione di una stringa
+all'ineterno di un'altra stringa
+
+unsigned int cerca_stringa_in_stringa (char *regex, char *buffer){
+	unsigned int sizeof_regex = 0;
+	unsigned int sizeof_buffer = 0;
+
+	while (regex[sizeof_regex] != '\0'){	sizeof_regex++;}
+	while (buffer[sizeof_buffer] != '\0'){	sizeof_buffer++;}
+
+	for (per scorrere il buffer e trovare con più o meno
+		lo stesso metodo di info_settore.h l'uguaglianza)
+
+	return (posizione nel buffer dove inizia o finisce regex);
+
+}
+
+La funzione serve per evitare di fare una copia di un settore di cui 
+si vuole modificare solo una determinata stringa oppure anche per altro.
