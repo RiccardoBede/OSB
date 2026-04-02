@@ -30,4 +30,8 @@ uno che si struttura con la scrittura di settori in modo sequenziale:
 
 Secondo filesystem che si struttura come il primo, ma permette l'indicizzazione in RAM dei file presenti attraverso un typedef struct __attribute__((packed)) con: nomeFile, indirizzo, tipoFile
 
-In entrambi i filesystem si può fare la deframmentazione 
+In entrambi i filesystem si può fare la deframmentazione
+
+IN IO_SETTORE:
+
+aggiungere le firme per i settori normali (0xbb) e per i settori avviabili (0xaa)
