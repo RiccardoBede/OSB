@@ -27,7 +27,7 @@ int stringa_in_stringa (char *regex, char *buffer){
 	return -1;
 }
 
-bool stringa_ungale_stringa (char *buffer1, char *buffer2){
+bool stringa_uguale_stringa (char *buffer1, char *buffer2){
 	unsigned int sizeof_buffer1 = 0;
 	unsigned int sizeof_buffer2 = 0;
 
