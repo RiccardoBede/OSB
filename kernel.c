@@ -2,6 +2,7 @@
 
 #include "lib/utils/conversioni.h"
 #include "lib/utils/math.h"
+#include "lib/utils/string.h"
 
 #include "lib/io.h"
 
@@ -13,7 +14,19 @@
 
 #include "lib/fs/selettore_unita.h"
 #include "lib/fs/io_settore.h"
+
+struct{
+	char *tipo_filesystem;
+	bool visualizza_msg_allocatore;
+	unsigned long int ultimo_settore_scritto_lba28;
+	
+	unsigned long int ultimo_settore_scritto_lba48_mrb;
+	unsigned long int ultimo_settore_scritto_lba48_lrb;
+}info_settore;
+
 #include "lib/fs/settore_info.h"
+
+
 
 void main (){
 	clear();
@@ -25,16 +38,17 @@ void main (){
 //	free(a);
 
 	tipo_unita_montata();
-	char buffer[512];
+/*	char buffer[512];
 	input(buffer, 0x1c, sizeof(buffer), VGA_TEXT_BIANCO_NERO);	
-	scrivi_settore(0x01, 1, buffer, 0x02);
+	scrivi_settore(0x01, 1, buffer, 0x02);*/
 
-//	printchar('\n' ,VGA_TEXT_BIANCO_NERO);
+	printchar('\n' ,VGA_TEXT_BIANCO_NERO);
 
 	cerca_settore_info(0x01);
 
-	
-/*	char settore[2];
+	print(info_settore.tipo_filesystem, VGA_TEXT_BIANCO_NERO);
+
+	/*char settore[512];
 	leggi_settore(0x01, 1, settore, sizeof(settore));
 	print(settore, VGA_TEXT_BIANCO_NERO);*/
 
