@@ -3,9 +3,10 @@ extern unsigned long int settori_lba32;
 extern struct settori_lba48;
 extern unsigned short porta_controller_default;
 
+extern struct info_settore;
+
 //creare funzione di settore_info per indicizzare in ram i file
 //per rendere i/o più veloce (tramite struct)
-
 
 bool crea_file (DISCO_MONTATO tipo_disco, char *nome_file, char *buffer, TIPO_SETTORE tipo_settore){
 	//nome_file max 16
