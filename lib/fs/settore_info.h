@@ -81,59 +81,86 @@ void crea_settore_info(DISCO_MONTATO tipo_disco){
 	unsigned int contatore_carattere_settore_info = 0;
 
 	unsigned int contatore_buffer_settore_info = 0;
+
 	unsigned int contatore_flag = 0;
 	unsigned int contatore_caratteri_flag = 0;
+	unsigned int sizeof_flag_corrente = 0;
+
+	unsigned char buffer_numero_settore[16];
+	unsigned int contatore_cifra_buffer_numero_settore = 0;
 
 	unsigned char buffer_settore_info[256];
 
-	for (contatore_buffer_settore_info; buffer_settore_info[contatore_buffer_settore_info] != '\0'; contatore_buffer_settore_info++){
-		if (array_flag[contatore_flag][contatore_caratteri_flag] != '\0'){
-			buffer_settore_info[contatore_buffer_settore_info] = array_flag[contatore_flag][contatore_caratteri_flag];
+	for (contatore_flag; contatore_flag < sizeof(array_flag) / sizeof(array_flag[0]); contatore_flag++){
+		while (array_flag[contatore_flag][contatore_caratteri_flag] != '\0'){
+			buffer_settore_info[contatore_carattere_settore_info] = array_flag[contatore_flag][contatore_caratteri_flag];
 			contatore_caratteri_flag++;
-		}else{
-			//sistemare: che al posto di inserire i valori del buffer nella struct metto
-			//i valori della struct dentro l'array
-			switch(numero_flag){
-				case 0:
-					if (stringa_uguale_stringa("all", buffer_flag_corrente)){
-						info_settore.tipo_filesystem;
-					}else{
-						info_settore.tipo_filesystem;
-					}
-					break;
-				case 1:
-					if (stringa_uguale_stringa("true", buffer_flag_corrente)){
-						info_settore.visualizza_msg_allocatore;
-					}else{
-						info_settore.visualizza_msg_allocatore;	 
-					}
-					break;
-				case 2:
-					info_settore.ultimo_settore_scritto_lba28;
-					break;
-				case 3:
-					info_settore.ultimo_settore_scritto_lba48_mrb;
-					break;
-				case 4:
-					info_settore.ultimo_settore_scritto_lba48_lrb;
-					break;
-				default:
-					break;
-			}
-			buffer_settore_info[contatore_buffer_settore_info++] = ';';
-			buffer_settore_info[contatore_buffer_settore_info++] = ';';
-
-			contatore_flag++;
-			contatore_caratteri_flag = 0;
+			contatore_carattere_settore_info++;
+		}	
+		switch(contatore_flag){
+			case 0:
+				if (stringa_uguale_stringa("all", info_settore.tipo_filesystem)){
+					buffer_settore_info[contatore_buffer_settore_info++] = 'a';
+					buffer_settore_info[contatore_buffer_settore_info++] = 'l';
+					buffer_settore_info[contatore_buffer_settore_info++] = 'l';
+				}else{	
+					buffer_settore_info[contatore_buffer_settore_info++] = 's';
+					buffer_settore_info[contatore_buffer_settore_info++] = 'e';
+					buffer_settore_info[contatore_buffer_settore_info++] = 'q';
+				}
+				break;
+			case 1:
+				if (info_settore.visualizza_msg_allocatore){
+					buffer_settore_info[contatore_buffer_settore_info++] = 't';
+					buffer_settore_info[contatore_buffer_settore_info++] = 'r';
+					buffer_settore_info[contatore_buffer_settore_info++] = 'u';
+					buffer_settore_info[contatore_buffer_settore_info++] = 'e';
+				}else{
+					buffer_settore_info[contatore_buffer_settore_info++] = 'f';
+					buffer_settore_info[contatore_buffer_settore_info++] = 'a';
+					buffer_settore_info[contatore_buffer_settore_info++] = 'l';
+					buffer_settore_info[contatore_buffer_settore_info++] = 's';
+					buffer_settore_info[contatore_buffer_settore_info++] = 'e';
+				}
+				break;
+			case 2:
+				unsigned_int_to_stringa(info_settore.ultimo_settore_scritto_lba28, buffer_numero_settore, sizeof(buffer_numero_settore));
+				while (contatore_cifra_buffer_numero_settore < sizeof(buffer_numero_settore)){
+					buffer_settore_info[contatore_buffer_settore_info++] = buffer_numero_settore[contatore_cifra_buffer_numero_settore];
+					contatore_cifra_buffer_numero_settore++;
+				}
+				break;
+			case 3:
+				unsigned_int_to_stringa(info_settore.ultimo_settore_scritto_lba48_mrb, buffer_numero_settore, sizeof(buffer_numero_settore));
+				while (contatore_cifra_buffer_numero_settore < sizeof(buffer_numero_settore)){
+					buffer_settore_info[contatore_buffer_settore_info++] = buffer_numero_settore[contatore_cifra_buffer_numero_settore];
+					contatore_cifra_buffer_numero_settore++;
+				}
+				break;
+			case 4:
+				unsigned_int_to_stringa(info_settore.ultimo_settore_scritto_lba48_lrb, buffer_numero_settore, sizeof(buffer_numero_settore));
+				while (contatore_cifra_buffer_numero_settore < sizeof(buffer_numero_settore)){
+					buffer_settore_info[contatore_buffer_settore_info++] = buffer_numero_settore[contatore_cifra_buffer_numero_settore];
+					contatore_cifra_buffer_numero_settore++;
+				}
+				break;
+			default:
+				break;
 		}
+		buffer_settore_info[contatore_buffer_settore_info++] = ';';
+		buffer_settore_info[contatore_buffer_settore_info++] = ';';
+	
+		contatore_caratteri_flag = 0;
+		
+		print(buffer_settore_info, VGA_TEXT_GIALLO_NERO);
 	}
 
 	if (!lba48_attivo){
 		while(numero_settore < settori_lba32){
 			leggi_settore(tipo_disco, numero_settore, settore_info, sizeof(settore_info));
-			while (settore_info[contatore_carattere_settore_info] == '' && settore_info[contatore_carattere_settore_info] != '\0'){	contatore_carattere_settore_info++;}
+			while (settore_info[contatore_carattere_settore_info] == 0x00 && settore_info[contatore_carattere_settore_info] != '\0'){	contatore_carattere_settore_info++;}
 			if (contatore_carattere_settore_info == sizeof(settore_info)){
-				
+				scrivi_settore(tipo_disco, numero_settore, buffer_settore_info, 0x02);
 				return;
 			}
 			numero_settore++;
@@ -152,7 +179,7 @@ bool cerca_settore_info (DISCO_MONTATO tipo_disco){
 	//static unsigned char settore_info[1024];
 
 	if (!lba48_attivo){
-		while (numero_settore < settori_lba32){
+		while (numero_settore < 100/*settori_lba32*/){
 			leggi_settore(0x01, numero_settore, settore_info, sizeof(settore_info));
 			if (settore_info[0] == 0xff && settore_info[1] == 0xff){
 				print("SETTORE <INFO> TROVATO\n", VGA_TEXT_GIALLO_NERO);
