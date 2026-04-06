@@ -44,7 +44,15 @@ void main (){
 
 	printchar('\n' ,VGA_TEXT_BIANCO_NERO);
 
-	cerca_settore_info(0x01);
+//	if (!cerca_settore_info(0x01)){
+		info_settore.tipo_filesystem = "seq";
+		info_settore.visualizza_msg_allocatore = false;
+		info_settore.ultimo_settore_scritto_lba28 = 100;
+		info_settore.ultimo_settore_scritto_lba48_mrb = 0;
+		info_settore.ultimo_settore_scritto_lba48_lrb = 100;
+
+		crea_settore_info(0x01);
+//	}
 
 	print(info_settore.tipo_filesystem, VGA_TEXT_BIANCO_NERO);
 
