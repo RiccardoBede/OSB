@@ -56,3 +56,19 @@ void stampa_num_in_bin (unsigned long int numero_decimale, char colore){
 		}	
 	}
 }
+
+void unsigned_int_to_stringa (unsigned long int numero, char *buffer, int sizeof_buffer){
+	unsigned int divisore = 1;
+	unsigned int contatore_buffer = 0;
+	while (numero / divisore >= 10){
+		divisore *= 10;
+	}
+	while (divisore > 0){
+		if (contatore_buffer <= sizeof_buffer){
+			int cifra = numero / divisore;
+			buffer[contatore_buffer++] = (char)(cifra + '0');
+			numero %= divisore;
+			divisore /= 10;
+		}
+	}
+}
