@@ -78,25 +78,24 @@ void applica_settore_info (unsigned char *buffer_settore, unsigned int sizeof_bu
 
 void crea_settore_info(DISCO_MONTATO tipo_disco){
 	unsigned long int numero_settore = 1;
-	unsigned int contatore_carattere_settore_info = 0;
-
+	
 	unsigned int contatore_buffer_settore_info = 0;
 
 	unsigned int contatore_flag = 0;
 	unsigned int contatore_caratteri_flag = 0;
-	unsigned int sizeof_flag_corrente = 0;
 
 	unsigned char buffer_numero_settore[16];
 	unsigned int contatore_cifra_buffer_numero_settore = 0;
 
-	unsigned char buffer_settore_info[256];
+	unsigned char buffer_settore_info[512];
 
 	for (contatore_flag; contatore_flag < sizeof(array_flag) / sizeof(array_flag[0]); contatore_flag++){
 		while (array_flag[contatore_flag][contatore_caratteri_flag] != '\0'){
-			buffer_settore_info[contatore_carattere_settore_info] = array_flag[contatore_flag][contatore_caratteri_flag];
+			buffer_settore_info[contatore_buffer_settore_info] = array_flag[contatore_flag][contatore_caratteri_flag];
 			contatore_caratteri_flag++;
-			contatore_carattere_settore_info++;
-		}	
+			contatore_buffer_settore_info++;
+		}		
+		
 		switch(contatore_flag){
 			case 0:
 				if (stringa_uguale_stringa("all", info_settore.tipo_filesystem)){
@@ -125,21 +124,21 @@ void crea_settore_info(DISCO_MONTATO tipo_disco){
 				break;
 			case 2:
 				unsigned_int_to_stringa(info_settore.ultimo_settore_scritto_lba28, buffer_numero_settore, sizeof(buffer_numero_settore));
-				while (contatore_cifra_buffer_numero_settore < sizeof(buffer_numero_settore)){
+					while (contatore_cifra_buffer_numero_settore < sizeof(buffer_numero_settore) && buffer_numero_settore[contatore_cifra_buffer_numero_settore] != '\0'){
 					buffer_settore_info[contatore_buffer_settore_info++] = buffer_numero_settore[contatore_cifra_buffer_numero_settore];
 					contatore_cifra_buffer_numero_settore++;
 				}
 				break;
 			case 3:
 				unsigned_int_to_stringa(info_settore.ultimo_settore_scritto_lba48_mrb, buffer_numero_settore, sizeof(buffer_numero_settore));
-				while (contatore_cifra_buffer_numero_settore < sizeof(buffer_numero_settore)){
+				while (contatore_cifra_buffer_numero_settore < sizeof(buffer_numero_settore) && buffer_numero_settore[contatore_cifra_buffer_numero_settore] != '\0'){
 					buffer_settore_info[contatore_buffer_settore_info++] = buffer_numero_settore[contatore_cifra_buffer_numero_settore];
 					contatore_cifra_buffer_numero_settore++;
 				}
 				break;
 			case 4:
 				unsigned_int_to_stringa(info_settore.ultimo_settore_scritto_lba48_lrb, buffer_numero_settore, sizeof(buffer_numero_settore));
-				while (contatore_cifra_buffer_numero_settore < sizeof(buffer_numero_settore)){
+				while (contatore_cifra_buffer_numero_settore < sizeof(buffer_numero_settore) && buffer_numero_settore[contatore_cifra_buffer_numero_settore] != '\0'){
 					buffer_settore_info[contatore_buffer_settore_info++] = buffer_numero_settore[contatore_cifra_buffer_numero_settore];
 					contatore_cifra_buffer_numero_settore++;
 				}
@@ -151,23 +150,26 @@ void crea_settore_info(DISCO_MONTATO tipo_disco){
 		buffer_settore_info[contatore_buffer_settore_info++] = ';';
 	
 		contatore_caratteri_flag = 0;
+		contatore_cifra_buffer_numero_settore = 0;
 		
-		print(buffer_settore_info, VGA_TEXT_GIALLO_NERO);
 	}
+	buffer_settore_info[contatore_buffer_settore_info++] = '\0';
+//	print(buffer_settore_info, VGA_TEXT_GIALLO_NERO);
 
 	if (!lba48_attivo){
 		while(numero_settore < settori_lba32){
-			leggi_settore(tipo_disco, numero_settore, settore_info, sizeof(settore_info));
-			while (settore_info[contatore_carattere_settore_info] == 0x00 && settore_info[contatore_carattere_settore_info] != '\0'){	contatore_carattere_settore_info++;}
-			if (contatore_carattere_settore_info == sizeof(settore_info)){
+			leggi_settore(tipo_disco, numero_settore, settore_info, sizeof(settore_info));	
+			if (settore_info[0] == 0x00 && settore_info[1] == 0x00){		
+				print(buffer_settore_info, VGA_TEXT_GIALLO_NERO);
 				scrivi_settore(tipo_disco, numero_settore, buffer_settore_info, 0x02);
-				return;
+				break;
 			}
 			numero_settore++;
 		}
 	}else{
 	
 	}
+
 }
 
 bool cerca_settore_info (DISCO_MONTATO tipo_disco){
