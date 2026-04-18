@@ -154,7 +154,6 @@ void crea_settore_info(DISCO_MONTATO tipo_disco){
 		
 	}
 	buffer_settore_info[contatore_buffer_settore_info++] = '\0';
-//	print(buffer_settore_info, VGA_TEXT_GIALLO_NERO);
 
 	if (!lba48_attivo){
 		while(numero_settore < settori_lba32){
@@ -181,7 +180,7 @@ bool cerca_settore_info (DISCO_MONTATO tipo_disco){
 	//static unsigned char settore_info[1024];
 
 	if (!lba48_attivo){
-		while (numero_settore < 100/*settori_lba32*/){
+		while (numero_settore < settori_lba32){
 			leggi_settore(0x01, numero_settore, settore_info, sizeof(settore_info));
 			if (settore_info[0] == 0xff && settore_info[1] == 0xff){
 				print("SETTORE <INFO> TROVATO\n", VGA_TEXT_GIALLO_NERO);
@@ -190,7 +189,7 @@ bool cerca_settore_info (DISCO_MONTATO tipo_disco){
 				return true;
 			}
 			numero_settore++;
-		}
+		}	
 	}else{
 
 	}
