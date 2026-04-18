@@ -43,18 +43,28 @@ void main (){
 	scrivi_settore(0x01, 1, buffer, 0x02);*/
 
 	printchar('\n' ,VGA_TEXT_BIANCO_NERO);
-
-//	if (!cerca_settore_info(0x01)){
+	
+	bool settore_info = cerca_settore_info(0x01);
+	if (!settore_info){
 		info_settore.tipo_filesystem = "seq";
-		info_settore.visualizza_msg_allocatore = false;
+		info_settore.visualizza_msg_allocatore = true;
 		info_settore.ultimo_settore_scritto_lba28 = 100;
 		info_settore.ultimo_settore_scritto_lba48_mrb = 0;
 		info_settore.ultimo_settore_scritto_lba48_lrb = 100;
 
-		crea_settore_info(0x01);
-//	}
+		//crea_settore_info(0x01);
+	}
 
-	print(info_settore.tipo_filesystem, VGA_TEXT_BIANCO_NERO);
+	printint(settore_info, VGA_TEXT_BIANCO_NERO);
+
+	//print(info_settore.tipo_filesystem, VGA_TEXT_BIANCO_NERO);
+
+	char settore[512];
+	leggi_settore(0x01, 1, settore, sizeof(settore));
+	for (unsigned int carattere_settore = 0; carattere_settore < 512; carattere_settore++){
+		printhex(settore[carattere_settore], VGA_TEXT_BIANCO_NERO);
+		print(", ", VGA_TEXT_BIANCO_NERO);
+	}
 
 	/*char settore[512];
 	leggi_settore(0x01, 1, settore, sizeof(settore));
