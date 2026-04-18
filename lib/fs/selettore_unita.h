@@ -134,7 +134,7 @@ void identifica_unita (){
 	
 }
 
-void tipo_unita_montata (){
+DISCO_MONTATO tipo_unita_montata (){
 	DISCO_MONTATO tipo_unita = monta_unita();
 	print("UNITA' ARCHIVIAZIONE ", VGA_TEXT_BIANCO_NERO);
 	switch (tipo_unita){
@@ -149,4 +149,5 @@ void tipo_unita_montata (){
 			print("<ATAPI>\n", VGA_TEXT_VERDE_NERO);
 			break;
 	}
+	return tipo_unita;
 }
