@@ -74,6 +74,14 @@ bool scrivi_settore (DISCO_MONTATO tipo_disco, unsigned long int numero_settore,
 				firma = true;
 			}
 
+			if (tipo_settore == SETTORE_NORMALE && firma == false){
+				carattere_buffer_per_settore.primo_byte = 0xbb;
+				carattere_buffer_per_settore.secondo_byte = 0xbb;
+
+				outw_d((porta_controller_default - 0x07), carattere_buffer_per_settore);
+				firma = true;
+			}
+
 			if (conta_carattere_settore <  (caratteri_buffer - 1)){
 				carattere_buffer_per_settore.primo_byte = buffer[conta_carattere_settore];
 				carattere_buffer_per_settore.secondo_byte = buffer[conta_carattere_settore+=1];
