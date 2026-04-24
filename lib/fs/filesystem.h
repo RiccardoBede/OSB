@@ -9,7 +9,7 @@ extern unsigned long int settori_lba32;
 extern struct settori_lba48;
 extern unsigned short porta_controller_default;
 
-extern struct info_settore;
+extern struct info_settore;	
 
 //creare funzione di settore_info per indicizzare in ram i file
 //per rendere i/o più veloce (tramite struct)
@@ -35,13 +35,16 @@ bool crea_file (DISCO_MONTATO tipo_disco, char *nome_file, char *buffer, TIPO_SE
 	while (nome_file[numero_caratteri_nome_file] != '\0'){	numero_caratteri_nome_file++;}
 
 	if (!lba48_attivo){
-		leggi_settore(tipo_disco, info_settore.ultimo_settore_scritto_lba28 + 1, settore, sizeof(settore));
+		while (settore[0] != 0x00 && settore[1] != 0x00){
+			leggi_settore(tipo_disco, info_settore.ultimo_settore_scritto_lba28 += 1, settore, sizeof(settore));
+		}
 
 		if (settore[0] == 0x00 && settore[1] == 0x00){
 			while (numero_caratteri_settore < 16 && nome_file[numero_caratteri_settore] != '\0'){
 				buffer_settore[numero_caratteri_settore] = nome_file[numero_caratteri_settore];
 				numero_caratteri_settore++;
 			}
+			buffer_settore[numero_caratteri_settore++] = ';';
 
 			if (numero_caratteri_buffer > (SIZEOF_SETTORE - (SIZEOF_NOME_FILE + SIZEOF_FIRMA) * 2)){
 				while (numero_caratteri_settore < numero_caratteri_buffer && numero_caratteri_settore < (SIZEOF_SETTORE - (SIZEOF_NOME_FILE + SIZEOF_FIRMA) * 2)){
@@ -80,12 +83,13 @@ bool crea_file (DISCO_MONTATO tipo_disco, char *nome_file, char *buffer, TIPO_SE
 
 				scrivi_settore(tipo_disco, settore_jmp, buffer_continuo_file, tipo_settore);
 			}else{
-				while (numero_caratteri_settore < numero_caratteri_buffer){
-					buffer_settore[numero_caratteri_settore] = buffer_settore[numero_caratteri_settore];
-					numero_caratteri_settore++;
+				numero_caratteri_buffer = 0;
+				while (buffer[numero_caratteri_buffer] != '\0'){
+					buffer_settore[numero_caratteri_settore++] = buffer[numero_caratteri_buffer++];
 				}
 				buffer_settore[numero_caratteri_settore++] = '\0';
-				scrivi_settore(tipo_settore, info_settore.ultimo_settore_scritto_lba28 + 1, buffer_settore, tipo_settore);
+				scrivi_settore(tipo_disco, info_settore.ultimo_settore_scritto_lba28, buffer_settore, tipo_settore);
+				print(buffer_settore, VGA_TEXT_GIALLO_NERO);
 			}
 		}
 	}else{}
