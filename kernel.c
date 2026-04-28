@@ -25,6 +25,7 @@ struct{
 }info_settore;
 
 #include "lib/fs/settore_info.h"
+#include "lib/fs/filesystem.h"
 
 
 
@@ -38,25 +39,30 @@ void main (){
 //	free(a);
 
 	unsigned int tipo_disco = tipo_unita_montata();
-/*	char buffer[512];
+	/*char buffer[512];
 	input(buffer, 0x1c, sizeof(buffer), VGA_TEXT_BIANCO_NERO);	
-	scrivi_settore(0x01, 1, buffer, 0x02);*/
+	scrivi_settore(0x01, 9, buffer, 0x00);*/
 
 	printchar('\n' ,VGA_TEXT_BIANCO_NERO);
 	
-	if (!cerca_settore_info(tipo_disco)){
+	//if (!cerca_settore_info(tipo_disco)){
 		info_settore.tipo_filesystem = "seq";
 		info_settore.visualizza_msg_allocatore = true;
-		info_settore.ultimo_settore_scritto_lba28 = 100;
+		info_settore.ultimo_settore_scritto_lba28 = 10;
 		info_settore.ultimo_settore_scritto_lba48_mrb = 0;
 		info_settore.ultimo_settore_scritto_lba48_lrb = 100;
 
 		crea_settore_info(tipo_disco);
-	}
+	//}
 
-	printint(settore_info, VGA_TEXT_BIANCO_NERO);
-
+		
 	//print(info_settore.tipo_filesystem, VGA_TEXT_BIANCO_NERO);
+
+	printint(cerca_settore_libero(-1, -1, -1), VGA_TEXT_BIANCO_NERO);
+
+	char buffer[512];
+	input(buffer, 0x1c, sizeof(buffer), VGA_TEXT_BIANCO_NERO);
+	crea_file(0x00, "file.txt", buffer);
 
 	/*char settore[512];
 	leggi_settore(0x01, 1, settore, sizeof(settore));
