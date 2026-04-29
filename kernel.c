@@ -52,12 +52,11 @@ void main (){
 		info_settore.ultimo_settore_scritto_lba48_mrb = 0;
 		info_settore.ultimo_settore_scritto_lba48_lrb = 100;
 
-		crea_settore_info(tipo_disco);
+		//crea_settore_info(tipo_disco);
 	//}
 
 		
 	//print(info_settore.tipo_filesystem, VGA_TEXT_BIANCO_NERO);
-
 	printint(cerca_settore_libero(-1, -1, -1), VGA_TEXT_BIANCO_NERO);
 
 	char buffer[512];
