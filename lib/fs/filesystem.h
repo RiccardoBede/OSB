@@ -33,7 +33,7 @@ unsigned long int settore_lba48_mrb_libero;
 unsigned long int settore_lba48_lrb_libero;
 
 unsigned long int cerca_settore_libero (unsigned long int settore_lba28, unsigned long int settore_lba48_mrb, unsigned long int settore_lba48_lrb){
-	char verifica_firma_settore[2];
+	unsigned char verifica_firma_settore[2];
 	if (!lba48_attivo){
 		settore_lba28_libero = 1;
 		while (settore_lba28_libero < settori_lba32){
@@ -76,6 +76,8 @@ bool crea_file (TIPO_SETTORE tipo_file, char *nome_file, char *buffer){
 		file.nome_file[contatore_nome_file] = nome_file[contatore_nome_file];
 		contatore_nome_file++;
 	}
+	if (contatore_nome_file < sizeof(file.nome_file)){	file.nome_file[contatore_nome_file++] = '\0';}
+
 	file.contenuto_file = buffer;
 	while (buffer[contatore_buffer] != '\0'){	contatore_buffer++;}
 		
@@ -86,7 +88,7 @@ bool crea_file (TIPO_SETTORE tipo_file, char *nome_file, char *buffer){
 		if (contatore_buffer > (SIZEOF_SETTORE_CHAR - (SIZEOF_FIRMA + contatore_nome_file + SIZEOF_FLAG_SETTORE_LBA48_JMP + SIZEOF_SETTORE_JMP_CHAR + NUM_SEPARATORI_LBA28))){
 			//riuso contatore_buffer per contare il primo buffer da inserire nel primo settore del file
 			contatore_buffer = 0;
-			while (file.nome_file[contatore_buffer] != '\0'){
+			while (file.nome_file[contatore_buffer] != '\0' && contatore_buffer < sizeof(file.nome_file)){
 				buffer_settore[contatore_buffer] = file.nome_file[contatore_buffer];
 				contatore_buffer++;
 			}
@@ -94,7 +96,7 @@ bool crea_file (TIPO_SETTORE tipo_file, char *nome_file, char *buffer){
 			buffer_settore[contatore_buffer++] = ';';
 
 			while (contatore_buffer < (SIZEOF_SETTORE_CHAR - (SIZEOF_FIRMA + contatore_nome_file + SIZEOF_FLAG_SETTORE_LBA48_JMP  + SIZEOF_SETTORE_JMP_CHAR + NUM_SEPARATORI_LBA28))){
-				buffer_settore[contatore_buffer] = buffer[contatore_buffer_primo_settore];
+				buffer_settore[contatore_buffer++] = buffer[contatore_buffer_primo_settore];
 				contatore_buffer++;
 				contatore_buffer_primo_settore++;
 				contatore_buffer_rimanente_JMP++;
