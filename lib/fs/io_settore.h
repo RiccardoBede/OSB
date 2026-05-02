@@ -137,7 +137,7 @@ bool leggi_settore (DISCO_MONTATO tipo_disco, unsigned long int numero_settore, 
 
 		while(!(inb(porta_controller_default)) & 0x08);
 		
-		while (conta_carattere_settore < SIZE_SETTORE * 2){
+		while (conta_carattere_settore < SIZE_SETTORE * 1){
 			ByteSettore carattere_settore = inw_d((porta_controller_default - 0x07));
 			
 			printhex(carattere_settore.primo_byte, VGA_TEXT_VERDE_NERO);
