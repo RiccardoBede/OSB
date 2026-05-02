@@ -27,6 +27,20 @@ int stringa_in_stringa (char *regex, char *buffer){
 	return -1;
 }
 
+int char_in_stringa (char regex, char *buffer){
+	unsigned int sizeof_buffer = 0;
+	unsigned int carattere_buffer = 0;
+
+	while (buffer[sizeof_buffer] != '\0'){	sizeof_buffer++;}
+
+	for (carattere_buffer; carattere_buffer < sizeof_buffer; carattere_buffer++){
+		if(buffer[carattere_buffer] == regex){
+			return carattere_buffer;
+		}
+	}
+	return -1;
+}
+
 bool stringa_uguale_stringa (char *buffer1, char *buffer2){
 	unsigned int sizeof_buffer1 = 0;
 	unsigned int sizeof_buffer2 = 0;
