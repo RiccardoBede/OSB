@@ -32,22 +32,64 @@ unsigned long int settore_lba28_libero;
 unsigned long int settore_lba48_mrb_libero;
 unsigned long int settore_lba48_lrb_libero;
 
-unsigned long int cerca_settore_libero (unsigned long int settore_lba28, unsigned long int settore_lba48_mrb, unsigned long int settore_lba48_lrb){
-	unsigned char verifica_firma_settore[2];
+void crea_bitmap (){
+	static unsigned char settore[1024];
+	unsigned int verifica_carattere = 0;
+	
 	if (!lba48_attivo){
 		settore_lba28_libero = 1;
 		while (settore_lba28_libero < settori_lba32){
+			leggi_settore(tipo_disco, settore_lba28_libero, settore, sizeof(settore));
+			while(settore[verifica_carattere] == 0x00 && verifica_carattere < sizeof(settore)){
+				verifica_carattere++;
+			}
+			if (verifica_carattere == sizeof(settore)){
+				verifica_carattere = 0;
+				while(verifica_carattere <= 1024){
+					settore[verifica_carattere] = 0x00;
+					verifica_carattere++;
+				}
+				scrivi_settore(tipo_disco, settore_lba28_libero, settore, 0x03);
+				return;
+			}
+			settore_lba28_libero++;
+		}
+	}else{
+	
+	}
+}
+
+unsigned long int cerca_settore_libero (unsigned long int settore_lba28, unsigned long int settore_lba48_mrb, unsigned long int settore_lba48_lrb){
+//	unsigned char verifica_firma_settore[512];
+	unsigned int verifica_carattere = 0;
+	if (!lba48_attivo){
+		settore_lba28_libero = 1;
+		while (settore_lba28_libero < settori_lba32){	
 			//ignora il settore
-			if (settore_lba28 != -1){
+
+			unsigned char verifica_firma_settore[512];
+			if (settore_lba28 != 0){
 				if (settore_lba28_libero == settore_lba28){
 					settore_lba28_libero++;
 				}
 			}
+			
+			verifica_carattere = 0;
 
 			leggi_settore(tipo_disco, settore_lba28_libero, verifica_firma_settore, sizeof(verifica_firma_settore));
-			if (verifica_firma_settore[0] == 0x00 && verifica_firma_settore[1] == 0x00){
+		/*	if (char_in_stringa(0xbf, verifica_firma_settore) != -1){
+				print("trovato", VGA_TEXT_GIALLO_NERO);
 				return settore_lba28_libero;
+			}*/
+			while(verifica_firma_settore[verifica_carattere] == 0x00){
+				if (verifica_carattere == sizeof(verifica_carattere)){
+					return settore_lba28_libero;
+				}
+				verifica_carattere++;
 			}
+			/*if (verifica_firma_settore[2] == 0x00 && verifica_firma_settore[3] == 0x00){
+				return settore_lba28_libero;
+			}*/
 			settore_lba28_libero++;
 		}
 		return 0;
@@ -71,7 +113,6 @@ bool crea_file (TIPO_SETTORE tipo_file, char *nome_file, char *buffer){
 	char settore_lba48_lrb_stringa[16];
 	unsigned short contatore_caratteri_lba_stringa = 0;
 
-	file.tipo_file = tipo_file;
 	while (contatore_nome_file < sizeof(nome_file) && nome_file[contatore_nome_file] != '\0'){	
 		file.nome_file[contatore_nome_file] = nome_file[contatore_nome_file];
 		contatore_nome_file++;
@@ -82,8 +123,9 @@ bool crea_file (TIPO_SETTORE tipo_file, char *nome_file, char *buffer){
 	while (buffer[contatore_buffer] != '\0'){	contatore_buffer++;}
 		
 	if (!lba48_attivo){
-		unsigned long int settore_da_scrivere = cerca_settore_libero(-1, -1, -1);
-
+		unsigned long int settore_da_scrivere = cerca_settore_libero(0, 0, 0);
+		printint(settore_da_scrivere, VGA_TEXT_GIALLO_NERO);
+		
 		file.settore_lba48_JMP.settore_lba48_attivo = false;
 		if (contatore_buffer > (SIZEOF_SETTORE_CHAR - (SIZEOF_FIRMA + contatore_nome_file + SIZEOF_FLAG_SETTORE_LBA48_JMP + SIZEOF_SETTORE_JMP_CHAR + NUM_SEPARATORI_LBA28))){
 			//riuso contatore_buffer per contare il primo buffer da inserire nel primo settore del file
@@ -151,7 +193,7 @@ bool crea_file (TIPO_SETTORE tipo_file, char *nome_file, char *buffer){
 				contatore_buffer_primo_settore++;
 				contatore_buffer_rimanente_JMP++;
 			}
-			
+			print(nome_file, VGA_TEXT_GIALLO_NERO);
 			scrivi_settore(tipo_disco, settore_da_scrivere, buffer_settore, tipo_file);
 		}
 	}else{

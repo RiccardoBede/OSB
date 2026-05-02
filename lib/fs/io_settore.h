@@ -28,7 +28,8 @@ ByteSettore inw_d (unsigned short porta){
 typedef enum{
 	SETTORE_NORMALE = 0x00,
 	SETTORE_AVVIABILE = 0x01,
-	SETTORE_INFO = 0x02
+	SETTORE_INFO = 0x02,
+	SETTORE_BITMAP = 0x03
 }TIPO_SETTORE;
 
 bool scrivi_settore (DISCO_MONTATO tipo_disco, unsigned long int numero_settore, unsigned char *buffer, TIPO_SETTORE tipo_settore){
@@ -77,6 +78,14 @@ bool scrivi_settore (DISCO_MONTATO tipo_disco, unsigned long int numero_settore,
 			if (tipo_settore == SETTORE_NORMALE && firma == false){
 				carattere_buffer_per_settore.primo_byte = 0xbb;
 				carattere_buffer_per_settore.secondo_byte = 0xbb;
+
+				outw_d((porta_controller_default - 0x07), carattere_buffer_per_settore);
+				firma = true;
+			}
+
+			if (tipo_settore == SETTORE_BITMAP && firma == false){
+				carattere_buffer_per_settore.primo_byte = 0xbf;
+				carattere_buffer_per_settore.secondo_byte = 0xbf;
 
 				outw_d((porta_controller_default - 0x07), carattere_buffer_per_settore);
 				firma = true;
