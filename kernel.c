@@ -52,20 +52,27 @@ void main (){
 		info_settore.ultimo_settore_scritto_lba48_mrb = 0;
 		info_settore.ultimo_settore_scritto_lba48_lrb = 100;
 
-		//crea_settore_info(tipo_disco);
+	//	crea_settore_info(tipo_disco);
 	//}
+//	crea_bitmap();	
+	char buffer[10];
+	scrivi_settore(0x01, 12, buffer, 0x03);
+	int settore = 0;
+	for(;;){
+		clear();
+		printint(cerca_settore_libero(settore, 0, 0), VGA_TEXT_BIANCO_NERO);
+		char buffers[2];
+		input(buffers, 0x1c, sizeof(buffers), VGA_TEXT_BIANCO_NERO);
+		/*char buffer[512];
+		input(buffer, 0x1c, sizeof(buffer), VGA_TEXT_BIANCO_NERO);
+		crea_file(0x00, "file.txt", buffer);*/
+		settore++;
+	}	
 
-		
-	//print(info_settore.tipo_filesystem, VGA_TEXT_BIANCO_NERO);
-	printint(cerca_settore_libero(-1, -1, -1), VGA_TEXT_BIANCO_NERO);
-
-	char buffer[512];
+	/*char buffer[512];
 	input(buffer, 0x1c, sizeof(buffer), VGA_TEXT_BIANCO_NERO);
-	crea_file(0x00, "file.txt", buffer);
-
-	/*char settore[512];
-	leggi_settore(0x01, 1, settore, sizeof(settore));
-	print(settore, VGA_TEXT_BIANCO_NERO);*/
+	crea_file(0x00, "file.txt", buffer);*/
+	/*print(settore, VGA_TEXT_BIANCO_NERO);*/
 
 	while (1){
 		char buffer[128];
