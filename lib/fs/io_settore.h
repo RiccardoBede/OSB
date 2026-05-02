@@ -64,7 +64,7 @@ bool scrivi_settore (DISCO_MONTATO tipo_disco, unsigned long int numero_settore,
 
 		while(!(inb(porta_controller_default)) & ATA_BUSY);
 		
-		while (conta_carattere_settore < SIZE_SETTORE * 2){
+		while (conta_carattere_settore < SIZE_SETTORE * 1){
 
 			if (tipo_settore == SETTORE_INFO && firma == false){
 				carattere_buffer_per_settore.primo_byte = 0xff;
@@ -82,7 +82,7 @@ bool scrivi_settore (DISCO_MONTATO tipo_disco, unsigned long int numero_settore,
 				firma = true;
 			}
 
-			if (conta_carattere_settore <  (caratteri_buffer - 1)){
+			if (conta_carattere_settore <  (caratteri_buffer - 0)){
 				carattere_buffer_per_settore.primo_byte = buffer[conta_carattere_settore];
 				carattere_buffer_per_settore.secondo_byte = buffer[conta_carattere_settore+=1];
 
@@ -126,10 +126,13 @@ bool leggi_settore (DISCO_MONTATO tipo_disco, unsigned long int numero_settore, 
 	
 		outb(porta_controller_default, ATA_LEGGI_SETTORE);
 
-		while(!(inb(porta_controller_default)) & ATA_BUSY);
+		while(!(inb(porta_controller_default)) & 0x08);
 		
 		while (conta_carattere_settore < SIZE_SETTORE * 2){
 			ByteSettore carattere_settore = inw_d((porta_controller_default - 0x07));
+			
+			printhex(carattere_settore.primo_byte, VGA_TEXT_VERDE_NERO);
+			printhex(carattere_settore.secondo_byte, VGA_TEXT_ROSSO_NERO);
 			
 			if (conta_carattere_settore < sizeof_buffer){
 				buffer[conta_carattere_settore] = carattere_settore.primo_byte;
@@ -143,7 +146,7 @@ bool leggi_settore (DISCO_MONTATO tipo_disco, unsigned long int numero_settore, 
 			conta_carattere_settore++;
 		}
 		outb(porta_controller_default, ATA_FLUSH_CACHE);
-		buffer[sizeof_buffer] = '\0';
+		buffer[sizeof_buffer-1] = '\0';
 	}else{
 	
 	}
