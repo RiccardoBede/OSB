@@ -35,3 +35,6 @@ In entrambi i filesystem si può fare la deframmentazione
 IN IO_SETTORE:
 
 aggiungere le firme per i settori normali (0xbb) e per i settori avviabili (0xaa)
+
+
+IN LEGGI SETTORE LEGGO UNA WORD DA 16 BIT E LA METTO SUBITO NELL'ARRAY PERCHE ME NE FRGO DELGLI ALTRI BIT
