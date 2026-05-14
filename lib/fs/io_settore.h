@@ -63,7 +63,7 @@ bool scrivi_settore (DISCO_MONTATO tipo_disco, unsigned long int numero_settore,
 	
 		outb(porta_controller_default, ATA_SCRIVI_SETTORE);
 
-		while(!(inb(porta_controller_default) & ATA_BUSY));
+		while(!(inb(porta_controller_default) & /*ATA_BUSY*/0x08));
 		
 		while (conta_carattere_settore < SIZE_SETTORE * 1){
 
@@ -135,9 +135,9 @@ bool leggi_settore (DISCO_MONTATO tipo_disco, unsigned long int numero_settore, 
 	
 		outb(porta_controller_default, ATA_LEGGI_SETTORE);
 
-		while(!(inb(porta_controller_default)) & 0x08);
+		while(!(inb(porta_controller_default) & ATA_BUSY));
 		
-		while (conta_carattere_settore < SIZE_SETTORE / 2){
+		while (conta_carattere_settore < SIZE_SETTORE * 2){
 			ByteSettore carattere_settore = inw_d((porta_controller_default - 0x07));
 			
 			printhex(carattere_settore.primo_byte, VGA_TEXT_VERDE_NERO);
