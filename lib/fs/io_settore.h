@@ -63,7 +63,7 @@ bool scrivi_settore (DISCO_MONTATO tipo_disco, unsigned long int numero_settore,
 	
 		outb(porta_controller_default, ATA_SCRIVI_SETTORE);
 
-		while(!(inb(porta_controller_default)) & ATA_BUSY);
+		while(!(inb(porta_controller_default) & ATA_BUSY));
 		
 		while (conta_carattere_settore < SIZE_SETTORE * 1){
 
