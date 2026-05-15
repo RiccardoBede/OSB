@@ -53,7 +53,7 @@ bool scrivi_settore (DISCO_MONTATO tipo_disco, unsigned long int numero_settore,
 
 		while(!(inb(porta_controller_default) & ATA_DEVICE_READY));
 
-		outb((porta_controller_default - 0x05), numero_settore);
+		outb((porta_controller_default - 0x05), 1);
 
 		outb((porta_controller_default - 0x04), (numero_settore << 0) & 0xff);
 		outb((porta_controller_default - 0x03), (numero_settore << 8) & 0xff);
@@ -63,7 +63,7 @@ bool scrivi_settore (DISCO_MONTATO tipo_disco, unsigned long int numero_settore,
 	
 		outb(porta_controller_default, ATA_SCRIVI_SETTORE);
 
-		while(!(inb(porta_controller_default) & /*ATA_BUSY*/0x08));
+		while(!(inb(porta_controller_default) & 0x08));
 		
 		while (conta_carattere_settore < SIZE_SETTORE * 1){
 
@@ -108,6 +108,7 @@ bool scrivi_settore (DISCO_MONTATO tipo_disco, unsigned long int numero_settore,
 	}else{
 	
 	}
+	
 }
 
 bool leggi_settore (DISCO_MONTATO tipo_disco, unsigned long int numero_settore, unsigned char *buffer, int sizeof_buffer){
@@ -125,7 +126,7 @@ bool leggi_settore (DISCO_MONTATO tipo_disco, unsigned long int numero_settore, 
 
 		while(!(inb(porta_controller_default) & ATA_DEVICE_READY));
 
-		outb((porta_controller_default - 0x05), numero_settore);
+		outb((porta_controller_default - 0x05), 1);
 
 		outb((porta_controller_default - 0x04), (numero_settore << 0) & 0xff);
 		outb((porta_controller_default - 0x03), (numero_settore << 8) & 0xff);
@@ -135,7 +136,7 @@ bool leggi_settore (DISCO_MONTATO tipo_disco, unsigned long int numero_settore, 
 	
 		outb(porta_controller_default, ATA_LEGGI_SETTORE);
 
-		while(!(inb(porta_controller_default) & ATA_BUSY));
+		while(!(inb(porta_controller_default) & 0x08));
 		
 		while (conta_carattere_settore < SIZE_SETTORE * 2){
 			ByteSettore carattere_settore = inw_d((porta_controller_default - 0x07));
@@ -159,4 +160,5 @@ bool leggi_settore (DISCO_MONTATO tipo_disco, unsigned long int numero_settore, 
 	}else{
 	
 	}
+	
 }
