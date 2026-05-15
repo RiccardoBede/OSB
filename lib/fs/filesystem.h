@@ -49,7 +49,7 @@ void crea_bitmap (){
 					settore[verifica_carattere] = 0x00;
 					verifica_carattere++;
 				}
-				scrivi_settore(tipo_disco, settore_lba28_libero, settore, 0x03);
+				scrivi_settore(tipo_disco, settore_lba28_libero, settore, 0xbf);
 				return;
 			}
 			settore_lba28_libero++;
@@ -59,32 +59,53 @@ void crea_bitmap (){
 	}
 }
 
+bool cerca_file (TIPO_SETTORE tipo_file, char *nome_file){
+	unsigned short sizeof_nome_file = 0;
+	while (nome_file[sizeof_nome_file] != '\0'){	sizeof_nome_file++;}
+	if (sizeof_nome_file > 16){	sizeof_nome_file = 16;}
+
+	if (!lba48_attivo){
+		settore_lba28_libero = 1;
+		while(settore_lba28_libero < settori_lba32){
+			unsigned char verifca_firma_nome_settore[20];
+			leggi_settore(tipo_disco, settore_lba28_libero, verifca_firma_nome_settore, sizeof(verifca_firma_nome_settore));
+
+			if (verifca_firma_nome_settore[0] == tipo_file && verifca_firma_nome_settore[1] == tipo_file){
+				if (unsigned short inizio_corrispondenza = stringa_in_stringa(nome_file, verifca_firma_nome_settore) != -1){
+					unsigned short corrispondeza = 0;
+					for(inizio_corrispondenza; inizio_corrispondenza < sizeof(verifca_firma_nome_settore); inizio_corrispondenza++){
+						if (corrispondeza == sizeof_nome_file){
+							return true;
+						}
+						if (nome_file[corrispondeza] == verifca_firma_nome_settore[inizio_corrispondenza]){
+							corrispondeza++;
+							inizio_corrispondenza++;
+						}else{
+							break;
+						}
+					}
+				}
+			}
+		}
+	}else{
+	
+	}
+	return false;
+}
+
 unsigned long int cerca_settore_libero (unsigned long int settore_lba28, unsigned long int settore_lba48_mrb, unsigned long int settore_lba48_lrb){
 	if (!lba48_attivo){
 		settore_lba28_libero = 1;
 		while (settore_lba28_libero < settori_lba32){	
 			//ignora il settore
-
 			unsigned char verifica_firma_settore[4];
 			if (settore_lba28 != 0){
 				if (settore_lba28_libero == settore_lba28){
 					settore_lba28_libero++;
 				}
 			}
-			
-		/*	verifica_carattere = 0;*/
 
 			leggi_settore(tipo_disco, settore_lba28_libero, verifica_firma_settore, sizeof(verifica_firma_settore));
-		/*	if (char_in_stringa(0xbf, verifica_firma_settore) != -1){
-				print("trovato", VGA_TEXT_GIALLO_NERO);
-				return settore_lba28_libero;
-			}*/
-		/*	while(verifica_firma_settore[verifica_carattere] == 0x00){
-				if (verifica_carattere == sizeof(verifica_carattere)){
-					return settore_lba28_libero;
-				}
-				verifica_carattere++;
-			}*/
 			if (verifica_firma_settore[0] == 0x00 && verifica_firma_settore[1] == 0x00){
 				return settore_lba28_libero;
 			}

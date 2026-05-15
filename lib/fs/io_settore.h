@@ -26,10 +26,10 @@ ByteSettore inw_d (unsigned short porta){
 }
 
 typedef enum{
-	SETTORE_NORMALE = 0x00,
-	SETTORE_AVVIABILE = 0x01,
-	SETTORE_INFO = 0x02,
-	SETTORE_BITMAP = 0x03
+	SETTORE_NORMALE = 0xbb,
+	SETTORE_AVVIABILE = 0xaa,
+	SETTORE_INFO = 0xff,
+	SETTORE_BITMAP = 0xbf
 }TIPO_SETTORE;
 
 bool scrivi_settore (DISCO_MONTATO tipo_disco, unsigned long int numero_settore, unsigned char *buffer, TIPO_SETTORE tipo_settore){

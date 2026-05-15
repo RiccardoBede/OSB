@@ -160,7 +160,7 @@ void crea_settore_info(DISCO_MONTATO tipo_disco){
 			leggi_settore(tipo_disco, numero_settore, settore_info, sizeof(settore_info));	
 			if (settore_info[0] == 0x00 && settore_info[1] == 0x00){		
 				print(buffer_settore_info, VGA_TEXT_GIALLO_NERO);
-				scrivi_settore(tipo_disco, numero_settore, buffer_settore_info, 0x02);
+				scrivi_settore(tipo_disco, numero_settore, buffer_settore_info, 0xff);
 				break;
 			}
 			numero_settore++;
@@ -253,7 +253,7 @@ void aggiorna_settore_info (DISCO_MONTATO tipo_disco, char *tipo_filesystem, cha
 		
 				}
 				buffer_settore_info[contatore_buffer_settore_info++] = '\0';
-				scrivi_settore(tipo_disco, numero_settore, buffer_settore_info, 0x02);
+				scrivi_settore(tipo_disco, numero_settore, buffer_settore_info, 0xff);
 			}
 		}
 	}else{}
