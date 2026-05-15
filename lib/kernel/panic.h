@@ -1,4 +1,5 @@
 __attribute__((destructor)) __attribute__((noreturn)) void panic (char *msg){
+	print("\n<Kernel Panic> ", VGA_TEXT_ROSSO_CHIARO_ROSSO);
 	print(msg, VGA_TEXT_ROSSO_CHIARO_ROSSO);
 	
 	unsigned int eax, ebx, ecx, edx;
