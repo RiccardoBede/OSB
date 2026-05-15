@@ -60,36 +60,34 @@ void crea_bitmap (){
 }
 
 unsigned long int cerca_settore_libero (unsigned long int settore_lba28, unsigned long int settore_lba48_mrb, unsigned long int settore_lba48_lrb){
-//	unsigned char verifica_firma_settore[512];
-	unsigned int verifica_carattere = 0;
 	if (!lba48_attivo){
 		settore_lba28_libero = 1;
 		while (settore_lba28_libero < settori_lba32){	
 			//ignora il settore
 
-			unsigned char verifica_firma_settore[512];
+			unsigned char verifica_firma_settore[4];
 			if (settore_lba28 != 0){
 				if (settore_lba28_libero == settore_lba28){
 					settore_lba28_libero++;
 				}
 			}
 			
-			verifica_carattere = 0;
+		/*	verifica_carattere = 0;*/
 
 			leggi_settore(tipo_disco, settore_lba28_libero, verifica_firma_settore, sizeof(verifica_firma_settore));
 		/*	if (char_in_stringa(0xbf, verifica_firma_settore) != -1){
 				print("trovato", VGA_TEXT_GIALLO_NERO);
 				return settore_lba28_libero;
 			}*/
-			while(verifica_firma_settore[verifica_carattere] == 0x00){
+		/*	while(verifica_firma_settore[verifica_carattere] == 0x00){
 				if (verifica_carattere == sizeof(verifica_carattere)){
 					return settore_lba28_libero;
 				}
 				verifica_carattere++;
-			}
-			/*if (verifica_firma_settore[2] == 0x00 && verifica_firma_settore[3] == 0x00){
-				return settore_lba28_libero;
 			}*/
+			if (verifica_firma_settore[0] == 0x00 && verifica_firma_settore[1] == 0x00){
+				return settore_lba28_libero;
+			}
 			settore_lba28_libero++;
 		}
 		return 0;
