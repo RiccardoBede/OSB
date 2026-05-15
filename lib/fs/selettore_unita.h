@@ -98,7 +98,8 @@ void identifica_unita (){
 			print("\nSettori (LBA28): ", VGA_TEXT_BIANCO_NERO);
 			settori_lba32 = (unsigned long int)(((unsigned long)lista_identify[61] << 16) | (unsigned long)lista_identify[60]);
 			printint(settori_lba32, VGA_TEXT_BIANCO_NERO);			
-			//funzione per alloc della grandezza dell'unita	
+			//funzione per alloc della grandezza dell'unita
+			if (settori_lba32 <= 0){	panic("\nGrandezza disco non rilevata !");}
 		}
 		if (carattere == 84){
 			print("\nSupporto (LBA48): ", VGA_TEXT_BIANCO_NERO);
