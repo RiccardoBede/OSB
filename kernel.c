@@ -90,5 +90,8 @@ void main (){
 		CLIparser(buffer);
 	}
 
-	while(1){	__asm__("hlt");};
+	while(1){	
+		panic("Errore Fatale!");
+		__asm__("hlt");
+	};
 }
