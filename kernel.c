@@ -7,6 +7,7 @@
 #include "lib/io.h"
 
 #include "lib/kernel/panic.h"
+#include "lib/kernel/reboot.h"
 
 #include "lib/alloc/allocatore.h"
 
