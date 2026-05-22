@@ -4,11 +4,13 @@
 #include "comandi_integrati/ioCli.h"
 #include "comandi_integrati/videoCli.h"
 #include "comandi_integrati/allocCli.h"
+#include "comandi_integrati/kernelCli.h"
 #include "comandi/editor.h"
 
 Comando comandi[] = {
 	{"help", helpCli},
 	{"inb", inbCli}, {"outb", outbCli}, /*I/O*/
+	{"sys", kernelCli}, /*Kernel*/
 	{"alloc", allocCli}, {"free", freeCli}, {"alloctab", tabellaAllocatoreCli}, /*Alloc*/
 	{"video", videoCli}, /*Video Mode*/
 	{"editor", editor}
