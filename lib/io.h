@@ -50,7 +50,7 @@ static unsigned int carattere_corrente_vga_text = 0;
 //static unsigned int VGA_Y = 0;
 
 void scroll(){
-	if (carattere_corrente_vga_text > (VGA_TEXT_RIGHE * VGA_TEXT_COLONNE)){
+	if (carattere_corrente_vga_text >= (VGA_TEXT_RIGHE * VGA_TEXT_COLONNE)){
 		CarattereColore *vga_text = (CarattereColore *)VGA_TEXT;
 		CarattereColore *vga_text_nonStamp = (CarattereColore *)VGA_TEXT;
 		unsigned int caratteri_spostare = 0;
@@ -64,7 +64,15 @@ void scroll(){
 			vga_text[copia_index_vga_text] = vga_text[caratteri_spostare++];
 			copia_index_vga_text++;	
 		}
-		carattere_corrente_vga_text -= VGA_TEXT_RIGHE + (carattere_corrente_vga_text - (VGA_TEXT_RIGHE * VGA_TEXT_COLONNE));
+		
+		carattere_corrente_vga_text -= VGA_TEXT_RIGHE + (carattere_corrente_vga_text - (VGA_TEXT_RIGHE * VGA_TEXT_COLONNE));	
+		
+		unsigned int pulisci_riga = VGA_TEXT_RIGHE;
+		while (pulisci_riga != 0){
+			printcharat(0x00, ((VGA_TEXT_RIGHE * VGA_TEXT_COLONNE) + pulisci_riga), VGA_TEXT_NERO_NERO);
+			pulisci_riga--;
+		}		
+		//carattere_corrente_vga_text -= VGA_TEXT_RIGHE + (carattere_corrente_vga_text - (VGA_TEXT_RIGHE * VGA_TEXT_COLONNE));	
 	}
 }
 
@@ -227,8 +235,14 @@ void printhex(long int numero, char colore) {
 
 void printcharat (char carattere, unsigned int pos, char colore){//mettere if che se pos > (VGA altezza * VGA lunghezza) il carattere deve metterlo a vga_text_char + la differenza tra altezza*lunghezza e pos
 	if (!vga){
-		CarattereColore *vga_text = (CarattereColore *)VGA_TEXT;
-		vga_text[pos] = (CarattereColore){carattere, colore};	
+		if (pos > (VGA_TEXT_RIGHE * VGA_TEXT_COLONNE)){
+			pos = carattere_corrente_vga_text + (pos - (VGA_TEXT_RIGHE * VGA_TEXT_COLONNE));
+			CarattereColore *vga_text = (CarattereColore *)VGA_TEXT;
+			vga_text[pos] = (CarattereColore){carattere, colore};
+		}else{
+			CarattereColore *vga_text = (CarattereColore *)VGA_TEXT;
+			vga_text[pos] = (CarattereColore){carattere, colore};
+		}
 	}else{
 	
 	}
