@@ -9,7 +9,7 @@
 Comando comandi[] = {
 	{"help", helpCli},
 	{"inb", inbCli}, {"outb", outbCli}, /*I/O*/
-	{"alloc", allocCli}, {"free", freeCli}, /*Alloc*/
+	{"alloc", allocCli}, {"free", freeCli}, {"alloctab", tabellaAllocatoreCli}, /*Alloc*/
 	{"video", videoCli}, /*Video Mode*/
 	{"editor", editor}
 };
