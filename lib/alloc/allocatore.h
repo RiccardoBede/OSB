@@ -37,12 +37,41 @@ static bool verbose = false;
  *	Se la TAD si esaurisce, incrementarne la capienza.
  */
 
+typedef struct{
+	unsigned long int ptr_zona;
+	unsigned long int size;
+}ZoneLibere __attribute__((packed));
+
+ZoneLibere array_zone_libere[16];
+unsigned short int contatore_array_zone_libere = 0;
+unsigned short int contatore_array_zone = 0;
+
 void infoAlloc (){
 	verbose = true;
 }
 
 unsigned long int alloc(unsigned long int sizeAlloc){
 	char *ptr = (char *)INIT_ALLOC;
+
+	contatore_array_zone = 0;
+	while (contatore_array_zone < (sizeof(array_zone_libere) / sizeof(array_zone_libere[0]))){
+		if (array_zone_libere[contatore_array_zone].size >= sizeAlloc && sizeAlloc >= (array_zone_libere[contatore_array_zone].size / 2)){
+			if (verbose){
+				print("ALLOC (init: 0x", VGA_TEXT_GIALLO_NERO);
+				printhex((int)ptr, VGA_TEXT_GIALLO_NERO);
+				print(", byte: ", VGA_TEXT_GIALLO_NERO);
+				printint(ptr[0], VGA_TEXT_GIALLO_NERO);
+				print(")\n", VGA_TEXT_GIALLO_NERO);
+			}
+
+			array_zone_libere[contatore_array_zone].ptr_zona = INIT_ALLOC;
+			array_zone_libere[contatore_array_zone].size = 0x00;
+
+			return (char)ptr;
+		}
+		contatore_array_zone++;
+	}
+
 	int byte_liberi = 0;
 	while (byte_liberi < sizeAlloc + 1){
 		if (*ptr != 0x00){
@@ -69,6 +98,19 @@ unsigned long int alloc(unsigned long int sizeAlloc){
 void free (void *puntatore){
 	char *ptr = (char *)puntatore;
 	unsigned long int contatoreZone = 1;
+
+	if ((contatore_array_zone_libere + 1) <= (sizeof(array_zone_libere) / sizeof(array_zone_libere[0]))){
+		array_zone_libere[contatore_array_zone_libere++] = (ZoneLibere){(int)puntatore, ptr[0]};
+	}else{
+		contatore_array_zone = 0;
+		while(contatore_array_zone < (sizeof(array_zone_libere) / sizeof(array_zone_libere[0]))){
+			if (array_zone_libere[contatore_array_zone].size < ptr[0]){
+				array_zone_libere[contatore_array_zone] = (ZoneLibere){(int)puntatore, ptr[0]};
+			}
+			contatore_array_zone++;
+		}
+	}
+
 	while (contatoreZone < ptr[0]){
 		ptr[contatoreZone] = 0x00;
 		contatoreZone++;
@@ -79,5 +121,19 @@ void free (void *puntatore){
 		print("FREE (init: 0x", VGA_TEXT_GIALLO_NERO);
 		printhex((int)puntatore, VGA_TEXT_GIALLO_NERO);
 		print(")\n", VGA_TEXT_GIALLO_NERO);
+	}
+}
+
+void printTabellaAllocatore (){
+	print("PTR ZONA\t;\tSIZE\n", VGA_TEXT_GIALLO_NERO);
+	contatore_array_zone = 0;
+	while(contatore_array_zone < (sizeof(array_zone_libere) / sizeof(array_zone_libere[0]))){
+		print("  0x", VGA_TEXT_GIALLO_NERO);
+		printhex((int)array_zone_libere[contatore_array_zone].ptr_zona, VGA_TEXT_GIALLO_NERO);
+		print("  \t;\t", VGA_TEXT_GIALLO_NERO);
+		printint(array_zone_libere[contatore_array_zone].size, VGA_TEXT_GIALLO_NERO);
+		print(" byte\n", VGA_TEXT_GIALLO_NERO);
+		
+		contatore_array_zone++;
 	}
 }
