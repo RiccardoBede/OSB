@@ -14,3 +14,8 @@ void freeCli (){
 	char *ptr = (char *)stringa_to_hex(buffer);
 	free(ptr);
 }
+
+void tabellaAllocatoreCli (){
+	printchar('\n', VGA_TEXT_GIALLO_NERO);
+	printTabellaAllocatore();
+}
