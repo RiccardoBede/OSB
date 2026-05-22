@@ -6,4 +6,5 @@ void helpCli (){
 	print("free     : (puntatore) dealloca la zona di ram allocata\n", VGA_TEXT_BIANCO_NERO);
 	print("alloctab : mostra la tabella di allocazione\n", VGA_TEXT_BIANCO_NERO);
 	print("video    : [13h] imposta la modalita video\n", VGA_TEXT_BIANCO_NERO);
+	print("sys      : [reboot, panic (msg)] richiama funzioni di sistema\n", VGA_TEXT_BIANCO_NERO);
 }
