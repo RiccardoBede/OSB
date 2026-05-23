@@ -35,11 +35,3 @@ In entrambi i filesystem si può fare la deframmentazione
 IN IO_SETTORE:
 
 aggiungere le firme per i settori normali (0xbb) e per i settori avviabili (0xaa)
-
-
-IN LEGGI SETTORE LEGGO UNA WORD DA 16 BIT E LA METTO SUBITO NELL'ARRAY PERCHE ME NE FRGO DELGLI ALTRI BIT
-
-Fose bisogna ridurre la letturura e dei settori da 512 a 256 perchè sono 256 word da 16bit per settore di conseguenza se leggo per 512 interrogo due volte il settore
-e vedo la pria volta i valori poi vedo il seguto e poi va a scalare ai settori sotto dandomi sempre 0x00
-
-All'interno di crea_file() bisogna mettere un controllo sulla presenza del file nel disco, e fare input per decidere se modificarlo o aggiungere il testo in coda.

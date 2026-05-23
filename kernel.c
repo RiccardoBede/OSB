@@ -35,8 +35,8 @@ void main (){
 
 	infoAlloc();
 
-//	int *a = (int *)alloc(3);
-//	free(a);
+	//int *a = (int *)alloc(3);
+	//free(a);
 
 	unsigned int tipo_disco = tipo_unita_montata();
 	/*char buffer[512];
@@ -83,6 +83,7 @@ void main (){
 	}*/
 //	printint('\n', VGA_TEXT_BIANCO_NERO);
 //	printint(cerca_file(0xbb, "file\0"), VGA_TEXT_BIANCO_NERO);
+
 
 	while (1){
 		char buffer[128];

@@ -53,9 +53,7 @@ bool scrivi_settore (DISCO_MONTATO tipo_disco, unsigned long int numero_settore,
 
 		while(!(inb(porta_controller_default) & ATA_DEVICE_READY));
 
-		outb((porta_controller_default - 0x05), 1); //si potrebbe modificare il numero
-		//di settori da scrivere, in base alla grandezza dell'array inserito
-		//e moltiplicando il size settore nel ciclo while per la sua grandezza / (sizeof(buffer) / 512)
+		outb((porta_controller_default - 0x05), 1);
 
 		outb((porta_controller_default - 0x04), (numero_settore << 0) & 0xff);
 		outb((porta_controller_default - 0x03), (numero_settore << 8) & 0xff);
