@@ -32,6 +32,7 @@ $(KERNEL_BIN): $(MULTIBOOT) $(KERNEL_OBJ)
 $(ISO): $(KERNEL_BIN)
 	mkdir -p iso/boot/grub
 	cp $(KERNEL_BIN) iso/boot/$(KERNEL_BIN)
+	#cp -r /usr/lib/grub/i386-efi iso/boot/grub/
 	echo 'set timeout=1' >> iso/boot/grub/grub.cfg
 	echo 'set default=0' >> iso/boot/grub/grub.cfg
 	echo 'menuentry "CORE kernel" {' >> iso/boot/grub/grub.cfg
