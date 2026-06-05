@@ -8,6 +8,7 @@
 
 #include "lib/kernel/panic.h"
 #include "lib/kernel/reboot.h"
+#include "lib/kernel/timer.h"
 
 #include "lib/alloc/allocatore.h"
 
@@ -28,6 +29,7 @@ struct{
 #include "lib/fs/filesystem.h"
 
 #include "lib/cli/shell.h"
+
 
 void main (){
 	clear();
@@ -83,7 +85,6 @@ void main (){
 	}*/
 //	printint('\n', VGA_TEXT_BIANCO_NERO);
 //	printint(cerca_file(0xbb, "file\0"), VGA_TEXT_BIANCO_NERO);
-
 
 	while (1){
 		char buffer[128];
