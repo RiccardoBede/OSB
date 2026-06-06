@@ -17,27 +17,27 @@
 void data_ora (){	
 	
 	outb(PORTA_CONTROLLER, ORE);
-	printhex(inb(PORTA_DATI) + ANNO_INIZIO, VGA_TEXT_BIANCO_NERO);
+	printhex(hex_to_dec(inb(PORTA_DATI)), VGA_TEXT_BIANCO_NERO);
 	printchar(':', VGA_TEXT_BIANCO_NERO);
 
 	outb(PORTA_CONTROLLER, MINUTI);
-	printint(inb(PORTA_DATI) + ANNO_INIZIO, VGA_TEXT_BIANCO_NERO);
+	printint(hex_to_dec(inb(PORTA_DATI)), VGA_TEXT_BIANCO_NERO);
 	printchar(':', VGA_TEXT_BIANCO_NERO);
 
 	outb(PORTA_CONTROLLER, SECONDI);
-	printint(inb(PORTA_DATI) + ANNO_INIZIO, VGA_TEXT_BIANCO_NERO);
+	printint(hex_to_dec(inb(PORTA_DATI)), VGA_TEXT_BIANCO_NERO);
 	printchar('\t', VGA_TEXT_BIANCO_NERO);
 
 	outb(PORTA_CONTROLLER, ANNO_DECINE);
-	printint(hex_to_int(inb(PORTA_DATI)) + ANNO_INIZIO, VGA_TEXT_BIANCO_NERO);	
+	printint(hex_to_dec(inb(PORTA_DATI)) + ANNO_INIZIO, VGA_TEXT_BIANCO_NERO);	
 	printchar('/', VGA_TEXT_BIANCO_NERO);
 
 	outb(PORTA_CONTROLLER, MESE);
-	printint(inb(PORTA_DATI), VGA_TEXT_BIANCO_NERO);
+	printint(hex_to_dec(inb(PORTA_DATI)), VGA_TEXT_BIANCO_NERO);
 	printchar('/', VGA_TEXT_BIANCO_NERO);
 
 	outb(PORTA_CONTROLLER, GIORNO_MESE);
-	printint(inb(PORTA_DATI), VGA_TEXT_BIANCO_NERO);
+	printint(hex_to_dec(inb(PORTA_DATI)), VGA_TEXT_BIANCO_NERO);
 
 	printchar('\n', VGA_TEXT_BIANCO_NERO);
 }

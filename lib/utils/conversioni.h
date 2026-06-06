@@ -73,16 +73,14 @@ void unsigned_int_to_stringa (unsigned long int numero, char *buffer, int sizeof
 	}
 }
 
-unsigned long int hex_to_int (unsigned long int numero){ //TODO: NON funzionante
+unsigned long int hex_to_dec (unsigned long int numero){
 	unsigned int divisore = 1;
 	unsigned long int valore_ritorno = 0;
-
-	while (numero / divisore >= 16){
-		divisore *= 16;
+	while (numero > 0){
+		unsigned long int cifra = numero % 16;
+	        valore_ritorno += cifra * divisore;
+	        divisore *= 10;
+	        numero /= 16;
 	}
-	while (divisore > 0){
-		valore_ritorno += numero / divisore;
-		divisore /= 16;
-	}
-	return valore_ritorno + 16;
+	return valore_ritorno;
 }
