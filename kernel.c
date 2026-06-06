@@ -29,7 +29,7 @@ struct{
 #include "lib/fs/filesystem.h"
 
 #include "lib/cli/shell.h"
-
+#include "lib/kernel/net/NET.h"
 
 void main (){
 	clear();
@@ -85,6 +85,8 @@ void main (){
 	}*/
 //	printint('\n', VGA_TEXT_BIANCO_NERO);
 //	printint(cerca_file(0xbb, "file\0"), VGA_TEXT_BIANCO_NERO);
+
+	init_scheda();
 
 	while (1){
 		char buffer[128];

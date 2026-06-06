@@ -1,6 +1,8 @@
 GCC = gcc
 GCC_FLAG = -ffreestanding -m32 -c -Wno-implicit-function-declaration -fno-stack-protector -nostdlib
 
+GCC_FLAG += -I. -Ilib
+
 NASM = nasm
 NASM_FLAG = -f elf32
 
@@ -18,15 +20,21 @@ KERNEL_OBJ = kernel.o
 
 ISO = osb.iso
 
+SOURCE_MODULI_C = $(shell find lib -name '*.c')
+OBJ_MODULI_C = $(SOURCE_MODULI_C:.c=.o)
+
 all: $(ISO)
 
-$(KERNEL_OBJ): kernel.c
+%.o: %.c
 	$(GCC) $(GCC_FLAG) $< -o $@
+
+#$(KERNEL_OBJ): kernel.c
+#	$(GCC) $(GCC_FLAG) $< -o $@
 
 $(MULTIBOOT): multiboot_header.asm
 	$(NASM) $(NASM_FLAG) $< -o $@
 
-$(KERNEL_BIN): $(MULTIBOOT) $(KERNEL_OBJ)
+$(KERNEL_BIN): $(MULTIBOOT) $(KERNEL_OBJ) $(OBJ_MODULI_C)
 	$(LD) -m elf_i386 -T $(LD_FILE) -Ttext $(KERNEL_START) -o $@ $^
 
 $(ISO): $(KERNEL_BIN)
@@ -44,5 +52,6 @@ $(ISO): $(KERNEL_BIN)
 clean:
 	rm -rf $(KERNEL_BIN) $(KERNEL_OBJ) $(MULTIBOOT) $(ISO)
 	rm -rf iso
+	rm $(OBJ_MODULI_C)
 
 .PHONY: all clean
