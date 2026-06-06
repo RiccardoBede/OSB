@@ -72,3 +72,17 @@ void unsigned_int_to_stringa (unsigned long int numero, char *buffer, int sizeof
 		}
 	}
 }
+
+unsigned long int hex_to_int (unsigned long int numero){ //TODO: NON funzionante
+	unsigned int divisore = 1;
+	unsigned long int valore_ritorno = 0;
+
+	while (numero / divisore >= 16){
+		divisore *= 16;
+	}
+	while (divisore > 0){
+		valore_ritorno += numero / divisore;
+		divisore /= 16;
+	}
+	return valore_ritorno + 16;
+}
