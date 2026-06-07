@@ -28,8 +28,11 @@ void data_ora (){
 	printint(hex_to_dec(inb(PORTA_DATI)), VGA_TEXT_BIANCO_NERO);
 	printchar('\t', VGA_TEXT_BIANCO_NERO);
 
+	outb(PORTA_CONTROLLER, ANNO_MIGLIAIA);
+	printint(hex_to_dec(inb(PORTA_DATI)), VGA_TEXT_BIANCO_NERO);	
+
 	outb(PORTA_CONTROLLER, ANNO_DECINE);
-	printint(hex_to_dec(inb(PORTA_DATI)) + ANNO_INIZIO, VGA_TEXT_BIANCO_NERO);	
+	printint(hex_to_dec(inb(PORTA_DATI)), VGA_TEXT_BIANCO_NERO);	
 	printchar('/', VGA_TEXT_BIANCO_NERO);
 
 	outb(PORTA_CONTROLLER, MESE);
