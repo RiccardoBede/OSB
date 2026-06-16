@@ -240,15 +240,211 @@ PCI_device pci_device[] = {
 			{0x00, ""}
 		}}
 	}},
-	{0x08, "Periferiche Base", {{0x0, "", {}}}},
-	{0x09, "Dispositivi Input", {{0x0, "", {}}}},
-	{0x0a, "Docking Agg.", {{0x0, "", {}}}},
-	{0x0b, "Processore", {{0x0, "", {}}}},
-	{0x0c, "Serial BUS", {{0x0, "", {}}}},
-	{0x0d, "Wireless Controller", {{0x0, "", {}}}},
-	{0x0f, "Satellite Controller", {{0x0, "", {}}}},
-	{0x10, "Crittograf. Controller", {{0x0, "", {}}}},
-	{0x11, "Sig. Process. Controller", {{0x0, "", {}}}}
+	{0x08, "Periferiche Base", {
+		{0x00, "PCI", {
+			{0x00, "Generic 8259"},
+			{0x01, "ISA-Compatible"},
+			{0x02, "EISA-Compatible"},
+			{0x10, "I/O APIC Interrupt Controller"},
+			{0x20, "I/O(x) APIC Interrupt Controller"}
+		}},
+		{0x01, "DMA", {
+			{0x00, "Generic 8237-Compatible"},
+    		{0x01, "ISA-Compatible"},
+    		{0x02, "EISA-Compatible"}
+		}},
+		{0x02, "Timer", {
+			{0x00, "Generic 8254-Compatible"},
+			{0x01, "ISA-Compatible"},
+			{0x02, "EISA-Compatible"},
+			{0x03, "HPET (High Precision Event Timer)"}
+		}},
+		{0x03, "RTC", {
+			{0x00, "Generic RTC"},
+    		{0x01, "ISA-Compatible"}
+		}},
+		{0x04, "PCI Controller", {
+			{0x00, ""}
+		}},
+		{0x05, "SD Host Controller", {
+			{0x00, ""}
+		}},
+		{0x06, "IOMMU", {
+			{0x00, ""}
+		}},
+		{0x80, "Sconosciuto", {
+			{0x00, ""}
+		}}
+	}},
+	{0x09, "Dispositivi Input", {
+		{0x00, "Tastiera", {
+			{0x00, ""}
+		}},
+		{0x01, "Penna", {
+			{0x00, ""}
+		}},
+		{0x02, "Mouse", {
+			{0x00, ""}
+		}},
+		{0x03, "Scanner", {
+			{0x00, ""}
+		}},
+		{0x04, "Game Port", {
+			{0x00, "Generico"},
+			{0x10, "Esteso"}
+		}},
+		{0x80, "Sconosciuto", {
+			{0x00, ""}
+		}}
+	}},
+	{0x0a, "Docking Agg.", {
+		{0x00, "Generico", {
+			{0x00, ""}
+		}},
+		{0x80, "Sconosciuto", {
+			{0x00, ""}
+		}}
+	}},
+	{0x0b, "Processore", {
+		{0x00, "386", {
+			{0x00, ""}
+		}},
+		{0x01, "486", {
+			{0x00, ""}
+		}},
+		{0x02, "Pentium", {
+			{0x00, ""}
+		}},
+		{0x03, "Pentium Pro", {
+			{0x00, ""}
+		}},
+		{0x10, "Alpha", {
+			{0x00, ""}
+		}},
+		{0x20, "PowerPC", {
+			{0x00, ""}
+		}},
+		{0x30, "MIPS", {
+			{0x00, ""}
+		}},
+		{0x40, "Co-Processor", {
+			{0x00, ""}
+		}},
+		{0x80, "Sconosciuto", {
+			{0x00, ""}
+		}}
+	}},
+	{0x0C, "Serial BUS", {
+        {0x00, "FireWire (IEEE 1394)", {
+            {0x00, "Generic"},
+            {0x10, "OHCI (Open Host Controller Interface)"},
+        }},
+        {0x01, "ACCESS Bus Controller", {
+			{0x00, ""}
+		}},
+        {0x02, "SSA", {
+			{0x00, ""}
+		}},
+        {0x03, "USB Controller", {
+            {0x00, "UHCI Controller (USB 1.0/1.1 Intel)"},
+            {0x10, "OHCI Controller (USB 1.0/1.1 Compaq)"},
+            {0x20, "EHCI Controller (USB 2.0)"},
+            {0x30, "XHCI Controller (USB 3.0)"},
+            {0x80, "Unspecified Controller"},
+            {0xFE, "USB Device (Not a Host Controller)"}
+        }},
+        {0x04, "Fibre Channel", {
+			{0x00, ""}
+		}},
+        {0x05, "SMBus Controller", {
+			{0x00, ""}
+		}},
+        {0x06, "InfiniBand Controller", {
+			{0x00, ""}
+		}},
+        {0x07, "IPMI Interface", {
+            {0x00, "SMIC"},
+            {0x01, "Keyboard Controller"},
+            {0x02, "Block Transfer"}
+        }},
+        {0x08, "SERCOS (IEC 61491)", {
+			{0x00, ""}
+		}},
+        {0x09, "CANbus Controller", {
+			{0x00, ""}
+		}},
+        {0x80, "Sconosciuto", {
+			{0x00, ""}
+		}}
+    }},
+	{0x0D, "Wireless Controller", {
+        {0x00, "iRDA Compatible Controller", {
+			{0x00, ""}
+		}},
+        {0x01, "Consumer IR Controller", {
+			{0x00, ""}
+		}},
+        {0x10, "RF Controller", {
+			{0x00, ""}
+		}},
+        {0x11, "Bluetooth Controller", {
+			{0x00, ""}
+		}},
+        {0x12, "Broadband Controller", {
+			{0x00, ""}
+		}},
+        {0x20, "Ethernet Controller (802.1a)", {
+			{0x00, ""}
+		}},
+        {0x21, "Ethernet Controller (802.1b)", {
+			{0x00, ""}
+		}},
+        {0x80, "Other Wireless Controller", {
+			{0x00, ""}
+		}}
+    }},
+	{0x0F, "Satellite Controller", {
+        {0x01, "Satellite TV Controller", {
+			{0x00, ""}
+		}},
+        {0x02, "Satellite Audio Controller", {
+			{0x00, ""}
+		}},
+        {0x03, "Satellite Voice Controller", {
+			{0x00, ""}
+		}},
+        {0x04, "Satellite Data Controller", {
+			{0x00, ""}
+		}}
+    }},
+	{0x10, "Crittograf. Controller", {
+        {0x00, "Network/Computing Encryption", {
+			{0x00, ""}
+		}},
+        {0x10, "Entertainment Encryption", {{
+			0x00, ""}
+		}},
+        {0x80, "Sconosciuto", {
+			{0x00, ""}
+		}}
+    }},
+	{0x11, "Sig. Process. Controller", {
+		{0x00, "DPIO", {
+			{0x00, ""}
+		}},
+        {0x01, "Performance Counters", {
+			{0x00, ""}
+		}},
+        {0x10, "Communication Synchronizer", {
+			{0x00, ""}
+		}},
+        {0x20, "Signal Processing Management", {
+			{0x00, ""}
+		}},
+        {0x80, "Sconosciuto", {
+			{0x00, ""}
+		}}
+	}}
 };
 
 void lista_pci (){
@@ -270,7 +466,7 @@ void lista_pci (){
 					(0x00 & 0xfc)
 			);
 			unsigned int pci = inl(PORTA_DATA);
-			wait(1);
+			//wait(1);
 			if ((unsigned short)(pci) == 0xffff){	
 				return;
 			}
@@ -289,21 +485,31 @@ void lista_pci (){
 				pci_classe = (unsigned char)(pci >> 16) & 0xff;
 				if (pci_device[tipo_classe].classe == pci_classe){
 					print(pci_device[tipo_classe].nome_classe, VGA_TEXT_BIANCO_NERO);
-					printchar(' ', VGA_TEXT_BIANCO_NERO);
+					print(" -> ", VGA_TEXT_GIALLO_NERO);					
 
 					for (unsigned short tipo_sottoclasse = 0; tipo_sottoclasse < (sizeof(pci_device[0].sottoclasse) / sizeof(pci_device[0].sottoclasse[0])); tipo_sottoclasse++){
 						pci_sottoclasse = (unsigned char)(pci >> 8) & 0xff;
 						if (pci_device[tipo_classe].sottoclasse[tipo_sottoclasse].sottoclasse == pci_sottoclasse){
 							print(pci_device[tipo_classe].sottoclasse[tipo_sottoclasse].nome_sottoclasse, VGA_TEXT_BIANCO_NERO);
-							printchar(' ', VGA_TEXT_BIANCO_NERO);
+							printchar(' ', VGA_TEXT_BIANCO_NERO);	
 
 							for (unsigned short tipo_progif = 0; tipo_progif < (sizeof(pci_device[0].sottoclasse[0].progif) / sizeof(pci_device[0].sottoclasse[0].progif[0])); tipo_progif++){
 								pci_progif = (unsigned char)(pci) & 0xff;
 								if (pci_device[tipo_classe].sottoclasse[tipo_sottoclasse].progif[tipo_progif].progif == pci_progif){
 									print(pci_device[tipo_classe].sottoclasse[tipo_sottoclasse].progif[tipo_progif].nome_progif, VGA_TEXT_BIANCO_NERO);
+								
+									print(" (0x", VGA_TEXT_GIALLO_NERO);
+									printhex(pci_device[tipo_classe].classe, VGA_TEXT_GIALLO_NERO);
+									print(", 0x", VGA_TEXT_GIALLO_NERO);
+									printhex(pci_device[tipo_classe].sottoclasse[tipo_sottoclasse].sottoclasse, VGA_TEXT_GIALLO_NERO);
+									print(", 0x", VGA_TEXT_GIALLO_NERO);
+									printhex(pci_device[tipo_classe].sottoclasse[tipo_sottoclasse].progif[tipo_progif].progif, VGA_TEXT_GIALLO_NERO);
+									printchar(')', VGA_TEXT_GIALLO_NERO);
+
 									break;
 								}
 							}
+							break;
 						}
 					}
 				}
