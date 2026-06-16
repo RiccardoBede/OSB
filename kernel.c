@@ -10,6 +10,7 @@
 #include "lib/kernel/reboot.h"
 #include "lib/kernel/timer.h"
 #include "lib/kernel/CMOS.h"
+#include "lib/kernel/PCI.h"
 
 #include "lib/alloc/allocatore.h"
 
@@ -87,6 +88,18 @@ void main (){
 //	printint(cerca_file(0xbb, "file\0"), VGA_TEXT_BIANCO_NERO);
 
 	data_ora();
+
+	printchar('\n', VGA_TEXT_BIANCO_NERO);
+
+	/*outl(0xcf8, 0x80000000);
+	stampa_num_in_bin(inl(0xcfc), VGA_TEXT_BIANCO_NERO);
+
+	printchar('\n', VGA_TEXT_BIANCO_NERO);
+
+	outl(0xcf8, (1 << 31) | (0 << 16) | (0 << 11) | (0 << 8) | (0x00 & 0xfc));
+	printhex(inl(0xcfc) >> 16, VGA_TEXT_BIANCO_NERO);*/
+
+	lista_pci();
 
 	while (1){
 		char buffer[128];
