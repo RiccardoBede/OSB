@@ -7,6 +7,10 @@
 #define BIT_NUMERO_FUN 8
 #define BIT_OFSET_REG 2
 
+#define OFSET_ID 0x00
+#define OFSET_CLASSE 0x08
+#define OFSET_COMANDO 0x04
+
 void outl (unsigned int porta, unsigned long int valore){
 	__asm__ volatile ("outl %%eax, %%dx" :: "a"(valore), "Nd"(porta));
 }
@@ -463,7 +467,7 @@ void lista_pci (){
 					(numero_bus << BIT_NUMERO_BUS) |
 					(numero_dispositivo << BIT_NUMERO_DIS) |
 					(0 << BIT_NUMERO_FUN) |
-					(0x00 & 0xfc)
+					(OFSET_ID & 0xfc)
 			);
 			unsigned int pci = inl(PORTA_DATA);
 			//wait(1);
@@ -476,7 +480,7 @@ void lista_pci (){
 					(numero_bus << BIT_NUMERO_BUS) |
 					(numero_dispositivo << BIT_NUMERO_DIS) |
 					(0 << BIT_NUMERO_FUN) |
-					(0x08 & 0xfc)
+					(OFSET_CLASSE & 0xfc)
 			);
 			
 			pci = (inl(PORTA_DATA) >> 8);
@@ -506,6 +510,8 @@ void lista_pci (){
 									printhex(pci_device[tipo_classe].sottoclasse[tipo_sottoclasse].progif[tipo_progif].progif, VGA_TEXT_GIALLO_NERO);
 									printchar(')', VGA_TEXT_GIALLO_NERO);
 
+									bar_pci(numero_bus, numero_dispositivo);
+
 									break;
 								}
 							}
@@ -516,5 +522,23 @@ void lista_pci (){
 			}
 			printchar('\n', VGA_TEXT_BIANCO_NERO);
 		}
+	}
+}
+
+void bar_pci (unsigned short int numero_bus, unsigned short int numero_dispositivo){
+	outl(PORTA_CONF, 
+		(1 << BIT_ABILITAZIONE) |
+		(numero_bus << BIT_NUMERO_BUS) |
+		(numero_dispositivo << BIT_NUMERO_DIS) |
+		(0 << BIT_NUMERO_FUN) |
+		((0x10 + 2) & 0xfc)	
+	);
+	
+	print("\n\tBAR: 0x", VGA_TEXT_GIALLO_NERO);
+
+	if (inl(PORTA_DATA) & 0x1){
+		printhex((inl(PORTA_DATA) & 0xfffffffc), VGA_TEXT_GIALLO_NERO);
+	}else{
+		printhex((inl(PORTA_DATA) & 0xfffffff0), VGA_TEXT_GIALLO_NERO);
 	}
 }
