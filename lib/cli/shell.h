@@ -2,6 +2,7 @@
 
 #include "comandi_integrati/helpCli.h"
 #include "comandi_integrati/ioCli.h"
+#include "comandi_integrati/discoCli.h"
 #include "comandi_integrati/videoCli.h"
 #include "comandi_integrati/allocCli.h"
 #include "comandi_integrati/kernelCli.h"
@@ -9,6 +10,7 @@
 
 Comando comandi[] = {
 	{"help", helpCli},
+	{"disco", discoCli},
 	{"inb", inbCli}, {"outb", outbCli}, {"clear", clearCli}, /*I/O*/
 	{"sys", kernelCli}, /*Kernel*/
 	{"alloc", allocCli}, {"free", freeCli}, {"alloctab", tabellaAllocatoreCli}, /*Alloc*/
