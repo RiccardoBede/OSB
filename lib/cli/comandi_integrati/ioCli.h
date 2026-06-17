@@ -16,3 +16,7 @@ void outbCli (){
 	printchar('\n', VGA_TEXT_BIANCO_NERO);
 	outb((unsigned short)stringa_to_hex(buffer_porta), (char)stringa_to_hex(buffer_comando));
 }
+
+void clearCli (){
+	clear();
+}

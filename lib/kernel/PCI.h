@@ -531,7 +531,7 @@ void bar_pci (unsigned short int numero_bus, unsigned short int numero_dispositi
 		(numero_bus << BIT_NUMERO_BUS) |
 		(numero_dispositivo << BIT_NUMERO_DIS) |
 		(0 << BIT_NUMERO_FUN) |
-		((0x10 + 2) & 0xfc)	
+		((0x10) & 0xfc)	
 	);
 	
 	print("\n\tBAR: 0x", VGA_TEXT_GIALLO_NERO);

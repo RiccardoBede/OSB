@@ -11,7 +11,12 @@ void panicCli (){
 	panic(buffer);
 }
 
-Comando sotto_comando_kernel [] = {{"reboot", rebootCli}, {"panic", panicCli}};
+void pciCli (){
+	printchar('\n', VGA_TEXT_BIANCO_NERO);
+	lista_pci();
+}
+
+Comando sotto_comando_kernel [] = {{"reboot", rebootCli}, {"panic", panicCli}, {"pci", pciCli}};
 
 void kernelCli (){
 	char buffer[16];
