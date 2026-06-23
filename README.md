@@ -35,7 +35,18 @@ Debian e derivate: `build-essential` `nasm` `gcc` `grub-mkrescue` `ld` `grub-pc-
 > Presenta solo le operazioni di scrittura.
 > Le operazioni di lettura sono presenti all'interno della libreria `io_settore.h` ma non sono ancora state implementate all'interno di `filesystem.h`
 
-Presenta la possibilità di: creare, ~~modificare~~, ~~eliminare~~, ~~leggere~~
+Presenta la possibilità di: creare, ~~modificare~~, ~~eliminare~~, ~~leggere~~.
+Il filesystem presenta una sequenza di scrittura e ricerca **sequenziale** quindi è sconsigliato per dischi di grandi dimensioni.
+> [!NOTE] verrà implementato un'algoritmo di indicizzazione.
+
+### Tipi di file
+Il filesystem presenta diverse intestazioni per i file.
+| Intestazione | Funzione |
+| --- | --- |
+| `0xbb` | file di testo normale |
+| `0xaa` | file avviabile |
+| `0xff` | **settore info** |
+| `0xbf` | **settore bitmap** |
 
 ## Allocatore di memoria
 > [!WARNING] **Non presenta nessun controllo !**
