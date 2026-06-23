@@ -56,8 +56,9 @@ Il settore contiene semplice testo che in un array e di conseguenza stampato.
 Il settore contiene codice che verrà allocato in una zona di memoria con flag avviabile.
 
 #### 0xff
-Questa intestazione serve al file `settore_info.h` per caricare le preferenze di sistema scelte dall'utente.
 > [!NOTE] Temporaneamente disabilitato per tempo eccessivo di indicizzazione dovuto al filesystem sequenziale.
+
+Questa intestazione serve al file `settore_info.h` per caricare le preferenze di sistema scelte dall'utente.
 
 #### 0xbf
 > [!NOTE] Non ancora implementato!
