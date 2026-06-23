@@ -1,11 +1,11 @@
-> [!WARNING] Ancora in Sviluppo !
-> Il Sistema Operativo non è ancora perfettamente funzionante, ed è stato reso pubblico solo per l'esposizione del mio Esame di Stato!
+> [!WARNING] Ancora in fase di sviluppo ! <br>
+> Il Sistema Operativo presenta alcune sezioni ancora in fase di sviluppo, a breve diventerà completamente operativo.
 
 # OSB
-Sistema Operativo scritto in C per architetture a 32bit, sviluppato per gestire I/O su porte e periferiche (PCI e ATA/IDE). Presenta in oltre un filesystem.
+Sistema Operativo scritto in C per architetture a 32bit, sviluppato per gestire I/O su porte e periferiche (ATA/IDE, PCI). Presenta inoltre un filesystem.
 
 # Specifiche OSB
-OSB deriva dal precedente sistema operativo [BedeskOS](https://www.github.com/RiccardoBede/BedeskOS). Come il precedente il sistema è interamente scritto a mano senza l'utilizzo di nessuna libreria esterna/standard.
+OSB deriva dal precedente sistema operativo [BedeskOS](https://www.github.com/RiccardoBede/BedeskOS). Come il precedente, questo sistema è interamente scritto a mano senza l'utilizzo di librerie esterne/standard.
 
 ## Requisiti di Sistema
 1. 100MB di RAM
@@ -25,8 +25,8 @@ Debian e derivate: `build-essential` `nasm` `gcc` `grub-mkrescue` `ld` `grub-pc-
 1. `make clean`
 2. `make`
 3. `qemu-system-i386 -cdrom osb.iso -hda <disco.img>`
-> [!NOTE] Harware periferico PCI
-> Se si vuole inserire hardware periferico tramite QEMU
+> [!NOTE] Hardware periferico PCI
+> Comando per montare hardware periferico tramite QEMU
 
 3. `qemu-system-i386 -cdrom osb.iso -hda <disco.img> -device <tipo>,<id>`
 
@@ -35,9 +35,9 @@ Debian e derivate: `build-essential` `nasm` `gcc` `grub-mkrescue` `ld` `grub-pc-
 > Presenta solo le operazioni di scrittura.
 > Le operazioni di lettura sono presenti all'interno della libreria `io_settore.h` ma non sono ancora state implementate all'interno di `filesystem.h`
 
-Presenta la possibilità di: creare, ~~modificare~~, ~~eliminare~~, ~~leggere~~.
+Presenta la possibilità di: creare (in futuro anche modificare, eliminare, leggere) files.
 Il filesystem presenta una sequenza di scrittura e ricerca **sequenziale** quindi è sconsigliato per dischi di grandi dimensioni.
-> [!NOTE] verrà implementato un'algoritmo di indicizzazione.
+> [!NOTE] Verrà implementato un'algoritmo di indicizzazione.
 
 Il filesystem presenta diverse intestazioni (primi 16 byte di ogin settore) per i file.
 | Intestazione | Funzione |
@@ -48,22 +48,22 @@ Il filesystem presenta diverse intestazioni (primi 16 byte di ogin settore) per 
 | `0xbf` | **settore bitmap** |
 
 #### 0xbb
-Il settore contiene semplice testo che in un array e di conseguenza stampato.
+Il settore contiene solo testo.
 
 #### 0xaa
 > [!NOTE] Non ancora implementato!
 
-Il settore contiene codice che verrà allocato in una zona di memoria con flag avviabile.
+Il settore contiene codice (binario) che verrà allocato in una zona di memoria con flag avviabile.
 
 #### 0xff
-> [!NOTE] Temporaneamente disabilitato per tempo eccessivo di indicizzazione dovuto al filesystem sequenziale.
+> [!NOTE] Temporaneamente disabilitato. In fase di sviluppo ottimizzazione del tempo di indicizzazione del primo avvio.
 
 Questa intestazione serve al file `settore_info.h` per caricare le preferenze di sistema scelte dall'utente.
 
 #### 0xbf
 > [!NOTE] Non ancora implementato!
 
-Questa intesazione indica che il settore è la tabella di indicizzazione per i file presenti sul disco.
+Questa intesazione indica che il settore coincide con la tabella di indicizzazione dei file presenti sul disco.
 
 ## Allocatore di memoria
 > [!WARNING] **Non presenta nessun controllo !** <br>
@@ -71,7 +71,7 @@ Questa intesazione indica che il settore è la tabella di indicizzazione per i f
 
 > [!INFO] L'algoritmo è ancora in fase di sviluppo e nelle prossime versioni del sistema, verrà introdotta la possibilità di allocare zone della RAM con flag DMA.
 
-L'allocatore dinamico presenta la possibilità di allocare/liberare zone della RAM (comprese tra `0x0000`~`0x1000`). In oltre presenta anche la possibilità di riutilizzare zone precedentemente liberate come spazio **riallocabile**.
+L'allocatore dinamico offre la possibilità di allocare o liberare zone della RAM (comprese tra `0x0000`~`0x1000`). Inoltre offre la possibilità di riutilizzare zone precedentemente liberate come spazio nuovamente allocabile.
 
 ## Comandi di Sistema
 OSB presenta ache una shell di sistema che presenta alcuni comandi:
@@ -83,7 +83,7 @@ OSB presenta ache una shell di sistema che presenta alcuni comandi:
 | `outb` | `porta, comando` | `/` | invia un comando ad una porta | `true` |
 | `alloc` | `size` | `/` | restituisce l'indirizzo della zona di dimensione `size` allocata  | `parziale` |
 | `free` | `indirizzo zona` | `/` | dealloca la zona designata (`0x00`) e la marca come allocabile | `true` |
-| `alloctab` | `/` | `/` | mostra la tabella con gli `indirizzi` e le `size` precedentemente deallocate, e rialloca la zona qual'ora la grandezza richiesta sia compatibile con la grandezza | `true` |
+| `alloctab` | `/` | `/` | mostra la tabella con gli `indirizzi` e le `size` precedentemente deallocate, e rialloca la zona qualora la grandezza richiesta sia compatibile con la grandezza | `true` |
 | `video` | `13h`| `/` | imposta la modalità video | `disattivato` |
 | `sys` | `/` | `reboot`, `panic <msg>`, `pci` | esegue comandi di sistema | `true` |
 | `disco` | `/` | `cambia`, `info` | cambia/richiede le variabili di stato relative al dispositivo di archiviazione | `true` |
