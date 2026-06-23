@@ -48,10 +48,14 @@ L'allocatore dinamico presenta la possibilità di allocare/liberare zone della R
 OSB presenta ache una shell di sistema che presenta alcuni comandi:
 | Nome comando | Argomenti | Sottocomandi | Funzionalità | Funzionante |
 | --- | --- | --- | --- | --- |
-| `help` | `` | `` | lista dei comandi | `true` |
-| `clear` | `` | pulisce lo schermo | `true` |
-| `inb` | `porta` | `` | legge il valore di una porta | `true` |
-| `outb` | `porta, comando` | `` | invia un comando ad una porta | `true` |
-| `alloc` | `size` | `` | restituisce l'indirizzo della zona di dimensione `size` allocata  | `parziale` |
-| `free` | `indirizzo zona` | `` | dealloca la zona designata (`0x00`) e la marca come allocabile | `true` |
-| `alloctab` | `` | `` | mostra la tabella con gli indirizzi e le grandezze precedentemente deallocate, e rialloca la zona qual'ora la grandezza richiesta sia compatibile con la grandezza | `true` |
+| `help` | `/` | `/` | lista dei comandi | `true` |
+| `clear` | `/` | `/` | pulisce lo schermo | `true` |
+| `inb` | `porta` | `/` | legge il valore di una porta | `true` |
+| `outb` | `porta, comando` | `/` | invia un comando ad una porta | `true` |
+| `alloc` | `size` | `/` | restituisce l'indirizzo della zona di dimensione `size` allocata  | `parziale` |
+| `free` | `indirizzo zona` | `/` | dealloca la zona designata (`0x00`) e la marca come allocabile | `true` |
+| `alloctab` | `/` | `/` | mostra la tabella con gli `indirizzi` e le `size` precedentemente deallocate, e rialloca la zona qual'ora la grandezza richiesta sia compatibile con la grandezza | `true` |
+| `video` | `13h`| `/` | imposta la modalità video | `disattivato` |
+| `sys` | `/` | `reboot`, `panic <msg>`, `pci` | esegue comandi di sistema | `true` |
+| `disco` | `/` | `cambia`, `info` | cambia/richiede le variabili di stato relative al dispositivo di archiviazione | `true` |
+| `editor` | `nomefile`, `tipo file` | `/` | permette di utlizzare le funzioni del filesystem sul dispositivo di archiviazione | `parziale` |
