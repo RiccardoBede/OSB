@@ -33,3 +33,10 @@ Debian e derivate: `build-essential` `nasm` `gcc` `grub-mkrescue` `ld` `grub-pc-
 > [!WARNING] **Il filesystem è ancora in fase di sviluppo !**
 > Presenta solo le operazioni di scrittura.
 > Le operazioni di lettura sono presenti all'interno della libreria `io_settore.h` ma non sono ancora state implementate all'interno di `filesystem.h`
+Presenta la possibilità di: creare, ~~modificare~~, ~~eliminare~~, ~~leggere~~
+
+## Allocatore di memoria
+> [!WARNING] **Non presenta nessun controllo !**
+> Non è presente il blocco nel caso il deallocatore provi ad azzerare la zona di memoria `0x1000` (Kernel INIT)!
+> [!INFO] L'algoritmo è ancora in fase di sviluppo e nelle prossime versioni del sistema, verrà introdotta la possibilità di allocare zone della RAM con flag DMA.
+L'allocatore dinamico presenta la possibilità di allocare/liberare zone della RAM (comprese tra `0x0000`~`0x1000`)
