@@ -99,7 +99,7 @@ void main (){
 	outl(0xcf8, (1 << 31) | (0 << 16) | (0 << 11) | (0 << 8) | (0x00 & 0xfc));
 	printhex(inl(0xcfc) >> 16, VGA_TEXT_BIANCO_NERO);*/
 
-	lista_pci();
+	lista_pci();	
 
 	while (1){
 		char buffer[128];

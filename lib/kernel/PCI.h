@@ -538,7 +538,9 @@ void bar_pci (unsigned short int numero_bus, unsigned short int numero_dispositi
 
 	if (inl(PORTA_DATA) & 0x1){
 		printhex((inl(PORTA_DATA) & 0xfffffffc), VGA_TEXT_GIALLO_NERO);
+		print(" I/O", VGA_TEXT_GIALLO_NERO);
 	}else{
 		printhex((inl(PORTA_DATA) & 0xfffffff0), VGA_TEXT_GIALLO_NERO);
+		print(" MMIO", VGA_TEXT_GIALLO_NERO);
 	}
 }
