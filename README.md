@@ -42,4 +42,16 @@ Presenta la possibilità di: creare, ~~modificare~~, ~~eliminare~~, ~~leggere~~
 > Non è presente il blocco nel caso il deallocatore provi ad azzerare la zona di memoria `0x1000` (Kernel INIT)!
 > [!INFO] L'algoritmo è ancora in fase di sviluppo e nelle prossime versioni del sistema, verrà introdotta la possibilità di allocare zone della RAM con flag DMA.
 
-L'allocatore dinamico presenta la possibilità di allocare/liberare zone della RAM (comprese tra `0x0000`~`0x1000`)
+L'allocatore dinamico presenta la possibilità di allocare/liberare zone della RAM (comprese tra `0x0000`~`0x1000`). In oltre presenta anche la possibilità di riutilizzare zone precedentemente liberate come spazio **riallocabile**.
+
+## Comandi di Sistema
+OSB presenta ache una shell di sistema che presenta alcuni comandi:
+| Nome comando | Argomenti | Sottocomandi | Funzionalità | Funzionante |
+| --- | --- | --- | --- | --- |
+| `help` | `` | `` | lista dei comandi | `true` |
+| `clear` | `` | pulisce lo schermo | `true` |
+| `inb` | `porta` | `` | legge il valore di una porta | `true` |
+| `outb` | `porta, comando` | `` | invia un comando ad una porta | `true` |
+| `alloc` | `size` | `` | restituisce l'indirizzo della zona di dimensione `size` allocata  | `parziale` |
+| `free` | `indirizzo zona` | `` | dealloca la zona designata (`0x00`) e la marca come allocabile | `true` |
+| `alloctab` | `` | `` | mostra la tabella con gli indirizzi e le grandezze precedentemente deallocate, e rialloca la zona qual'ora la grandezza richiesta sia compatibile con la grandezza | `true` |
