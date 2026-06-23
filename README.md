@@ -29,3 +29,7 @@ Debian e derivate: `build-essential` `nasm` `gcc` `grub-mkrescue` `ld` `grub-pc-
 > Se si vuole inserire hardware periferico tramite QEMU
 > 3. `qemu-system-i386 -cdrom osb.iso -hda <disco.img> -device <tipo>,<id>`
 
+## Filesystem
+> [!WARNING] **Il filesystem è ancora in fase di sviluppo !**
+> Presenta solo le operazioni di scrittura.
+> Le operazioni di lettura sono presenti all'interno della libreria `io_settore.h` ma non sono ancora state implementate all'interno di `filesystem.h`
