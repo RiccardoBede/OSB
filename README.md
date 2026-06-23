@@ -30,12 +30,15 @@ Debian e derivate: `build-essential` `nasm` `gcc` `grub-mkrescue` `ld` `grub-pc-
 
 3. `qemu-system-i386 -cdrom osb.iso -hda <disco.img> -device <tipo>,<id>`
 
+## PCI (Peripheral Component Interconnect)
+Il sistema consente la mappatura delle periferiche PCI (PnP) e ne mostra l'indirizzo di base (BAR - Base Address Register) e tipologia di trasmissione dati I/O (MMIO, VirtIO).
+
 ## Filesystem
 > [!WARNING] **Il filesystem è ancora in fase di sviluppo !**
 > Presenta solo le operazioni di scrittura.
 > Le operazioni di lettura sono presenti all'interno della libreria `io_settore.h` ma non sono ancora state implementate all'interno di `filesystem.h`
 
-Presenta la possibilità di: creare (in futuro anche modificare, eliminare, leggere) files.
+Permette di: creare (in futuro anche modificare, eliminare, leggere) files su diversi dispositivi di archiviazione: ATA/IDE, ATAPI, PCI solo se VirtIO.
 Il filesystem presenta una sequenza di scrittura e ricerca **sequenziale** quindi è sconsigliato per dischi di grandi dimensioni.
 > [!NOTE] Verrà implementato un'algoritmo di indicizzazione.
 
