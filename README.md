@@ -39,14 +39,30 @@ Presenta la possibilità di: creare, ~~modificare~~, ~~eliminare~~, ~~leggere~~.
 Il filesystem presenta una sequenza di scrittura e ricerca **sequenziale** quindi è sconsigliato per dischi di grandi dimensioni.
 > [!NOTE] verrà implementato un'algoritmo di indicizzazione.
 
-### Tipi di file
-Il filesystem presenta diverse intestazioni per i file.
+Il filesystem presenta diverse intestazioni (primi 16 byte di ogin settore) per i file.
 | Intestazione | Funzione |
 | --- | --- |
 | `0xbb` | file di testo normale |
 | `0xaa` | file avviabile |
 | `0xff` | **settore info** |
 | `0xbf` | **settore bitmap** |
+
+#### 0xbb
+Il settore contiene semplice testo che in un array e di conseguenza stampato.
+
+#### 0xaa
+> [!NOTE] Non ancora implementato!
+
+Il settore contiene codice che verrà allocato in una zona di memoria con flag avviabile.
+
+#### 0xff
+Questa intestazione serve al file `settore_info.h` per caricare le preferenze di sistema scelte dall'utente.
+> [!NOTE] Temporaneamente disabilitato per tempo eccessivo di indicizzazione dovuto al filesystem sequenziale.
+
+#### 0xbf
+> [!NOTE] Non ancora implementato!
+
+Questa intesazione indica che il settore è la tabella di indicizzazione per i file presenti sul disco.
 
 ## Allocatore di memoria
 > [!WARNING] **Non presenta nessun controllo !**
