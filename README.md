@@ -27,7 +27,8 @@ Debian e derivate: `build-essential` `nasm` `gcc` `grub-mkrescue` `ld` `grub-pc-
 3. `qemu-system-i386 -cdrom osb.iso -hda <disco.img>`
 > [!NOTE] Harware periferico PCI
 > Se si vuole inserire hardware periferico tramite QEMU
-> 3. `qemu-system-i386 -cdrom osb.iso -hda <disco.img> -device <tipo>,<id>`
+
+3. `qemu-system-i386 -cdrom osb.iso -hda <disco.img> -device <tipo>,<id>`
 
 ## Filesystem
 > [!WARNING] **Il filesystem è ancora in fase di sviluppo !**
