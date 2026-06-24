@@ -43,7 +43,8 @@ Il sistema consente la mappatura delle periferiche PCI (PnP) e ne mostra l'indir
 
 Permette di: creare (in futuro anche modificare, eliminare, leggere) files su diversi dispositivi di archiviazione: ATA/IDE, ATAPI, PCI solo se VirtIO.
 Il filesystem presenta una sequenza di scrittura e ricerca **sequenziale** quindi è sconsigliato per dischi di grandi dimensioni.
-> [!NOTE] Verrà implementato un'algoritmo di indicizzazione.
+> [!NOTE] 
+> Verrà implementato un'algoritmo di indicizzazione.
 
 Il filesystem presenta diverse intestazioni (primi 16 byte di ogin settore) per i file.
 | Intestazione | Funzione |
