@@ -1,4 +1,5 @@
-> [!WARNING] Ancora in fase di sviluppo ! <br>
+> [!WARNING] 
+> **Ancora in fase di sviluppo !** <br>
 > Il Sistema Operativo presenta alcune sezioni ancora in fase di sviluppo, a breve diventerà completamente operativo.
 
 # OSB
@@ -10,10 +11,10 @@ OSB deriva dal precedente sistema operativo [BedeskOS](https://www.github.com/Ri
 ## Requisiti di Sistema
 1. 100MB di RAM
 2. 700MHz di CPU
-> ![WARNING]
+> [!WARNING]
 > Il filesystem presenta per ora solo la possibilità di lavorare con LBA28 quindi:
 > 3. < 128GB di HDD/SSD/ATAPI
-> ![INFO]
+> [!INFO]
 > Presto verrà introdotto il supporto per LBA48 portando la grandezza massima di lavoro fino a 2TB
 
 ## Compilazione
@@ -25,7 +26,8 @@ Debian e derivate: `build-essential` `nasm` `gcc` `grub-mkrescue` `ld` `grub-pc-
 1. `make clean`
 2. `make`
 3. `qemu-system-i386 -cdrom osb.iso -hda <disco.img>`
-> [!NOTE] Hardware periferico PCI
+> [!NOTE]
+> **Hardware periferico PCI**
 > Comando per montare hardware periferico tramite QEMU
 
 3. `qemu-system-i386 -cdrom osb.iso -hda <disco.img> -device <tipo>,<id>`
@@ -34,7 +36,8 @@ Debian e derivate: `build-essential` `nasm` `gcc` `grub-mkrescue` `ld` `grub-pc-
 Il sistema consente la mappatura delle periferiche PCI (PnP) e ne mostra l'indirizzo di base (BAR - Base Address Register) e tipologia di trasmissione dati I/O (MMIO, VirtIO).
 
 ## Filesystem
-> [!WARNING] **Il filesystem è ancora in fase di sviluppo !**
+> [!WARNING] 
+> **Il filesystem è ancora in fase di sviluppo !**
 > Presenta solo le operazioni di scrittura.
 > Le operazioni di lettura sono presenti all'interno della libreria `io_settore.h` ma non sono ancora state implementate all'interno di `filesystem.h`
 
@@ -54,25 +57,30 @@ Il filesystem presenta diverse intestazioni (primi 16 byte di ogin settore) per 
 Il settore contiene solo testo.
 
 #### 0xaa
-> [!NOTE] Non ancora implementato!
+> [!NOTE]
+> Non ancora implementato!
 
 Il settore contiene codice (binario) che verrà allocato in una zona di memoria con flag avviabile.
 
 #### 0xff
-> [!NOTE] Temporaneamente disabilitato. In fase di sviluppo ottimizzazione del tempo di indicizzazione del primo avvio.
+> [!NOTE] 
+> Temporaneamente disabilitato. In fase di sviluppo ottimizzazione del tempo di indicizzazione del primo avvio.
 
 Questa intestazione serve al file `settore_info.h` per caricare le preferenze di sistema scelte dall'utente.
 
 #### 0xbf
-> [!NOTE] Non ancora implementato!
+> [!NOTE] 
+> Non ancora implementato!
 
 Questa intesazione indica che il settore coincide con la tabella di indicizzazione dei file presenti sul disco.
 
 ## Allocatore di memoria
-> [!WARNING] **Non presenta nessun controllo !** <br>
+> [!WARNING] 
+> **Non presenta nessun controllo !** <br>
 > Non è presente il blocco nel caso il deallocatore provi ad azzerare la zona di memoria `0x1000` (Kernel INIT)!
 
-> [!INFO] L'algoritmo è ancora in fase di sviluppo e nelle prossime versioni del sistema, verrà introdotta la possibilità di allocare zone della RAM con flag DMA.
+> [!INFO]
+> L'algoritmo è ancora in fase di sviluppo e nelle prossime versioni del sistema, verrà introdotta la possibilità di allocare zone della RAM con flag DMA.
 
 L'allocatore dinamico offre la possibilità di allocare o liberare zone della RAM (comprese tra `0x0000`~`0x1000`). Inoltre offre la possibilità di riutilizzare zone precedentemente liberate come spazio nuovamente allocabile.
 
