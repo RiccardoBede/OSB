@@ -80,7 +80,7 @@ Questa intesazione indica che il settore coincide con la tabella di indicizzazio
 > **Non presenta nessun controllo !** <br>
 > Non è presente il blocco nel caso il deallocatore provi ad azzerare la zona di memoria `0x1000` (Kernel INIT)!
 
-> [!INFO]
+> [!NOTE]
 > L'algoritmo è ancora in fase di sviluppo e nelle prossime versioni del sistema, verrà introdotta la possibilità di allocare zone della RAM con flag DMA.
 
 L'allocatore dinamico offre la possibilità di allocare o liberare zone della RAM (comprese tra `0x0000`~`0x1000`). Inoltre offre la possibilità di riutilizzare zone precedentemente liberate come spazio nuovamente allocabile.
