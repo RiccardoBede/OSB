@@ -14,7 +14,7 @@ OSB deriva dal precedente sistema operativo [BedeskOS](https://www.github.com/Ri
 > [!WARNING]
 > Il filesystem presenta per ora solo la possibilità di lavorare con LBA28 quindi:
 > 3. < 128GB di HDD/SSD/ATAPI
-> [!INFO]
+> [!NOTE]
 > Presto verrà introdotto il supporto per LBA48 portando la grandezza massima di lavoro fino a 2TB
 
 ## Compilazione
