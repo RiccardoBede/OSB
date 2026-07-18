@@ -1,0 +1,46 @@
+//DATA e ORA in formato ISO_8601
+
+#define PORTA_CONTROLLER 0x70
+#define PORTA_DATI 0x71
+
+#define SECONDI 0x00
+#define MINUTI 0x02
+#define ORE 0x04
+
+#define GIORNO_MESE 0x07
+#define MESE 0x08
+
+#define ANNO_INIZIO 1970
+#define ANNO_DECINE 0x09
+#define ANNO_MIGLIAIA 0x32
+
+void data_ora (){	
+	
+	outb(PORTA_CONTROLLER, ORE);
+	printhex(hex_to_dec(inb(PORTA_DATI)), VGA_TEXT_BIANCO_NERO);
+	printchar(':', VGA_TEXT_BIANCO_NERO);
+
+	outb(PORTA_CONTROLLER, MINUTI);
+	printint(hex_to_dec(inb(PORTA_DATI)), VGA_TEXT_BIANCO_NERO);
+	printchar(':', VGA_TEXT_BIANCO_NERO);
+
+	outb(PORTA_CONTROLLER, SECONDI);
+	printint(hex_to_dec(inb(PORTA_DATI)), VGA_TEXT_BIANCO_NERO);
+	printchar('\t', VGA_TEXT_BIANCO_NERO);
+
+	outb(PORTA_CONTROLLER, ANNO_MIGLIAIA);
+	printint(hex_to_dec(inb(PORTA_DATI)), VGA_TEXT_BIANCO_NERO);	
+
+	outb(PORTA_CONTROLLER, ANNO_DECINE);
+	printint(hex_to_dec(inb(PORTA_DATI)), VGA_TEXT_BIANCO_NERO);	
+	printchar('/', VGA_TEXT_BIANCO_NERO);
+
+	outb(PORTA_CONTROLLER, MESE);
+	printint(hex_to_dec(inb(PORTA_DATI)), VGA_TEXT_BIANCO_NERO);
+	printchar('/', VGA_TEXT_BIANCO_NERO);
+
+	outb(PORTA_CONTROLLER, GIORNO_MESE);
+	printint(hex_to_dec(inb(PORTA_DATI)), VGA_TEXT_BIANCO_NERO);
+
+	printchar('\n', VGA_TEXT_BIANCO_NERO);
+}

@@ -1,0 +1,8 @@
+*.swp
+*.img
+*.bin
+*.o
+*.md
+*.iso
+iso/
+
