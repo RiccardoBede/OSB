@@ -247,3 +247,7 @@ void printcharat (char carattere, unsigned int pos, char colore){//mettere if ch
 	
 	}
 }
+
+unsigned int num_carattere_corrente_vga_text (){
+	return carattere_corrente_vga_text;
+}

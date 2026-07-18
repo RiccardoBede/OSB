@@ -87,6 +87,7 @@ void input (char *buffer, char interrup, int sizeof_buffer, char colore){
 						case '\n':
 							stampaAcapo();
 							cursore();
+							buffer[contatore_char] = tastiera[contatore_tastiera].carattere_shift;
 							break;
 						case '\t':
 							stampaTab();
@@ -102,6 +103,14 @@ void input (char *buffer, char interrup, int sizeof_buffer, char colore){
 								buffer[contatore_char-=2] == 0x00;
 								break;
 							}	
+							if (buffer[contatore_char-1] == '\n'){
+								for (unsigned short cancella_tab = 0; cancella_tab <= (80 - contatore_char); cancella_tab++){
+									cancellachar();
+								}
+								cursore();
+								buffer[contatore_char-=2] == 0x00;
+								break;
+							}
 							if (contatore_char == 0){	break;}
 							cancellachar();
 							cursore();	
@@ -119,6 +128,7 @@ void input (char *buffer, char interrup, int sizeof_buffer, char colore){
 					case '\n':
 						stampaAcapo();
 						cursore();
+						buffer[contatore_char] = tastiera[contatore_tastiera].carattere_ascii;
 						break;
 					case '\t':
 						stampaTab();
@@ -128,6 +138,14 @@ void input (char *buffer, char interrup, int sizeof_buffer, char colore){
 					case '\b':
 						if (buffer[contatore_char-1] == '\t'){
 							for (unsigned short cancella_tab = 0; cancella_tab < 4; cancella_tab++){
+								cancellachar();
+							}
+							cursore();
+							buffer[contatore_char-=2] == 0x00;
+							break;
+						}
+						if (buffer[contatore_char-1] == '\n'){
+							for (unsigned short cancella_tab = 0; cancella_tab <= (80 - contatore_char); cancella_tab++){
 								cancellachar();
 							}
 							cursore();
