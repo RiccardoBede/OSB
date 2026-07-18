@@ -13,6 +13,8 @@
 #include "lib/kernel/CMOS.h"
 #include "lib/kernel/PCI.h"
 
+#include "lib/kernel/UART.h"
+
 #include "lib/alloc/allocatore.h"
 
 
@@ -101,6 +103,8 @@ void main (){
 	printhex(inl(0xcfc) >> 16, VGA_TEXT_BIANCO_NERO);*/
 
 	lista_pci();	
+
+//	init_com();
 
 	while (1){
 		char buffer[128];
