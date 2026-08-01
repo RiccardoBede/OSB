@@ -67,22 +67,40 @@ bool init_com (unsigned int com, unsigned long int frequenza_com, unsigned short
 	return true;
 }
 
-void uart_rw (unsigned int com){
+void terminale_uart_rw (unsigned int com){
+	print("\nPer uscire <ESC>\n", VGA_TEXT_GIALLO_NERO);
+
 	while (1){
 		if ((inb(com + 5) & 0x01)){
-			printchar(inb(com), VGA_TEXT_BIANCO_NERO);
+			char output_uart = inb(com);
+			switch (output_uart){
+				case 0x7f:
+					cancellachar();
+					cursore();
+					break;
+				case 0xd:
+					cancellaCursore();
+					stampaAcapo();
+					cursore();
+				case 0x9:
+					stampaTab();
+					cursore();
+					break;
+				default:
+					printchar(output_uart, VGA_TEXT_GRIGIO_SCURO_NERO);
+					break;
+			}
 		}
 
 		if (inb(STATO_TASTIERA) & 0x01){
 			char input_uart = inputNoInterrup();
-			if (input_uart != 0x0){ //TODO: return per ESC
+			if (input_uart != 0x00){ //TODO: return per ESC
+				printchar(input_uart, VGA_TEXT_BIANCO_NERO);
 				outb(com, input_uart);
-			}else{
+			}
+			if (input_uart == 0xff){
 				return;
 			}
-		//	if (input_uart != 0x00){
-		//		outb(com, input_uart);
-		//	}
 		}
 	}
 }

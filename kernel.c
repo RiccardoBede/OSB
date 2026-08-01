@@ -110,7 +110,7 @@ void main (){
 //	}
 
 	init_com(0x3f8, 0, 3);
-	uart_rw(0x3f8);
+	terminale_uart_rw(0x3f8);
 
 	while (1){
 		char buffer[128];

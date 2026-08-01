@@ -71,7 +71,7 @@ char inputNoInterrup (){
 		}
 	}
 
-	if (buffer_tastiera == 0x01){ //TODO: inserire valore per ESC
+	if (buffer_tastiera == 0x01){ // ESC
 		return 0xff;
 	}
 	
