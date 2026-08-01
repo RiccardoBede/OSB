@@ -109,8 +109,9 @@ void main (){
 //		printhex(inputNoInterrup(), VGA_TEXT_BIANCO_NERO);
 //	}
 
-	init_com(0x3f8, 0, 3);
-	terminale_uart_rw(0x3f8);
+	if (init_com(0x3f8, 0, 3)){
+		terminale_uart_rw(0x3f8);
+	}
 
 	while (1){
 		char buffer[128];

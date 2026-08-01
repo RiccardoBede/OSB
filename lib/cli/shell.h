@@ -7,6 +7,7 @@
 #include "comandi_integrati/allocCli.h"
 #include "comandi_integrati/kernelCli.h"
 #include "comandi/editor.h"
+#include "comandi_integrati/uartCli.h"
 
 Comando comandi[] = {
 	{"help", helpCli},
@@ -15,7 +16,8 @@ Comando comandi[] = {
 	{"sys", kernelCli}, /*Kernel*/
 	{"alloc", allocCli}, {"free", freeCli}, {"alloctab", tabellaAllocatoreCli}, /*Alloc*/
 	{"video", videoCli}, /*Video Mode*/
-	{"editor", editor}
+	{"editor", editor},
+	{"uart", uartCli}
 };
 
 bool CLIparser(char *buffer){
