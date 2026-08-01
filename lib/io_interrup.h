@@ -40,6 +40,8 @@ MappaTastiera tastiera[] = {
 	{' ', ' ', 0x39},{'<', '>', 0x56},
 };
 
+//0x5b per tasto win
+
 /*char carattere_tastiera_ascii (){
 	bool shift = false, caps = false, alt = false;
 	unsigned char buffer_tastiera = inb(BUFFER_TASTIERA);
@@ -69,6 +71,10 @@ char inputNoInterrup (){
 		}
 	}
 
+	if (buffer_tastiera == 0x01){ //TODO: inserire valore per ESC
+		return 0xff;
+	}
+	
 	return 0x00;
 }
 

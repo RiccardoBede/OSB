@@ -60,7 +60,6 @@ bool init_com (unsigned int com, unsigned long int frequenza_com, unsigned short
 			outb(com + 4, 0x0f); //abilita com
 			return true;
 		}else{
-			outb(com + 4, 0x0f); //abilita com
 			return false;
 		}
 	}
@@ -76,10 +75,14 @@ void uart_rw (unsigned int com){
 
 		if (inb(STATO_TASTIERA) & 0x01){
 			char input_uart = inputNoInterrup();
-
-			if (input_uart != 0x00){
+			if (input_uart != 0x0){ //TODO: return per ESC
 				outb(com, input_uart);
+			}else{
+				return;
 			}
+		//	if (input_uart != 0x00){
+		//		outb(com, input_uart);
+		//	}
 		}
 	}
 }
