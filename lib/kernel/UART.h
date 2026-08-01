@@ -42,15 +42,44 @@ bool init_com (unsigned int com, unsigned long int frequenza_com, unsigned short
 		outb(com, frequenza_com);
 	}
 	outb(com, 0x00);
+
+	if (bit_parita <= 7){
+		outb(com + 3, (bit_parita << 0) & 0xff); 
+	}else{
+		return false;
+	}
 	
-	switch (bit_parita){
-		case 0:
-			outb(com + 3, (0 << 0) & 0xff); //000 = 5 bit no stop
-			break;
-		case 1:
-			case (com +3, (1 << 0) & 0xff); //001 = 5 bit 1 bit stop
-			break;
-		
-		//TODO: tutte le casistiche fino a 111
+	outb(com + 2, 0xc7); //fifo + 14 byte
+	outb(com + 4, 0x0b); //interrup attivi
+	outb(com + 4, 0x1e); //test chip
+	outb(com, 0xae); //test
+	
+	if (inb(com) != 0xae){
+		print("Errore test chip UART!\n", VGA_TEXT_ROSSO_NERO);
+		if (monoInput("Continuare [y/n]: ", 0x15, 0x35, VGA_TEXT_GIALLO_NERO)){
+			outb(com + 4, 0x0f); //abilita com
+			return true;
+		}else{
+			outb(com + 4, 0x0f); //abilita com
+			return false;
+		}
+	}
+	outb(com + 4, 0x0f);
+	return true;
+}
+
+void uart_rw (unsigned int com){
+	while (1){
+		if ((inb(com + 5) & 0x01)){
+			printchar(inb(com), VGA_TEXT_BIANCO_NERO);
+		}
+
+		if (inb(STATO_TASTIERA) & 0x01){
+			char input_uart = inputNoInterrup();
+
+			if (input_uart != 0x00){
+				outb(com, input_uart);
+			}
+		}
 	}
 }

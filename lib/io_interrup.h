@@ -40,6 +40,38 @@ MappaTastiera tastiera[] = {
 	{' ', ' ', 0x39},{'<', '>', 0x56},
 };
 
+/*char carattere_tastiera_ascii (){
+	bool shift = false, caps = false, alt = false;
+	unsigned char buffer_tastiera = inb(BUFFER_TASTIERA);
+	
+	for (int contatore_tastiera = 0; contatore_tastiera < sizeof(tastiera) / sizeof(tastiera[0]); contatore_tastiera++){
+		if (buffer_tastiera == tastiera[contatore_tastiera].codice_tastiera){
+			return tastiera[contatore_tastiera].carattere_ascii;
+		}
+	}
+
+	return 0x00;
+}*/
+static bool shift = false, alt = false;
+char inputNoInterrup (){
+	unsigned char buffer_tastiera = inb(BUFFER_TASTIERA);
+	
+	if (buffer_tastiera == 0x2a || buffer_tastiera == 0x36){
+		shift = !(shift);
+	}
+	if (buffer_tastiera == 0x38){
+		alt = !(alt);
+	}
+
+	for (int contatore_tastiera = 0; contatore_tastiera < sizeof(tastiera) / sizeof(tastiera[0]); contatore_tastiera++){
+		if (buffer_tastiera == tastiera[contatore_tastiera].codice_tastiera){
+			return tastiera[contatore_tastiera].carattere_ascii;
+		}
+	}
+
+	return 0x00;
+}
+
 void input (char *buffer, char interrup, int sizeof_buffer, char colore){
 	unsigned int contatore_char = 0;
 	bool shift = false, caps = false, alt = false;

@@ -1,5 +1,5 @@
 GCC = gcc
-GCC_FLAG = -ffreestanding -m32 -c -Wno-implicit-function-declaration -fno-stack-protector -nostdlib
+GCC_FLAG = -ffreestanding -m32 -c -Wno-implicit-function-declaration -fno-stack-protector -nostdlib -fno-asynchronous-unwind-tables -fno-unwind-tables
 
 GCC_FLAG += -I. -Ilib
 
