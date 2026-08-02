@@ -59,7 +59,7 @@ void crea_bitmap (){
 	}
 }
 
-bool cerca_file (TIPO_SETTORE tipo_file, char *nome_file){
+unsigned long int cerca_file (TIPO_SETTORE tipo_file, char *nome_file){ //ritorna il numero del settore se 0 non trovato 
 	unsigned short sizeof_nome_file = 0;
 	while (nome_file[sizeof_nome_file] != '\0'){	sizeof_nome_file++;}
 	if (sizeof_nome_file > 16){	sizeof_nome_file = 16;}
@@ -85,7 +85,7 @@ bool cerca_file (TIPO_SETTORE tipo_file, char *nome_file){
 							break;
 						}
 					}*/
-					return true; //TODO: verificare che il nome del file corrisponda del tutto
+					return settore_lba28_libero; //TODO: verificare che il nome del file corrisponda del tutto
 				}
 			}
 			settore_lba28_libero++;
@@ -93,7 +93,7 @@ bool cerca_file (TIPO_SETTORE tipo_file, char *nome_file){
 	}else{
 	
 	}
-	return false;
+	return 0;
 }
 
 unsigned long int cerca_settore_libero (unsigned long int settore_lba28, unsigned long int settore_lba48_mrb, unsigned long int settore_lba48_lrb){
@@ -221,5 +221,22 @@ bool crea_file (TIPO_SETTORE tipo_file, char *nome_file, char *buffer){
 	}else{
 	
 	}
+	return false;
+}
+
+bool leggi_file (TIPO_SETTORE tipo_file, char *nome_file, char *buffer, int sizeof_buffer, int num_parte_file){ //bool perchè tutte le volte che leggi il file vedi se continua data la firma FIRMA_JMP
+	if (!lba48_attivo){
+		if (cerca_file(tipo_file, nome_file) != 0){
+			//leggi_settore();
+			
+			//TODO: completare la lettura del settore e metterla dentro al buffer, se trova 0xfe ritorna true
+			//e incrementando il numero delle parti del file segue il numero dopo 0xfe;... e va a leggere e mettere
+			//sempre nel buffer
+		}else{
+			return false;
+		}
+	}else{
+
+	}	
 	return false;
 }
