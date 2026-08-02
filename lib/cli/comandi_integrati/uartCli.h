@@ -40,19 +40,12 @@ void uartCli (){
 			
 			print("\nSize buffer: ", VGA_TEXT_BIANCO_NERO);
 			input(buffer_sizeof, 0x1c, sizeof(buffer_sizeof), VGA_TEXT_BIANCO_NERO);
-			char *buffer = (char *)alloc(stringa_to_int(buffer_sizeof));
-			
-			int contatore_carattere_buffer = 1;
-			while (contatore_carattere_buffer <= stringa_to_int(buffer_sizeof)+1){
-				char input_buffer = inputNoInterrup();
-				if (input_buffer == 0x01){
-					buffer[contatore_carattere_buffer++] = stringa_to_hex(buffer_fine);		
-				}
-				if (input_buffer != 0x00){
-					buffer_fine[contatore_carattere_buffer++] = input_buffer;
-				}
+			printchar('\n', VGA_TEXT_BIANCO_NERO);
+			unsigned long int sizeof_buffer = alloc(stringa_to_int(buffer_sizeof));
+			char *buffer = (char *)(sizeof_buffer);
+			if (init_com(com, boundrate, bitparita)){	
+				terminale_uart_r (com, buffer, sizeof_buffer, stringa_to_hex(buffer_fine));
 			}
-			buffer[contatore_carattere_buffer] = stringa_to_hex(buffer_fine);
 			break;
 		case 2:
 			if (monoInput("Disco/Manuale [d/m]: ", 0x20, 0x32, VGA_TEXT_BIANCO_NERO)){
@@ -61,12 +54,42 @@ void uartCli (){
 				return;
 			}else{
 				printchar('\n', VGA_TEXT_BIANCO_NERO);
+				
+				char buffer_fine[2];
+				char buffer_sizeof[8];
+				print("\nCarattere fine: ", VGA_TEXT_BIANCO_NERO);
+				input(buffer_fine, 0x1c, sizeof(buffer_fine), VGA_TEXT_BIANCO_NERO);
+			
+				print("\nSize buffer: ", VGA_TEXT_BIANCO_NERO);
+				input(buffer_sizeof, 0x1c, sizeof(buffer_sizeof), VGA_TEXT_BIANCO_NERO);
+				printchar('\n', VGA_TEXT_BIANCO_NERO);
+				unsigned long int sizeof_buffer = alloc(stringa_to_int(buffer_sizeof));
+				char *buffer = (char *)(sizeof_buffer);
+				
+				int contatore_carattere_buffer = 1;
+				while (contatore_carattere_buffer <= stringa_to_int(buffer_sizeof)+1){
+					if (inb(STATO_TASTIERA) & 0x01){
+						char input_buffer = inputNoInterrup();
+						if (input_buffer == buffer_fine[0]){
+							buffer[contatore_carattere_buffer] = stringa_to_hex(buffer_fine);		
+							break;
+						}
+						if (input_buffer != 0x00){
+							printchar(input_buffer, VGA_TEXT_BIANCO_NERO);
+							buffer_fine[contatore_carattere_buffer] = input_buffer;
+							contatore_carattere_buffer++;
+						}
+					}
+				}
+				buffer[contatore_carattere_buffer] = stringa_to_hex(buffer_fine);
+
 				if (init_com(com, boundrate, bitparita)){
-					terminale_uart_rw(com);
+					terminale_uart_w(com, buffer, stringa_to_hex(buffer_fine));
 				}
 			}
 			break;
 		default:
+
 			if (init_com(com, boundrate, bitparita)){
 				terminale_uart_rw(com);
 			}

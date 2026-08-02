@@ -113,6 +113,8 @@ void main (){
 	//	terminale_uart_rw(0x3f8);
 	//}
 
+//	printint(cerca_file(0xbb, "file"), VGA_TEXT_BIANCO_NERO);
+
 	while (1){
 		char buffer[128];
 		printchar('#', VGA_TEXT_BIANCO_NERO);

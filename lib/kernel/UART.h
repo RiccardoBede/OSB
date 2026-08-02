@@ -68,19 +68,27 @@ bool init_com (unsigned int com, unsigned long int frequenza_com, unsigned short
 }
 
 void terminale_uart_r (unsigned int com, char *buffer_output, int sizeof_buffer, char bit_fine){
-	int contatore_carattere = 0;
-	while (contatore_carattere <= sizeof_buffer){
+	int contatore_carattere = 1;
+	printchar('\n', VGA_TEXT_BIANCO_NERO);
+	while (contatore_carattere <= sizeof_buffer + 1){
 		if ((inb(com + 5) & 0x01)){
 			char output_uart = inb(com);
 			if (output_uart != bit_fine){
+				printchar(output_uart, VGA_TEXT_BIANCO_NERO);
 				buffer_output[contatore_carattere] = output_uart;
+			}else{
+				print("\n0x", VGA_TEXT_ROSSO_NERO);
+				printhex(bit_fine, VGA_TEXT_ROSSO_NERO);
+				buffer_output[contatore_carattere] = bit_fine;
+				return;
 			}
+			contatore_carattere++;
 		}
 	}
 }
 
 void terminale_uart_w (unsigned int com, char *buffer, char bit_fine){
-	int contatore_carattere = 0;
+	int contatore_carattere = 1;
 	while (buffer[contatore_carattere] != '\0' || buffer[contatore_carattere] != bit_fine){
 		outb(com, buffer[contatore_carattere]);
 		contatore_carattere++;

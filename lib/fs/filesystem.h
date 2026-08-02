@@ -69,23 +69,26 @@ bool cerca_file (TIPO_SETTORE tipo_file, char *nome_file){
 		while(settore_lba28_libero < settori_lba32){
 			unsigned char verifca_firma_nome_settore[20];
 			leggi_settore(tipo_disco, settore_lba28_libero, verifca_firma_nome_settore, sizeof(verifca_firma_nome_settore));
-
+			verifca_firma_nome_settore[20] = '\0';
 			if (verifca_firma_nome_settore[0] == tipo_file && verifca_firma_nome_settore[1] == tipo_file){
-				if (unsigned short inizio_corrispondenza = stringa_in_stringa(nome_file, verifca_firma_nome_settore) != -1){
-					unsigned short corrispondeza = 0;
+				unsigned short inizio_corrispondenza = stringa_in_stringa(nome_file, verifca_firma_nome_settore);
+				if (inizio_corrispondenza != -1){
+					/*unsigned short corrispondeza = 0;
 					for(inizio_corrispondenza; inizio_corrispondenza < sizeof(verifca_firma_nome_settore); inizio_corrispondenza++){
 						if (corrispondeza == sizeof_nome_file){
 							return true;
 						}
 						if (nome_file[corrispondeza] == verifca_firma_nome_settore[inizio_corrispondenza]){
 							corrispondeza++;
-							inizio_corrispondenza++;
+							//inizio_corrispondenza++;
 						}else{
 							break;
 						}
-					}
+					}*/
+					return true; //TODO: verificare che il nome del file corrisponda del tutto
 				}
 			}
+			settore_lba28_libero++;
 		}
 	}else{
 	

@@ -13,12 +13,12 @@ int stringa_in_stringa (char *regex, char *buffer){
 	if (sizeof_regex > sizeof_buffer){	return -1;}
 
 	for (conta_carattere_buffer; buffer[conta_carattere_buffer] != '\0'; conta_carattere_buffer++){
-		if (corrispondenza == sizeof_regex){
-			return (conta_carattere_buffer - sizeof_regex);
-		}
 		if (regex[conta_carattere_regex] == buffer[conta_carattere_buffer]){
 			corrispondenza++;
 			conta_carattere_regex++;
+			if (corrispondenza == sizeof_regex){
+				return (conta_carattere_buffer - sizeof_regex);
+			}
 		}else{
 			corrispondenza = 0;
 			conta_carattere_regex = 0;
