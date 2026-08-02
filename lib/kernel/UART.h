@@ -67,6 +67,26 @@ bool init_com (unsigned int com, unsigned long int frequenza_com, unsigned short
 	return true;
 }
 
+void terminale_uart_r (unsigned int com, char *buffer_output, int sizeof_buffer, char bit_fine){
+	int contatore_carattere = 0;
+	while (contatore_carattere <= sizeof_buffer){
+		if ((inb(com + 5) & 0x01)){
+			char output_uart = inb(com);
+			if (output_uart != bit_fine){
+				buffer_output[contatore_carattere] = output_uart;
+			}
+		}
+	}
+}
+
+void terminale_uart_w (unsigned int com, char *buffer, char bit_fine){
+	int contatore_carattere = 0;
+	while (buffer[contatore_carattere] != '\0' || buffer[contatore_carattere] != bit_fine){
+		outb(com, buffer[contatore_carattere]);
+		contatore_carattere++;
+	}
+}
+
 void terminale_uart_rw (unsigned int com){
 	print("\nPer uscire <ESC>\n", VGA_TEXT_GIALLO_NERO);
 
