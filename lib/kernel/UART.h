@@ -94,12 +94,12 @@ void terminale_uart_rw (unsigned int com){
 
 		if (inb(STATO_TASTIERA) & 0x01){
 			char input_uart = inputNoInterrup();
-			if (input_uart != 0x00){ //TODO: return per ESC
+			if (input_uart == 0x01){//ESC
+				return;
+			}
+			if (input_uart != 0x00){
 				printchar(input_uart, VGA_TEXT_BIANCO_NERO);
 				outb(com, input_uart);
-			}
-			if (input_uart == 0xff){
-				return;
 			}
 		}
 	}

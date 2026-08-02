@@ -66,13 +66,18 @@ char inputNoInterrup (){
 	}
 
 	for (int contatore_tastiera = 0; contatore_tastiera < sizeof(tastiera) / sizeof(tastiera[0]); contatore_tastiera++){
+		if (shift){
+			if (buffer_tastiera == tastiera[contatore_tastiera].codice_tastiera){
+				return tastiera[contatore_tastiera].carattere_shift;
+			}
+		}
 		if (buffer_tastiera == tastiera[contatore_tastiera].codice_tastiera){
 			return tastiera[contatore_tastiera].carattere_ascii;
 		}
 	}
 
 	if (buffer_tastiera == 0x01){ // ESC
-		return 0xff;
+		return 0x01;
 	}
 	
 	return 0x00;
@@ -232,8 +237,10 @@ typedef struct{
 	char colore;
 }SelezioneComando;
 
-unsigned int multiInput(SelezioneComando *buffer, unsigned int sizeof_buffer, char colore){
+unsigned int multiInput(char *msg, SelezioneComando *buffer, unsigned int sizeof_buffer, char colore){
 	clear();
+	print(msg, colore);
+	print("\n", colore);
 	unsigned int voce = 0;
 	unsigned int selzione_voce = 0;
 	while(voce < sizeof_buffer){
@@ -242,27 +249,27 @@ unsigned int multiInput(SelezioneComando *buffer, unsigned int sizeof_buffer, ch
 		printchar('\n', colore);
 		voce++;
 	}
-	printcharat('*', (80 * selzione_voce + 1), colore);
+	printcharat('*', (80) + (80 * selzione_voce + 1), colore);
 	while (1){
 		while(!(inb(STATO_TASTIERA) & 0x01));
 		char char_tastiera = inb(BUFFER_TASTIERA);
 
 		if (char_tastiera == 0x48){ //freccia su
 			if (selzione_voce > 0){
-				printcharat(' ', (80 * selzione_voce + 1), 0x0);
+				printcharat(' ', (80) + (80 * selzione_voce + 1), 0x0);
 				selzione_voce--;
-				printcharat('*', (80 * selzione_voce + 1), colore);
+				printcharat('*', (80) + (80 * selzione_voce + 1), colore);
 			}
 		}
 		if (char_tastiera == 0x50){ //freccia giu
 			if (selzione_voce < voce){
-				printcharat(' ', (80 * selzione_voce + 1), 0x0);
+				printcharat(' ', (80) + (80 * selzione_voce + 1), 0x0);
 				selzione_voce++;
-				printcharat('*', (80 * selzione_voce + 1), colore);
+				printcharat('*', (80) + (80 * selzione_voce + 1), colore);
 			}else{
-				printcharat(' ', (80 * selzione_voce + 1), 0x0);
+				printcharat(' ', (80) + (80 * selzione_voce + 1), 0x0);
 				selzione_voce = 0;
-				printcharat('*', (80 * selzione_voce + 1), colore);
+				printcharat('*', (80) + (80 * selzione_voce + 1), colore);
 			}
 		}
 		if (char_tastiera == 0x1c){
