@@ -113,10 +113,11 @@ void main (){
 	//	terminale_uart_rw(0x3f8);
 	//}
 
-//	printint(cerca_file(0xbb, "file"), VGA_TEXT_BIANCO_NERO);
-	
+	//printint(cerca_file(0xbb, "file"), VGA_TEXT_BIANCO_NERO);
+
 	static char buffer[1024];
 	leggi_file(0xbb, "file", buffer, sizeof(buffer), 0);
+	clear();
 	print(buffer, VGA_TEXT_BIANCO_NERO);
 
 	while (1){

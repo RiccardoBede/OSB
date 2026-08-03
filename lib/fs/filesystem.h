@@ -234,18 +234,18 @@ bool leggi_file (TIPO_SETTORE tipo_file, char *nome_file, char *buffer, int size
 		unsigned long int file_primo_settore = cerca_file(tipo_file, nome_file); //ho già la conferma della firma del settore
 		if (file_primo_settore != 0){
 			leggi_settore(tipo_disco, file_primo_settore, buffer_settore, sizeof(buffer_settore));
-			
+			print(buffer_settore, VGA_TEXT_GIALLO_NERO);	
 			//TODO: completare la lettura del settore e metterla dentro al buffer, se trova 0xfe ritorna true
 			//e incrementando il numero delle parti del file segue il numero dopo 0xfe;... e va a leggere e mettere
 			//sempre nel buffer
 			while(nome_file[caratteri_nome_file] != '\0'){	caratteri_nome_file++;}
-			contatore_caratteri_buffer = (2 + caratteri_nome_file + 1); //2 firma + nome + ';'
-
-			while (contatore_caratteri_buffer_settore < sizeof_buffer && buffer_settore[contatore_caratteri_buffer_settore] != FIRMA_JMP){
+			//contatore_caratteri_buffer = (2 + caratteri_nome_file + 1); //2 firma + nome + ';'
+			while (contatore_caratteri_buffer_settore < sizeof_buffer - 1 && buffer_settore[contatore_caratteri_buffer_settore] != 0x00 && buffer_settore[contatore_caratteri_buffer_settore] != FIRMA_JMP){
 				buffer[contatore_caratteri_buffer] = buffer_settore[contatore_caratteri_buffer_settore];
 				contatore_caratteri_buffer_settore++;
 				contatore_caratteri_buffer++;
 			}
+			buffer[sizeof_buffer] = '\0';
 
 			if (char_in_stringa(FIRMA_JMP, buffer_settore) != -1){
 				return true;
