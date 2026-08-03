@@ -225,13 +225,32 @@ bool crea_file (TIPO_SETTORE tipo_file, char *nome_file, char *buffer){
 }
 
 bool leggi_file (TIPO_SETTORE tipo_file, char *nome_file, char *buffer, int sizeof_buffer, int num_parte_file){ //bool perchè tutte le volte che leggi il file vedi se continua data la firma FIRMA_JMP
+	unsigned int caratteri_nome_file = 0;
+	unsigned int contatore_caratteri_buffer_settore = 0;
+	unsigned int contatore_caratteri_buffer = 0;
+	static unsigned char buffer_settore[1024];
+
 	if (!lba48_attivo){
-		if (cerca_file(tipo_file, nome_file) != 0){
-			//leggi_settore();
+		unsigned long int file_primo_settore = cerca_file(tipo_file, nome_file); //ho già la conferma della firma del settore
+		if (file_primo_settore != 0){
+			leggi_settore(tipo_disco, file_primo_settore, buffer_settore, sizeof(buffer_settore));
 			
 			//TODO: completare la lettura del settore e metterla dentro al buffer, se trova 0xfe ritorna true
 			//e incrementando il numero delle parti del file segue il numero dopo 0xfe;... e va a leggere e mettere
 			//sempre nel buffer
+			while(nome_file[caratteri_nome_file] != '\0'){	caratteri_nome_file++;}
+			contatore_caratteri_buffer = (2 + caratteri_nome_file + 1); //2 firma + nome + ';'
+
+			while (contatore_caratteri_buffer_settore < sizeof_buffer && buffer_settore[contatore_caratteri_buffer_settore] != FIRMA_JMP){
+				buffer[contatore_caratteri_buffer] = buffer_settore[contatore_caratteri_buffer_settore];
+				contatore_caratteri_buffer_settore++;
+				contatore_caratteri_buffer++;
+			}
+
+			if (char_in_stringa(FIRMA_JMP, buffer_settore) != -1){
+				return true;
+			}
+
 		}else{
 			return false;
 		}
