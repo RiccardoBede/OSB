@@ -229,33 +229,63 @@ bool leggi_file (TIPO_SETTORE tipo_file, char *nome_file, char *buffer, int size
 	unsigned int contatore_caratteri_buffer_settore = 0;
 	unsigned int contatore_caratteri_buffer = 0;
 	static unsigned char buffer_settore[1024];
+	int num_parte_file_iniziale = num_parte_file;
+	unsigned long int file_primo_settore = 0;
 
-	if (!lba48_attivo){
-		unsigned long int file_primo_settore = cerca_file(tipo_file, nome_file); //ho già la conferma della firma del settore
-		if (file_primo_settore != 0){
-			leggi_settore(tipo_disco, file_primo_settore, buffer_settore, sizeof(buffer_settore));
-			print(buffer_settore, VGA_TEXT_GIALLO_NERO);	
-			//TODO: completare la lettura del settore e metterla dentro al buffer, se trova 0xfe ritorna true
-			//e incrementando il numero delle parti del file segue il numero dopo 0xfe;... e va a leggere e mettere
-			//sempre nel buffer
-			while(nome_file[caratteri_nome_file] != '\0'){	caratteri_nome_file++;}
-			//contatore_caratteri_buffer = (2 + caratteri_nome_file + 1); //2 firma + nome + ';'
-			while (contatore_caratteri_buffer_settore < sizeof_buffer - 1 && buffer_settore[contatore_caratteri_buffer_settore] != 0x00 && buffer_settore[contatore_caratteri_buffer_settore] != FIRMA_JMP){
-				buffer[contatore_caratteri_buffer] = buffer_settore[contatore_caratteri_buffer_settore];
-				contatore_caratteri_buffer_settore++;
-				contatore_caratteri_buffer++;
+	for (num_parte_file; num_parte_file >= 0; num_parte_file--){
+		if (!lba48_attivo){
+			if (num_parte_file == num_parte_file_iniziale){
+				file_primo_settore = cerca_file(tipo_file, nome_file); //ho già la conferma della firma del settore
 			}
-			buffer[sizeof_buffer] = '\0';
-
-			if (char_in_stringa(FIRMA_JMP, buffer_settore) != -1){
-				return true;
+			if (file_primo_settore != 0){
+				leggi_settore(tipo_disco, file_primo_settore, buffer_settore, sizeof(buffer_settore));	
+				//TODO: completare la lettura del settore e metterla dentro al buffer, se trova 0xfe ritorna true
+				//e incrementando il numero delle parti del file segue il numero dopo 0xfe;... e va a leggere e mettere
+				//sempre nel buffer
+				unsigned int firma_jmp = char_in_stringa(FIRMA_JMP, buffer_settore);
+				if (firma_jmp != -1){
+					if (num_parte_file > 0){
+						unsigned char buffer_prossimo_settore_jmp[SIZEOF_SETTORE_JMP_CHAR + 1];
+						unsigned short contatore_caratteri_buffer_settore_jmp = 0;
+						//0xfe 0/1 ; num_settore_jmp
+						contatore_caratteri_buffer_settore = (firma_jmp + 1 + 1);
+						while ((buffer_settore[contatore_caratteri_buffer_settore] != '\0' || buffer_settore[contatore_caratteri_buffer_settore] != 0x00) && contatore_caratteri_buffer_settore_jmp <= (sizeof(buffer_prossimo_settore_jmp) - 1)){
+							buffer_prossimo_settore_jmp[contatore_caratteri_buffer_settore_jmp] = buffer_settore[contatore_caratteri_buffer_settore];
+							contatore_caratteri_buffer_settore++;
+							contatore_caratteri_buffer_settore_jmp++;
+						}
+						buffer_prossimo_settore_jmp[contatore_caratteri_buffer_settore_jmp++] = '\0';
+						file_primo_settore = stringa_to_int(buffer_prossimo_settore_jmp);
+					}else{
+						while(nome_file[caratteri_nome_file] != '\0'){	caratteri_nome_file++;}
+						contatore_caratteri_buffer_settore = (2 + caratteri_nome_file + 1); //2 firma + nome + ';'
+		
+						while (contatore_caratteri_buffer_settore < (sizeof_buffer - 1) && buffer_settore[contatore_caratteri_buffer_settore] != 0x00 && buffer_settore[contatore_caratteri_buffer_settore] != FIRMA_JMP){
+							buffer[contatore_caratteri_buffer] = buffer_settore[contatore_caratteri_buffer_settore];
+							contatore_caratteri_buffer_settore++;
+							contatore_caratteri_buffer++;
+						}
+						buffer[sizeof_buffer] = '\0';
+						return true; //ci sono ancora delle parti di file, ma il numero delle parti da leggere è finito
+					}
+				}else{
+					while(nome_file[caratteri_nome_file] != '\0'){	caratteri_nome_file++;}
+					contatore_caratteri_buffer_settore = (2 + caratteri_nome_file + 1); //2 firma + nome + ';'
+		
+					while (contatore_caratteri_buffer_settore < (sizeof_buffer - 1) && buffer_settore[contatore_caratteri_buffer_settore] != 0x00 && buffer_settore[contatore_caratteri_buffer_settore] != FIRMA_JMP){
+						buffer[contatore_caratteri_buffer] = buffer_settore[contatore_caratteri_buffer_settore];
+						contatore_caratteri_buffer_settore++;
+						contatore_caratteri_buffer++;
+					}
+					buffer[sizeof_buffer] = '\0';
+					return false;
+				}
+			}else{
+				return false;
 			}
-
 		}else{
-			return false;
+	
 		}
-	}else{
-
-	}	
+	}
 	return false;
 }

@@ -10,4 +10,5 @@ void helpCli (){
 	print("sys      : [reboot, panic (msg), pci] richiama funzioni di sistema\n", VGA_TEXT_BIANCO_NERO);
 	print("disco    : [cambia (porta disco), info] interroga il disco\n", VGA_TEXT_BIANCO_NERO);
 	print("uart	: console/scarica/carica dati tramite le porte COM\n", VGA_TEXT_BIANCO_NERO);
+	print("editor	: leggi/scrivi un file sul disco\n", VGA_TEXT_BIANCO_NERO);
 }
