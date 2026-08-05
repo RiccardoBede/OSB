@@ -1,6 +1,8 @@
 void helpCli (){
 	print("\nhelp     : lista dei comandi\n", VGA_TEXT_BIANCO_NERO);
 	print("clear    : pulisce lo schermo\n", VGA_TEXT_BIANCO_NERO);
+	print("print	: [str, ptr] [num, char(0x)] stampa caratteri\n", VGA_TEXT_BIANCO_NERO);
+	print("input	: (indirizzo zona) [no, size] immette caratteri fino a <ESC>\n", VGA_TEXT_BIANCO_NERO);
 	print("inb      : (porta) leggi il valore di una porta\n", VGA_TEXT_BIANCO_NERO);
 	print("outb     : (porta, comando) inserisci comando in una porta\n", VGA_TEXT_BIANCO_NERO);
 	print("alloc    : (size) alloca dinamicamente (size)byte\n", VGA_TEXT_BIANCO_NERO);
