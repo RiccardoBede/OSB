@@ -17,7 +17,8 @@ Comando comandi[] = {
 	{"alloc", allocCli}, {"free", freeCli}, {"alloctab", tabellaAllocatoreCli}, /*Alloc*/
 	{"video", videoCli}, /*Video Mode*/
 	{"editor", editor},
-	{"uart", uartCli}
+	{"uart", uartCli},
+	{"print", printCli}, {"input", inputCli}
 };
 
 bool CLIparser(char *buffer){

@@ -17,7 +17,7 @@
 void data_ora (){	
 	
 	outb(PORTA_CONTROLLER, ORE);
-	printhex(hex_to_dec(inb(PORTA_DATI)), VGA_TEXT_BIANCO_NERO);
+	printint(hex_to_dec(inb(PORTA_DATI)), VGA_TEXT_BIANCO_NERO);
 	printchar(':', VGA_TEXT_BIANCO_NERO);
 
 	outb(PORTA_CONTROLLER, MINUTI);
