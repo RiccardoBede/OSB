@@ -35,7 +35,7 @@ $(MULTIBOOT): multiboot_header.asm
 	$(NASM) $(NASM_FLAG) $< -o $@
 
 $(KERNEL_BIN): $(MULTIBOOT) $(KERNEL_OBJ) $(OBJ_MODULI_C)
-	$(LD) -m elf_i386 -T $(LD_FILE) -Ttext $(KERNEL_START) -o $@ $^
+	$(LD) -m elf_i386 -T $(LD_FILE) --allow-multiple-definition -Ttext $(KERNEL_START) -o $@ $^
 
 $(ISO): $(KERNEL_BIN)
 	mkdir -p iso/boot/grub
