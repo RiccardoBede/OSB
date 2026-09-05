@@ -12,6 +12,7 @@
 #include "lib/kernel/timer.h"
 #include "lib/kernel/CMOS.h"
 #include "lib/kernel/PCI.h"
+#include "lib/kernel/CPU.h"
 
 #include "lib/kernel/UART.h"
 
@@ -114,6 +115,11 @@ void main (){
 	//}
 
 	//printint(cerca_file(0xbb, "file"), VGA_TEXT_BIANCO_NERO);
+	/*while (1){
+		printhex(cicloCPU_32(), VGA_TEXT_BIANCO_NERO);
+		printchar('\n', VGA_TEXT_BIANCO_NERO);
+		wait(1);
+	}*/
 
 	while (1){
 		char buffer[128];
