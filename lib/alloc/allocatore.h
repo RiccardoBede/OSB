@@ -91,8 +91,8 @@ unsigned long int alloc(unsigned long int sizeAlloc){
 		printint(ptr[0], VGA_TEXT_GIALLO_NERO);
 		print(")\n", VGA_TEXT_GIALLO_NERO);
 	}
-
-	return (char)ptr;
+	
+	return (unsigned long int)ptr;
 }
 
 void free (void *puntatore){
