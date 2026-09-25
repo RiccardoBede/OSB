@@ -67,7 +67,7 @@ unsigned long int alloc(unsigned long int sizeAlloc){
 			array_zone_libere[contatore_array_zone].ptr_zona = INIT_ALLOC;
 			array_zone_libere[contatore_array_zone].size = 0x00;
 
-			return (unsigned long int)ptr;
+			return (unsigned long int)array_zone_libere[contatore_array_zone].ptr_zona;
 		}
 		contatore_array_zone++;
 	}
