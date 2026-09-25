@@ -100,12 +100,12 @@ void free (void *puntatore){
 	unsigned long int contatoreZone = 1;
 
 	if ((contatore_array_zone_libere + 1) <= (sizeof(array_zone_libere) / sizeof(array_zone_libere[0]))){
-		array_zone_libere[contatore_array_zone_libere++] = (ZoneLibere){(int)puntatore, ptr[0]};
+		array_zone_libere[contatore_array_zone_libere++] = (ZoneLibere){(unsigned long int)puntatore, ptr[0]};
 	}else{
 		contatore_array_zone = 0;
 		while(contatore_array_zone < (sizeof(array_zone_libere) / sizeof(array_zone_libere[0]))){
 			if (array_zone_libere[contatore_array_zone].size < ptr[0]){
-				array_zone_libere[contatore_array_zone] = (ZoneLibere){(int)puntatore, ptr[0]};
+				array_zone_libere[contatore_array_zone] = (ZoneLibere){(unsigned long int)puntatore, ptr[0]};
 			}
 			contatore_array_zone++;
 		}
@@ -119,7 +119,7 @@ void free (void *puntatore){
 
 	if (verbose){
 		print("FREE (init: 0x", VGA_TEXT_GIALLO_NERO);
-		printhex((int)puntatore, VGA_TEXT_GIALLO_NERO);
+		printhex((unsigned long int)puntatore, VGA_TEXT_GIALLO_NERO);
 		print(")\n", VGA_TEXT_GIALLO_NERO);
 	}
 }
