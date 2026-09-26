@@ -98,6 +98,7 @@ OSB presenta ache una shell di sistema che presenta alcuni comandi:
 | `free` | `indirizzo zona` | `/` | dealloca la zona designata (`0x00`) e la marca come allocabile | `true` |
 | `alloctab` | `/` | `/` | mostra la tabella con gli `indirizzi` e le `size` precedentemente deallocate, e rialloca la zona qualora la grandezza richiesta sia compatibile con la grandezza | `true` |
 | `video` | `13h`| `/` | imposta la modalità video | `disattivato` |
-| `sys` | `/` | `reboot`, `panic <msg>`, `pci` | esegue comandi di sistema | `true` |
+| `sys` | `/` | `reboot`, `panic <msg>`, `pci`, `logout` | esegue comandi di sistema | `true` |
 | `disco` | `/` | `cambia`, `info` | cambia/richiede le variabili di stato relative al dispositivo di archiviazione | `true` |
+| `uart` | `console/scarica/carica` | `/` | permette di trasferire/ricevere dati tramite porte COM | `true` |
 | `editor` | `nomefile`, `tipo file` | `/` | permette di utlizzare le funzioni del filesystem sul dispositivo di archiviazione | `parziale` |
