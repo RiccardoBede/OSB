@@ -116,9 +116,22 @@ void main (){
 
 	//printint(cerca_file(0xbb, "file"), VGA_TEXT_BIANCO_NERO);
 	/*while (1){
-		printhex(cicloCPU_32(), VGA_TEXT_BIANCO_NERO);
+		unsigned long int seed = cicloCPU_32();
+		printhex(seed, VGA_TEXT_BIANCO_NERO);
+		printint(seed /= 10, VGA_TEXT_GIALLO_CHIARO_GIALLO);
+		printint(seed % 257, VGA_TEXT_VERDE_CHIARO_VERDE);
 		printchar('\n', VGA_TEXT_BIANCO_NERO);
 		wait(1);
+	}*/
+	/*clear();
+	while (1){
+		for (int cc = 0; cc < 2000; cc++){
+			unsigned long int seed = cicloCPU_32();
+			//printcharat((seed % 0xff), (seed % 2001), (seed % 0xf+1));	
+		}
+		__asm__("nop");
+		//wait(2);
+		if (inputNoInterrup() == 0x01){	break;}
 	}*/
 
 	while (1){

@@ -16,7 +16,18 @@ void pciCli (){
 	lista_pci();
 }
 
-Comando sotto_comando_kernel [] = {{"reboot", rebootCli}, {"panic", panicCli}, {"pci", pciCli}};
+void logoutCli (){
+	while (1){
+		unsigned long int seed = cicloCPU_32();
+		printcharat((seed % 0xff), (seed % ((80*25)+1)), (seed % 0xf+1)); 
+		if (inputNoInterrup() == 0x01){	
+			clear();
+			break;
+		}
+	}
+}
+
+Comando sotto_comando_kernel [] = {{"reboot", rebootCli}, {"panic", panicCli}, {"pci", pciCli}, {"logout", logoutCli}};
 
 void kernelCli (){
 	char buffer[16];
