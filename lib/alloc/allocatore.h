@@ -1,3 +1,5 @@
+#include "MMU.h"
+
 #define ALLOC_START 0x00
 #define KERNEL_INIT 0x1000
 
@@ -82,7 +84,10 @@ unsigned long int alloc(unsigned long int sizeAlloc){
 		INIT_ALLOC++;
 		ptr = (char *)INIT_ALLOC;
 	}
-	ptr[0] = sizeAlloc;
+	
+	if (!alloc_ptr_mmu(sizeAlloc, ptr)){
+		ptr[0] = sizeAlloc;
+	}
 
 	if (verbose){
 		print("ALLOC (init: 0x", VGA_TEXT_GIALLO_NERO);
@@ -111,11 +116,13 @@ void free (void *puntatore){
 		}
 	}
 
-	while (contatoreZone < ptr[0]){
-		ptr[contatoreZone] = 0x00;
-		contatoreZone++;
+	if (!free_ptr_mmu(puntatore)){
+		while (contatoreZone < ptr[0]){
+			ptr[contatoreZone] = 0x00;
+			contatoreZone++;
+		}
+		ptr[0] = 0x00;
 	}
-	ptr[0] = 0x00;
 
 	if (verbose){
 		print("FREE (init: 0x", VGA_TEXT_GIALLO_NERO);
