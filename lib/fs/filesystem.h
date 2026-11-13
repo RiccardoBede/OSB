@@ -1,3 +1,6 @@
+#ifndef FILESYSTEM_H
+#define FILESYSTEM_H
+
 #define SIZEOF_SETTORE_CHAR 1024
 #define SIZEOF_FIRMA 2
 #define SIZEOF_NOME_FILE 16
@@ -289,3 +292,5 @@ bool leggi_file (TIPO_SETTORE tipo_file, char *nome_file, char *buffer, int size
 	}
 	return false;
 }
+
+#endif // FILESYSTEM_H

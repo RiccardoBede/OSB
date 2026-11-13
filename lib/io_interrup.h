@@ -1,3 +1,6 @@
+#ifndef IO_INTERRUP_H
+#define IO_INTERRUP_H
+
 #define BUFFER_TASTIERA 0x60
 #define STATO_TASTIERA 0x64
 
@@ -277,3 +280,5 @@ unsigned int multiInput(char *msg, SelezioneComando *buffer, unsigned int sizeof
 		}	
 	}
 }
+
+#endif // IO_INTERRUP_H

@@ -1,3 +1,6 @@
+#ifndef ALLOCCLI_H
+#define ALLOCCLI_H
+
 void allocCli (){
 	char buffer[8];
 	print(" size=", VGA_TEXT_GIALLO_NERO);
@@ -19,3 +22,5 @@ void tabellaAllocatoreCli (){
 	printchar('\n', VGA_TEXT_GIALLO_NERO);
 	printTabellaAllocatore();
 }
+
+#endif // ALLOCCLI_H

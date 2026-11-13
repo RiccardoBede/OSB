@@ -1,3 +1,6 @@
+#ifndef VIDEOCLI_H
+#define VIDEOCLI_H
+
 bool CLIparserGenerico(char *, Comando *, int);
 
 Comando sotto_comando[] = {{"13h", startVGA}};
@@ -8,3 +11,5 @@ void videoCli (){
 	input(buffer, 0x1c, sizeof(buffer), VGA_TEXT_BIANCO_NERO);
 	CLIparserGenerico(buffer, sotto_comando, (sizeof(sotto_comando) / sizeof(sotto_comando[0])));
 }
+
+#endif // VIDEOCLI_H

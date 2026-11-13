@@ -1,3 +1,6 @@
+#ifndef ALLOCATORE_H
+#define ALLOCATORE_H
+
 #include "MMU.h"
 
 #define ALLOC_START 0x00
@@ -144,3 +147,5 @@ void printTabellaAllocatore (){
 		contatore_array_zone++;
 	}
 }
+
+#endif // ALLOCATORE_H

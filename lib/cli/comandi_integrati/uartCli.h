@@ -1,3 +1,6 @@
+#ifndef UARTCLI_H
+#define UARTCLI_H
+
 //bool CLIparserGenerico(char *, Comando *, int);
 //unsigned int multiInput(SelezioneComando *, unsigned int, char);
 //Comando sotto_comando[] = {{}};
@@ -96,3 +99,5 @@ void uartCli (){
 			break;
 	}
 }
+
+#endif // UARTCLI_H

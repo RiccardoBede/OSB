@@ -1,3 +1,6 @@
+#ifndef SELETTORE_UNITA_H
+#define SELETTORE_UNITA_H
+
 //DEFINE STATI UNITA IDE_ATA
 #define ATA_BUSY 0x80
 #define ATA_DEVICE_READY 0x40
@@ -161,3 +164,5 @@ DISCO_MONTATO tipo_unita_montata (){
 	}
 	return tipo_unita;
 }
+
+#endif // SELETTORE_UNITA_H

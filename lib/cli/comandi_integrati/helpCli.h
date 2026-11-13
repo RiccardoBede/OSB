@@ -1,3 +1,6 @@
+#ifndef HELPCLI_H
+#define HELPCLI_H
+
 void helpCli (){
 	print("\nhelp     : lista dei comandi\n", VGA_TEXT_BIANCO_NERO);
 	print("clear    : pulisce lo schermo\n", VGA_TEXT_BIANCO_NERO);
@@ -14,3 +17,5 @@ void helpCli (){
 	print("uart	: console/scarica/carica dati tramite le porte COM\n", VGA_TEXT_BIANCO_NERO);
 	print("editor	: leggi/scrivi un file sul disco\n", VGA_TEXT_BIANCO_NERO);
 }
+
+#endif // HELPCLI_H

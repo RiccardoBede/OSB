@@ -1,3 +1,6 @@
+#ifndef PCI_H
+#define PCI_H
+
 #define PORTA_CONF 0xcf8
 #define PORTA_DATA 0xcfc
 
@@ -544,3 +547,5 @@ void bar_pci (unsigned short int numero_bus, unsigned short int numero_dispositi
 		print(" MMIO", VGA_TEXT_GIALLO_NERO);
 	}
 }
+
+#endif // PCI_H

@@ -1,3 +1,6 @@
+#ifndef MMU_H
+#define MMU_H
+
 typedef struct {
 	unsigned int sizeof_zona;
 	unsigned long int ptr_zona;
@@ -40,3 +43,5 @@ bool free_ptr_mmu (void *puntatore){
 	print("MMU->FREE/ERR", VGA_TEXT_GIALLO_NERO);
 	return false;
 }
+
+#endif // MMU_H

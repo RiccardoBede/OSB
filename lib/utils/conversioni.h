@@ -1,3 +1,6 @@
+#ifndef CONVERSIONI_H
+#define CONVERSIONI_H
+
 unsigned long int stringa_to_int (char *buffer){
 	unsigned int contatore_cifre = 0;
 	unsigned long int valore_finale = 0;
@@ -84,3 +87,5 @@ unsigned long int hex_to_dec (unsigned long int numero){
 	}
 	return valore_ritorno;
 }
+
+#endif // CONVERSIONI_H

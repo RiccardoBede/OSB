@@ -1,3 +1,6 @@
+#ifndef TIMER_H
+#define TIMER_H
+
 #define FREQUENZA_PIT 1193182
 
 void wait (unsigned long int tempo){
@@ -13,3 +16,5 @@ void wait (unsigned long int tempo){
 		if (inb(0x40) == 122){	cicli++;}
 	}
 }
+
+#endif // TIMER_H

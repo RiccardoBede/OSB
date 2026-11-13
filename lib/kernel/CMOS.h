@@ -1,3 +1,6 @@
+#ifndef CMOS_H
+#define CMOS_H
+
 //DATA e ORA in formato ISO_8601
 
 #define PORTA_CONTROLLER 0x70
@@ -44,3 +47,5 @@ void data_ora (){
 
 	printchar('\n', VGA_TEXT_BIANCO_NERO);
 }
+
+#endif // CMOS_H

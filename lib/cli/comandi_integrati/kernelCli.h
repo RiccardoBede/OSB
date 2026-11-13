@@ -1,3 +1,6 @@
+#ifndef KERNELCLI_H
+#define KERNELCLI_H
+
 bool CLIparserGenerico(char *, Comando *, int);
 
 void rebootCli (){
@@ -35,3 +38,5 @@ void kernelCli (){
 	input(buffer, 0x1c, sizeof(buffer), VGA_TEXT_BIANCO_NERO);
 	CLIparserGenerico(buffer, sotto_comando_kernel, (sizeof(sotto_comando_kernel) / sizeof(sotto_comando_kernel[0])));
 }
+
+#endif // KERNELCLI_H

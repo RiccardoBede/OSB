@@ -1,3 +1,6 @@
+#ifndef PANIC_H
+#define PANIC_H
+
 __attribute__((destructor)) __attribute__((noreturn)) void panic (char *msg){
 	print("\n<Kernel Panic> ", VGA_TEXT_ROSSO_CHIARO_ROSSO);
 	print(msg, VGA_TEXT_ROSSO_CHIARO_ROSSO);
@@ -22,3 +25,5 @@ __attribute__((destructor)) __attribute__((noreturn)) void panic (char *msg){
 		__asm__("hlt;cli");
 	}
 }
+
+#endif // PANIC_H

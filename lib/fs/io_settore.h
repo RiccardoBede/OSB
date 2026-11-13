@@ -1,3 +1,6 @@
+#ifndef IO_SETTORE_H
+#define IO_SETTORE_H
+
 #define SIZE_SETTORE 512
 
 extern bool lba48_attivo;
@@ -206,3 +209,5 @@ bool leggi_settore (DISCO_MONTATO tipo_disco, unsigned long long int numero_sett
 	}
 	buffer[sizeof_buffer-1] = '\0';
 }
+
+#endif // IO_SETTORE_H

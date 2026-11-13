@@ -1,3 +1,6 @@
+#ifndef IO_H
+#define IO_H
+
 #define VGA 0xa0000
 
 #define VGA_RIGHE_PIXEL 320
@@ -251,3 +254,5 @@ void printcharat (char carattere, unsigned int pos, char colore){//mettere if ch
 unsigned int num_carattere_corrente_vga_text (){
 	return carattere_corrente_vga_text;
 }
+
+#endif // IO_H

@@ -1,3 +1,6 @@
+#ifndef DISCOCLI_H
+#define DISCOCLI_H
+
 bool CLIparserGenerico(char *, Comando *, int);
 extern unsigned short porta_controller_default;
 
@@ -29,3 +32,5 @@ void discoCli (){
 	input(buffer, 0x1c, sizeof(buffer), VGA_TEXT_GIALLO_NERO);
 	CLIparserGenerico(buffer, sotto_comando_disco, (sizeof(sotto_comando_disco) / sizeof(sotto_comando_disco[0])));
 }
+
+#endif // DISCOCLI_H

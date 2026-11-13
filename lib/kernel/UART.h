@@ -1,3 +1,6 @@
+#ifndef UART_H
+#define UART_H
+
 #define COM 0x3f8
 
 #define FREQ_CLOCK 115200
@@ -132,3 +135,5 @@ void terminale_uart_rw (unsigned int com){
 		}
 	}
 }
+
+#endif // UART_H

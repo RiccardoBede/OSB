@@ -1,3 +1,6 @@
+#ifndef DRIVERVGA_FRAME13H_H
+#define DRIVERVGA_FRAME13H_H
+
 void VGA_13h (){
 	outb(0x3c2, 0x63);
 
@@ -194,3 +197,5 @@ void VGA_13h (){
 	outb(0x3c0, 0x20);
 
 }
+
+#endif // DRIVERVGA_FRAME13H_H

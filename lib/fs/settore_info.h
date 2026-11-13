@@ -1,3 +1,6 @@
+#ifndef SETTORE_INFO_H
+#define SETTORE_INFO_H
+
 extern bool lba48_attivo;
 extern unsigned long long int settori_lba32;
 extern struct settori_lba48;
@@ -283,3 +286,5 @@ bool cerca_settore_info (DISCO_MONTATO tipo_disco){
 	}
 	return false;
 }
+
+#endif // SETTORE_INFO_H

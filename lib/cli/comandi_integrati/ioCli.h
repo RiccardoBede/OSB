@@ -1,3 +1,6 @@
+#ifndef IOCLI_H
+#define IOCLI_H
+
 void printCli (){
 	char tipo_print[8];
 	print(" type<", VGA_TEXT_BIANCO_NERO);
@@ -102,7 +105,7 @@ void inbCli (){
 	print(" 0x", VGA_TEXT_VERDE_NERO);
 	input(buffer_porta, 0x1c, sizeof(buffer_porta), VGA_TEXT_VERDE_NERO);
 	print("\n0x", VGA_TEXT_BIANCO_NERO);
-	printint((unsigned int)inb((unsigned short)stringa_to_hex(buffer_porta)), VGA_TEXT_BIANCO_NERO);
+	printhex((unsigned int)inb((unsigned short)stringa_to_hex(buffer_porta)), VGA_TEXT_BIANCO_NERO);
 }
 
 void outbCli (){
@@ -119,3 +122,5 @@ void outbCli (){
 void clearCli (){
 	clear();
 }
+
+#endif // IOCLI_H

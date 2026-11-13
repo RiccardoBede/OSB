@@ -1,3 +1,6 @@
+#ifndef SHELL_H
+#define SHELL_H
+
 #include "struct.h"
 
 #include "comandi_integrati/helpCli.h"
@@ -54,3 +57,5 @@ bool CLIparserGenerico (char *buffer, Comando *comandi, int sizeComandi){
 	print("\nCOMANDO INVALIDO", VGA_TEXT_ROSSO_NERO);
 	return false;
 }
+
+#endif // SHELL_H

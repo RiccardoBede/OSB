@@ -1,3 +1,6 @@
+#ifndef STRING_H
+#define STRING_H
+
 int stringa_in_stringa (char *regex, char *buffer){
 	unsigned int sizeof_regex = 0;
 	unsigned int sizeof_buffer = 0;
@@ -64,3 +67,5 @@ bool stringa_uguale_stringa (char *buffer1, char *buffer2){
 	}
 	return true;
 }
+
+#endif // STRING_H

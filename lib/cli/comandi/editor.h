@@ -1,3 +1,6 @@
+#ifndef EDITOR_H
+#define EDITOR_H
+
 void editor (){
 	char nome_file[16];
 	char tipo_file[4];
@@ -39,3 +42,5 @@ void editor (){
 		crea_file(stringa_to_hex(tipo_file), nome_file, buffer);
 	}
 }
+
+#endif // EDITOR_H

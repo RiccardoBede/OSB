@@ -1,3 +1,6 @@
+#ifndef FILESYSTEM_ORIGINALE_H
+#define FILESYSTEM_ORIGINALE_H
+
 #define SIZEOF_SETTORE 1024
 #define SIZEOF_NOME_FILE 16
 #define SIZEOF_FIRMA 2
@@ -180,3 +183,5 @@ bool crea_file_ric_seq (DISCO_MONTATO tipo_disco, char *nome_file, char *buffer,
 }
 
 //creare funzione elimina file, formatta disco
+
+#endif // FILESYSTEM_ORIGINALE_H
