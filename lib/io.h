@@ -189,7 +189,7 @@ void printchar (char carattere, char colore){
 	scroll();
 }
 
-void printint(long int numero, char colore) {
+void printint(long long int numero, char colore) {
 	if (numero == 0) {
 		printchar('0', colore);
 		return;
@@ -198,8 +198,8 @@ void printint(long int numero, char colore) {
 		printchar('-', colore);
 		numero = -numero;
 	}
-	unsigned long n = (unsigned long)numero;
-	unsigned long divisore = 1;
+	unsigned long long n = (unsigned long long)numero;
+	unsigned long long divisore = 1;
 	while (n / divisore >= 10) {
 		divisore *= 10;
 	}
@@ -211,13 +211,13 @@ void printint(long int numero, char colore) {
 	}
 }
 
-void printhex(long int numero, char colore) {
+void printhex(long long int numero, char colore) {
 	if (numero == 0) {
 		printchar('0', colore);
 		return;
 	}
-	unsigned long n = (unsigned long)numero;
-	unsigned long divisore = 1;
+	unsigned long long n = (unsigned long long)numero;
+	unsigned long long divisore = 1;
 	while (n / divisore >= 16) {
 		divisore *= 16;
 	}

@@ -1,7 +1,7 @@
 #define SIZE_SETTORE 512
 
 extern bool lba48_attivo;
-extern unsigned long int settori_lba32;
+extern unsigned long long int settori_lba32;
 extern struct settori_lba48;
 extern unsigned short porta_controller_default;
 
@@ -32,7 +32,7 @@ typedef enum{
 	SETTORE_BITMAP = 0xbf
 }TIPO_SETTORE;
 
-bool scrivi_settore (DISCO_MONTATO tipo_disco, unsigned long int numero_settore, unsigned char *buffer, TIPO_SETTORE tipo_settore){
+bool scrivi_settore (DISCO_MONTATO tipo_disco, unsigned long long int numero_settore, unsigned char *buffer, TIPO_SETTORE tipo_settore){
 	//magari fare un extern da selettore_unita e fare verifca se 
 	//il tipo_disco è uguale, altrimenti scrivi su tipo_disco
 	bool firma = false;
@@ -111,7 +111,7 @@ bool scrivi_settore (DISCO_MONTATO tipo_disco, unsigned long int numero_settore,
 	
 }
 
-bool leggi_settore (DISCO_MONTATO tipo_disco, unsigned long int numero_settore, unsigned char *buffer, int sizeof_buffer){
+bool leggi_settore (DISCO_MONTATO tipo_disco, unsigned long long int numero_settore, unsigned char *buffer, int sizeof_buffer){
 	if (tipo_disco > 0x00){
 		tipo_disco -= 0x01;
 	}else{

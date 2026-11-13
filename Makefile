@@ -23,6 +23,9 @@ ISO = osb.iso
 SOURCE_MODULI_C = $(shell find lib -name '*.c')
 OBJ_MODULI_C = $(SOURCE_MODULI_C:.c=.o)
 
+#Libgcc per 64 bit
+LIBGCC = $(shell $(GCC) -m32 -print-libgcc-file-name)
+
 all: $(ISO)
 
 %.o: %.c
@@ -35,7 +38,7 @@ $(MULTIBOOT): multiboot_header.asm
 	$(NASM) $(NASM_FLAG) $< -o $@
 
 $(KERNEL_BIN): $(MULTIBOOT) $(KERNEL_OBJ) $(OBJ_MODULI_C)
-	$(LD) -m elf_i386 -T $(LD_FILE) --allow-multiple-definition -Ttext $(KERNEL_START) -o $@ $^
+	$(LD) -m elf_i386 -T $(LD_FILE) --allow-multiple-definition -Ttext $(KERNEL_START) -o $@ $^ $(LIBGCC)
 
 $(ISO): $(KERNEL_BIN)
 	mkdir -p iso/boot/grub

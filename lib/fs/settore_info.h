@@ -1,5 +1,5 @@
 extern bool lba48_attivo;
-extern unsigned long int settori_lba32;
+extern unsigned long long int settori_lba32;
 extern struct settori_lba48;
 //extern typedef enum DISCO_MONTATO;
 //extern typedef enum TIPO_SETTORE; //io_settore
@@ -77,7 +77,7 @@ void applica_settore_info (unsigned char *buffer_settore, unsigned int sizeof_bu
 }
 
 void crea_settore_info(DISCO_MONTATO tipo_disco){
-	unsigned long int numero_settore = 1;
+	unsigned long long int numero_settore = 1;
 	
 	unsigned int contatore_buffer_settore_info = 0;
 
@@ -171,8 +171,8 @@ void crea_settore_info(DISCO_MONTATO tipo_disco){
 
 }
 
-void aggiorna_settore_info (DISCO_MONTATO tipo_disco, char *tipo_filesystem, char *visualizza_msg_allocatore, unsigned long int ultimo_settore_scritto_lba28, unsigned long int ultimo_settore_scritto_lba48_mrb, unsigned long int ultimo_settore_scritto_lba48_lrb){
-	unsigned long int numero_settore = 1;
+void aggiorna_settore_info (DISCO_MONTATO tipo_disco, char *tipo_filesystem, char *visualizza_msg_allocatore, unsigned long long int ultimo_settore_scritto_lba28, unsigned long int ultimo_settore_scritto_lba48_mrb, unsigned long int ultimo_settore_scritto_lba48_lrb){
+	unsigned long long int numero_settore = 1;
 
 	if (!lba48_attivo){
 		while(numero_settore < settori_lba32){
@@ -264,7 +264,7 @@ bool cerca_settore_info (DISCO_MONTATO tipo_disco){
 		tipo_disco -= 0x01;
 	}else{	return false;}
 
-	unsigned long int numero_settore = 1;
+	unsigned long long int numero_settore = 1;
 	//static unsigned char settore_info[1024];
 
 	if (!lba48_attivo){

@@ -9,7 +9,7 @@
 #define FIRMA_JMP 0xfe
 
 
-extern unsigned long int settori_lba32;
+extern unsigned long long int settori_lba32;
 extern bool lba48_attivo;
 extern struct settori_lba48;
 extern enum TIPO_SETTORE; //firme: avviabile 0x01, normale 0x00, info 0x02
@@ -20,17 +20,17 @@ typedef struct {
 	TIPO_SETTORE tipo_file;
 	char nome_file[16];
 	char *contenuto_file;
-	unsigned long int settore_lba28_JMP;
+	unsigned long long int settore_lba28_JMP;
 	struct{
 		bool settore_lba48_attivo;
-		unsigned long int settore_lba48_mrb_JMP;
-		unsigned long int settore_lba48_lrb_JMP;
+		unsigned long long int settore_lba48_mrb_JMP;
+		unsigned long long int settore_lba48_lrb_JMP;
 	}settore_lba48_JMP;
 }File;
 
-unsigned long int settore_lba28_libero;
-unsigned long int settore_lba48_mrb_libero;
-unsigned long int settore_lba48_lrb_libero;
+unsigned long long int settore_lba28_libero;
+unsigned long long int settore_lba48_mrb_libero;
+unsigned long long int settore_lba48_lrb_libero;
 
 void crea_bitmap (){
 	static unsigned char settore[1024];
@@ -59,7 +59,7 @@ void crea_bitmap (){
 	}
 }
 
-unsigned long int cerca_file (TIPO_SETTORE tipo_file, char *nome_file){ //ritorna il numero del settore se 0 non trovato 
+unsigned long long int cerca_file (TIPO_SETTORE tipo_file, char *nome_file){ //ritorna il numero del settore se 0 non trovato 
 	unsigned short sizeof_nome_file = 0;
 	while (nome_file[sizeof_nome_file] != '\0'){	sizeof_nome_file++;}
 	if (sizeof_nome_file > 16){	sizeof_nome_file = 16;}
@@ -96,7 +96,7 @@ unsigned long int cerca_file (TIPO_SETTORE tipo_file, char *nome_file){ //ritorn
 	return 0;
 }
 
-unsigned long int cerca_settore_libero (unsigned long int settore_lba28, unsigned long int settore_lba48_mrb, unsigned long int settore_lba48_lrb){
+unsigned long long int cerca_settore_libero (unsigned long int settore_lba28, unsigned long int settore_lba48_mrb, unsigned long int settore_lba48_lrb){
 	if (!lba48_attivo){
 		settore_lba28_libero = 1;
 		while (settore_lba28_libero < settori_lba32){	
@@ -145,7 +145,7 @@ bool crea_file (TIPO_SETTORE tipo_file, char *nome_file, char *buffer){
 	while (buffer[contatore_buffer] != '\0'){	contatore_buffer++;}
 		
 	if (!lba48_attivo){
-		unsigned long int settore_da_scrivere = cerca_settore_libero(0, 0, 0);
+		unsigned long long int settore_da_scrivere = cerca_settore_libero(0, 0, 0);
 		printint(settore_da_scrivere, VGA_TEXT_GIALLO_NERO);
 		
 		file.settore_lba48_JMP.settore_lba48_attivo = false;
@@ -230,7 +230,7 @@ bool leggi_file (TIPO_SETTORE tipo_file, char *nome_file, char *buffer, int size
 	unsigned int contatore_caratteri_buffer = 0;
 	static unsigned char buffer_settore[1024];
 	int num_parte_file_iniziale = num_parte_file;
-	unsigned long int file_primo_settore = 0;
+	unsigned long long int file_primo_settore = 0;
 
 	for (num_parte_file; num_parte_file >= 0; num_parte_file--){
 		if (!lba48_attivo){

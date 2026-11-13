@@ -133,7 +133,7 @@ void main (){
 		//wait(2);
 		if (inputNoInterrup() == 0x01){	break;}
 	}*/
-
+	
 	while (1){
 		char buffer[128];
 		printchar('#', VGA_TEXT_BIANCO_NERO);

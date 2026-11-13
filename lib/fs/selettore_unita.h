@@ -29,10 +29,10 @@ typedef enum {
 }DISCO_MONTATO; //per poi vedere quali set di funzioni unsare per scrivere sui dischi
 
 bool lba48_attivo = false;
-unsigned long int settori_lba32 = 0;
+unsigned long long int settori_lba32 = 0;
 struct {
-	unsigned long int mrb_settori_lba48; //most relevant bit
-	unsigned long int lrb_settori_lba48; //less relevant bit
+	unsigned long long int mrb_settori_lba48; //most relevant bit
+	unsigned long long int lrb_settori_lba48; //less relevant bit
 }settori_lba48;
 
 //porta default del controller
@@ -96,7 +96,7 @@ void identifica_unita (){
 		}
 		if (carattere == 60){
 			print("\nSettori (LBA28): ", VGA_TEXT_BIANCO_NERO);
-			settori_lba32 = (unsigned long int)(((unsigned long)lista_identify[61] << 16) | (unsigned long)lista_identify[60]);
+			settori_lba32 = (unsigned long long int)(((unsigned long)lista_identify[61] << 16) | (unsigned long)lista_identify[60]);
 			printint(settori_lba32, VGA_TEXT_BIANCO_NERO);			
 			//funzione per alloc della grandezza dell'unita
 			if (settori_lba32 <= 0){	panic("\nGrandezza disco non rilevata !");}
@@ -118,8 +118,8 @@ void identifica_unita (){
 				print("<NO SUPP>", VGA_TEXT_ROSSO_NERO);
 			}else{
 				//funzione per alloc della granedzza dell'unita (103-102 101-100)
-				settori_lba48.mrb_settori_lba48 = (unsigned long int)(((unsigned long)lista_identify[103] << 16) | (unsigned long)lista_identify[102]), VGA_TEXT_BIANCO_NERO;
-				settori_lba48.lrb_settori_lba48 = (unsigned long int)(((unsigned long)lista_identify[101] << 16) | (unsigned long)lista_identify[100]), VGA_TEXT_BIANCO_NERO;
+				settori_lba48.mrb_settori_lba48 = (unsigned long long int)(((unsigned long)lista_identify[103] << 16) | (unsigned long)lista_identify[102]), VGA_TEXT_BIANCO_NERO;
+				settori_lba48.lrb_settori_lba48 = (unsigned long long int)(((unsigned long)lista_identify[101] << 16) | (unsigned long)lista_identify[100]), VGA_TEXT_BIANCO_NERO;
 
 				printint(settori_lba48.mrb_settori_lba48, VGA_TEXT_BIANCO_NERO);
 				if (settori_lba48.mrb_settori_lba48 != settori_lba48.lrb_settori_lba48){
