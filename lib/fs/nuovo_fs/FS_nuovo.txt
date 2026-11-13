@@ -1,0 +1,12 @@
+Ragionare per blocchi non per settori (blocco = multiplo di un settore)
+
+Primo blocco (SUPERBLOCCO)
+	1. Contiene tutti bit per bit 0 per blocco libero 1 per occupato
+
+	2. Codice indentificativo (es 0xff) per essere riconosciuto dal filesystem
+
+	3. Posizione delle tabelle degli inode
+
+Tabella degli INODE
+	Contiene tipo file/cartella e puntatore alla zona del file/dei file
+
