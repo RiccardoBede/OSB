@@ -56,57 +56,79 @@ bool scrivi_settore (DISCO_MONTATO tipo_disco, unsigned long long int numero_set
 		outb((porta_controller_default - 0x05), 1);
 
 		outb((porta_controller_default - 0x04), (numero_settore << 0) & 0xff);
-		outb((porta_controller_default - 0x03), (numero_settore << 8) & 0xff);
-		outb((porta_controller_default - 0x02), (numero_settore << 16) & 0xff);
+		outb((porta_controller_default - 0x03), (numero_settore >> 8) & 0xff);
+		outb((porta_controller_default - 0x02), (numero_settore >> 16) & 0xff);
 
 		outb((porta_controller_default - 0x01), ATA_ACCESSO_DISCO | ((tipo_disco & 1) << 4) | ((numero_settore >> 24) & 0x0f));
 	
 		outb(porta_controller_default, ATA_SCRIVI_SETTORE);
 
 		while(!(inb(porta_controller_default) & 0x08));
+	
+	}else{
+		while (inb(porta_controller_default) & ATA_BUSY);
+
+		while (!(inb(porta_controller_default) & ATA_DEVICE_READY));
+
+		outb((porta_controller_default - 0x01), 0x40 | ((tipo_disco & 1) << 4));
 		
-		while (conta_carattere_settore < SIZE_SETTORE * 1){
+		outb((porta_controller_default - 0x05), 0x00);
+		outb((porta_controller_default - 0x04), (numero_settore >> 24) & 0xff);
+		outb((porta_controller_default - 0x03), (numero_settore >> 32) & 0xff);
+		outb((porta_controller_default - 0x02), (numero_settore >> 40) & 0xff);
+		
+		outb((porta_controller_default - 0x05), 0x01);
+		outb((porta_controller_default - 0x04), (numero_settore >> 0) & 0xff);
+		outb((porta_controller_default - 0x03), (numero_settore >> 8) & 0xff);
+		outb((porta_controller_default - 0x02), (numero_settore >> 16) & 0xff);
 
-			if (tipo_settore == SETTORE_INFO && firma == false){
-				carattere_buffer_per_settore.primo_byte = 0xff;
-				carattere_buffer_per_settore.secondo_byte = 0xff;
+		outb(porta_controller_default, ATA_SCRIVI_SETTORE_EXT);
 
-				outw_d((porta_controller_default - 0x07), carattere_buffer_per_settore);
-				firma = true;
-			}
+        	while(!(inb(porta_controller_default) & 0x08));
+	}
 
-			if (tipo_settore == SETTORE_NORMALE && firma == false){
-				carattere_buffer_per_settore.primo_byte = 0xbb;
-				carattere_buffer_per_settore.secondo_byte = 0xbb;
+        while (conta_carattere_settore < SIZE_SETTORE * 1){
+              if (tipo_settore == SETTORE_INFO && firma == false){
+                    carattere_buffer_per_settore.primo_byte = 0xff;
+                    carattere_buffer_per_settore.secondo_byte = 0xff;
 
-				outw_d((porta_controller_default - 0x07), carattere_buffer_per_settore);
-				firma = true;
-			}
+                    outw_d((porta_controller_default - 0x07), carattere_buffer_per_settore);
+                    firma = true;
+              }
 
-			if (tipo_settore == SETTORE_BITMAP && firma == false){
-				carattere_buffer_per_settore.primo_byte = 0xbf;
-				carattere_buffer_per_settore.secondo_byte = 0xbf;
+              if (tipo_settore == SETTORE_NORMALE && firma == false){
+                    carattere_buffer_per_settore.primo_byte = 0xbb;
+                    carattere_buffer_per_settore.secondo_byte = 0xbb;
 
-				outw_d((porta_controller_default - 0x07), carattere_buffer_per_settore);
-				firma = true;
-			}
+                    outw_d((porta_controller_default - 0x07), carattere_buffer_per_settore);
+                    firma = true;
+              }
 
-			if (conta_carattere_settore <  (caratteri_buffer - 0)){
-				carattere_buffer_per_settore.primo_byte = buffer[conta_carattere_settore];
-				carattere_buffer_per_settore.secondo_byte = buffer[conta_carattere_settore+=1];
+              if (tipo_settore == SETTORE_BITMAP && firma == false){
+                    carattere_buffer_per_settore.primo_byte = 0xbf;
+                    carattere_buffer_per_settore.secondo_byte = 0xbf;
 
-				outw_d((porta_controller_default - 0x07), carattere_buffer_per_settore);
-			}else{
-				carattere_buffer_per_settore.primo_byte = 0x00;
-				carattere_buffer_per_settore.secondo_byte = 0x00;
+                    outw_d((porta_controller_default - 0x07), carattere_buffer_per_settore);
+                    firma = true;
+              }
 
-				outw_d((porta_controller_default - 0x07), carattere_buffer_per_settore);	
-			}
-			conta_carattere_settore++;
-		}
+              if (conta_carattere_settore <  (caratteri_buffer - 0)){
+                    carattere_buffer_per_settore.primo_byte = buffer[conta_carattere_settore];
+                    carattere_buffer_per_settore.secondo_byte = buffer[conta_carattere_settore+=1];
+
+                    outw_d((porta_controller_default - 0x07), carattere_buffer_per_settore);
+              }else{
+                  carattere_buffer_per_settore.primo_byte = 0x00;
+                  carattere_buffer_per_settore.secondo_byte = 0x00;
+
+                  outw_d((porta_controller_default - 0x07), carattere_buffer_per_settore);
+              }
+                  conta_carattere_settore++;
+        }
+	if (!lba48_attivo){
 		outb(porta_controller_default, ATA_FLUSH_CACHE);
 	}else{
-	
+		outb(porta_controller_default, ATA_FLUSH_CACHE_EXT);
 	}
 	
 }
@@ -129,8 +151,8 @@ bool leggi_settore (DISCO_MONTATO tipo_disco, unsigned long long int numero_sett
 		outb((porta_controller_default - 0x05), 1);
 
 		outb((porta_controller_default - 0x04), (numero_settore << 0) & 0xff);
-		outb((porta_controller_default - 0x03), (numero_settore << 8) & 0xff);
-		outb((porta_controller_default - 0x02), (numero_settore << 16) & 0xff);
+		outb((porta_controller_default - 0x03), (numero_settore >> 8) & 0xff);
+		outb((porta_controller_default - 0x02), (numero_settore >> 16) & 0xff);
 
 		outb((porta_controller_default - 0x01), ATA_ACCESSO_DISCO | ((tipo_disco & 1) << 4) | ((numero_settore >> 24) & 0x0f));
 	
@@ -138,27 +160,49 @@ bool leggi_settore (DISCO_MONTATO tipo_disco, unsigned long long int numero_sett
 
 		while(!(inb(porta_controller_default) & 0x08));
 		
-		while (conta_carattere_settore < SIZE_SETTORE * 2){
-			ByteSettore carattere_settore = inw_d((porta_controller_default - 0x07));
-			
-			printhex(carattere_settore.primo_byte, VGA_TEXT_VERDE_NERO);
-			printhex(carattere_settore.secondo_byte, VGA_TEXT_ROSSO_NERO);
-			
-			if (conta_carattere_settore < sizeof_buffer){
-				buffer[conta_carattere_settore] = carattere_settore.primo_byte;
-			}
-			
-			conta_carattere_settore++;
-
-			if (conta_carattere_settore < sizeof_buffer){
-				buffer[conta_carattere_settore] = carattere_settore.secondo_byte;
-			}
-			conta_carattere_settore++;
-		}
-		outb(porta_controller_default, ATA_FLUSH_CACHE);
-		buffer[sizeof_buffer-1] = '\0';
 	}else{
+		while (inb(porta_controller_default) & ATA_BUSY);
+
+		while (!(inb(porta_controller_default) & ATA_DEVICE_READY));
+
+		outb((porta_controller_default - 0x01), 0x40 | ((tipo_disco & 1) << 4));
+		
+		outb((porta_controller_default - 0x05), 0x00);
+		outb((porta_controller_default - 0x04), (numero_settore >> 24) & 0xff);
+		outb((porta_controller_default - 0x03), (numero_settore >> 32) & 0xff);
+		outb((porta_controller_default - 0x02), (numero_settore >> 40) & 0xff);
+		
+		outb((porta_controller_default - 0x05), 0x01);
+		outb((porta_controller_default - 0x04), (numero_settore >> 0) & 0xff);
+		outb((porta_controller_default - 0x03), (numero_settore >> 8) & 0xff);
+		outb((porta_controller_default - 0x02), (numero_settore >> 16) & 0xff);
+
+		outb(porta_controller_default, ATA_LEGGI_SETTORE_EXT);
+
+        	while(!(inb(porta_controller_default) & 0x08));
 	
 	}
-	
+	while (conta_carattere_settore < SIZE_SETTORE * 2){
+		ByteSettore carattere_settore = inw_d((porta_controller_default - 0x07));
+			
+		printhex(carattere_settore.primo_byte, VGA_TEXT_VERDE_NERO);
+		printhex(carattere_settore.secondo_byte, VGA_TEXT_ROSSO_NERO);
+		
+		if (conta_carattere_settore < sizeof_buffer){
+			buffer[conta_carattere_settore] = carattere_settore.primo_byte;
+		}
+		
+		conta_carattere_settore++;
+
+		if (conta_carattere_settore < sizeof_buffer){
+			buffer[conta_carattere_settore] = carattere_settore.secondo_byte;
+		}
+		conta_carattere_settore++;
+	}
+	if (!lba48_attivo){
+		outb(porta_controller_default, ATA_FLUSH_CACHE);
+	}else{
+		outb(porta_controller_default, ATA_FLUSH_CACHE_EXT);
+	}
+	buffer[sizeof_buffer-1] = '\0';
 }

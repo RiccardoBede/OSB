@@ -11,6 +11,11 @@
 #define ATA_SCRIVI_SETTORE 0x30
 #define ATA_FLUSH_CACHE 0xe7
 
+//DEFINE COMANDI IDE_ATA DISCO (EXT lba48)
+#define ATA_SCRIVI_SETTORE_EXT 0x34
+#define ATA_LEGGI_SETTORE_EXT 0x24
+#define ATA_FLUSH_CACHE_EXT 0xea
+
 //DEFINE COMANDI IDE_ATAPI (CD, DVD)
 #define ATAPI_IDENTIFICA 0xa1
 #define ATAPI_READY 0x00
@@ -34,6 +39,8 @@ struct {
 	unsigned long long int mrb_settori_lba48; //most relevant bit
 	unsigned long long int lrb_settori_lba48; //less relevant bit
 }settori_lba48;
+//variabile unica a 64 bit
+unsigned long long int settori_lba48_u = 0;
 
 //porta default del controller
 unsigned short porta_controller_default = 0x1f7;
@@ -114,16 +121,18 @@ void identifica_unita (){
 		}
 		if (carattere == 100){
 			print("\nSettori (LBA48): ", VGA_TEXT_BIANCO_NERO);
-			if (lista_identify[carattere] == 0x00){
+			if (lista_identify[carattere] == 0x00 || ((lista_identify[166] << 0xa) & 0xff) == 1){
 				print("<NO SUPP>", VGA_TEXT_ROSSO_NERO);
 			}else{
 				//funzione per alloc della granedzza dell'unita (103-102 101-100)
 				settori_lba48.mrb_settori_lba48 = (unsigned long long int)(((unsigned long)lista_identify[103] << 16) | (unsigned long)lista_identify[102]), VGA_TEXT_BIANCO_NERO;
 				settori_lba48.lrb_settori_lba48 = (unsigned long long int)(((unsigned long)lista_identify[101] << 16) | (unsigned long)lista_identify[100]), VGA_TEXT_BIANCO_NERO;
+				
+				settori_lba48_u = ((unsigned long long)lista_identify[103] << 48) | ((unsigned long long)lista_identify[102] << 32) | ((unsigned long long)lista_identify[101] << 16) | (unsigned long long)lista_identify[100];
 
-				printint(settori_lba48.mrb_settori_lba48, VGA_TEXT_BIANCO_NERO);
-				if (settori_lba48.mrb_settori_lba48 != settori_lba48.lrb_settori_lba48){
-					printint(settori_lba48.lrb_settori_lba48, VGA_TEXT_BIANCO_NERO);
+				printint(settori_lba48_u, VGA_TEXT_BIANCO_NERO);
+				if (settori_lba48.mrb_settori_lba48 != settori_lba48.lrb_settori_lba48 || settori_lba48_u != 0x00){
+					printint(settori_lba48_u, VGA_TEXT_BIANCO_NERO);
 				}
 
 			}
