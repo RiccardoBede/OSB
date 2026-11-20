@@ -54,4 +54,4 @@ extern long long settori_lba48_u;
 
 
 //prototipi
-int 
+
