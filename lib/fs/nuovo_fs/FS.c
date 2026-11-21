@@ -57,6 +57,7 @@ static unsigned long long int settore_BITMAP = 0;
 
 
 //prototipi
+<<<<<<< HEAD
 void ripara_fs();
 bool disco_inizializzato();
 void crea_bitmap (DISCO_MONTATO);
@@ -131,3 +132,6 @@ void crea_bitmap(DISCO_MONTATO tipo_disco){
 	settore_BITMAP = 1;
 	scrivi_settore(tipo_disco, settore_BITMAP, , SETTORE_BITMAP);
 }
+=======
+
+>>>>>>> 200a935b99e81dcd963d2839a9adfa6f0a6b5211
